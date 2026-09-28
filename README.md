@@ -1,15 +1,15 @@
 # Shane Riley — Sports Journalism Portfolio
 
-A premium editorial portfolio for a sports journalist: long-form stories, video and photo essays, biography, an HTML résumé and contact details. Built with Next.js (App Router), TypeScript and Tailwind CSS, and fully statically generated.
+A premium editorial sports-reporting portfolio: long-form stories, video and photo essays, biography, an HTML résumé and contact details. Built with Next.js (App Router), TypeScript and Tailwind CSS, and fully statically generated.
 
-> **Status: placeholder content.** The name comes from the project folder. The biography, résumé, stories, email address and photography are clearly labelled placeholders. See [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md) before launch.
+> **Status: placeholder content.** The name, Shane Riley, is confirmed. The biography, résumé, stories, email address and photography are clearly labelled placeholders. See [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md) before launch.
 
 ## Pages
 
 | Route | What it is |
 | --- | --- |
 | `/` | Cinematic hero, featured-story magazine spread, multimedia teaser, about teaser, contact call to action |
-| `/stories` | Story archive with sport and type filters (keyboard, touch and URL-shareable) |
+| `/stories` | Story archive, newest first, with a lead story and a three-column grid |
 | `/stories/[slug]` | Long-form article: byline, captions, pull quotes, lightbox galleries, click-to-load video, share controls, reading progress |
 | `/multimedia` | Video, interviews, documentary and photo essays, with a keyboard-accessible lightbox |
 | `/about` | Biography, reporting interests, experience timeline |
@@ -60,7 +60,7 @@ All editable content lives in `src/content/`:
 
 | File | Contains |
 | --- | --- |
-| `site.ts` | Name, role, tagline, short bio, email, social links, placeholder-label switch |
+| `site.ts` | Name, tagline, short bio, email, social links, placeholder-label switch |
 | `stories.ts` | Stories (typed blocks: paragraphs, headings, quotes, images, galleries, video) |
 | `multimedia.ts` | Videos, interviews, documentaries and photo essays |
 | `resume.ts` | About-page biography and interests, résumé sections, PDF path |

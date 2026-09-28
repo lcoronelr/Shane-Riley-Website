@@ -6,7 +6,7 @@ import { useEffect } from "react";
  * One IntersectionObserver for the whole site. Any element with
  * [data-reveal] gets [data-revealed] the first time it scrolls into view;
  * the transition itself is pure CSS (see globals.css). New elements added by
- * client navigation or filtering are picked up via a MutationObserver.
+ * client navigation are picked up via a MutationObserver.
  */
 export function RevealObserver() {
   useEffect(() => {

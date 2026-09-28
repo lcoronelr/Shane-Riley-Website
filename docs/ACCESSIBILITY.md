@@ -14,7 +14,6 @@ Target: **WCAG 2.2 Level AA**.
 - Everything interactive is a native `<a>` or `<button>`.
 - A visible 2px cobalt focus ring (light cobalt on dark sections) appears on every focusable element.
 - **Mobile menu:** a button with `aria-expanded` and `aria-controls`. Focus moves to the first link when it opens, and the page behind becomes `inert` and scroll-locked. Escape closes it and returns focus to the toggle, and it also closes after navigation.
-- **Story filters:** toggle buttons with `aria-pressed` inside labelled groups. The result count is announced through a `role=status` live region, and the empty state offers "Show all stories".
 - **Lightbox:** a native modal `<dialog>` labelled by the essay title. Focus moves to Close on open and Tab cycles inside the dialog. Arrow keys move between photos, Escape closes, and focus returns to the thumbnail of the last photo viewed. The counter ("3 / 5") is announced politely, and swipe gestures work on touch screens.
 - **Video:** the poster is a single button whose accessible name includes the visible "Play" text and the video title. After a click, focus moves into the player. Autoplay after that click has sound only because the visitor asked to play.
 
@@ -27,7 +26,7 @@ Target: **WCAG 2.2 Level AA**.
 **Visual**
 - Colour contrast meets AA. The requested slate (3.96:1) is used only for large or decorative text, and a darker `slate-ink` (5.6:1) is used for small text. See DESIGN_SYSTEM.md.
 - Text uses fluid `clamp()` sizes with a 16px minimum for body copy, and is not locked against zoom.
-- Tap targets for navigation, buttons and filters are at least 44 × 44px.
+- Tap targets for navigation and buttons are at least 44 × 44px.
 - No information is conveyed by colour alone, and no feature depends on hover.
 
 **Motion**
@@ -44,11 +43,10 @@ Target: **WCAG 2.2 Level AA**.
 | Skip link is the first tab stop and focuses `main` | `tests/navigation.spec.ts` |
 | Focus indicator present on the first six tab stops | `tests/navigation.spec.ts` |
 | Reduced motion: all reveal content visible without scrolling; `scroll-behavior: auto` | `tests/navigation.spec.ts` |
-| Filters operable with Enter and Space; `aria-pressed` state; live-region text | `tests/stories.spec.ts` |
 | Lightbox: keyboard open, arrows, focus containment across 5 Tabs, Escape, focus restoration | `tests/multimedia.spec.ts` |
 | Mobile menu: `aria-expanded`, initial focus, `inert` background, Escape returns focus | `tests/mobile.spec.ts` |
-| Tap targets ≥ 44px (header, filters, footer navigation) at 375px | `tests/mobile.spec.ts` |
-| Touch: menu, filters and lightbox swipe | `tests/mobile.spec.ts` |
+| Tap targets ≥ 44px (header, story buttons, footer navigation) at 375px | `tests/mobile.spec.ts` |
+| Touch: menu, story cards and lightbox swipe | `tests/mobile.spec.ts` |
 
 **Lighthouse** accessibility score: 100 on all seven main pages, mobile and desktop.
 
@@ -58,7 +56,7 @@ Target: **WCAG 2.2 Level AA**.
 
 ## Not yet verified
 
-- A **screen-reader walkthrough** (NVDA with Firefox or Chrome on Windows; VoiceOver on macOS and iOS). Recommended before launch: navigate by landmarks and headings, use the filters, open and close the lightbox, and play a video.
+- A **screen-reader walkthrough** (NVDA with Firefox or Chrome on Windows; VoiceOver on macOS and iOS). Recommended before launch: navigate by landmarks and headings, open and close the lightbox, and play a video.
 - **Windows High Contrast / forced-colors** mode.
 - **200% and 400% zoom** reflow testing by hand (layouts are fluid and pass 375px, which approximates 400% zoom at 1280px, but this wasn't checked directly).
 - Captions and transcripts for real videos, which depend on the content you add.

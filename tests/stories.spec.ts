@@ -1,50 +1,29 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("story filters", () => {
-  test("filter by sport and type, reflected in the URL", async ({ page }) => {
+test.describe("story archive", () => {
+  test("lists every story, newest first, with no filter bar", async ({ page }) => {
     await page.goto("/stories");
-    const status = page.getByRole("status").filter({ hasText: "Showing" });
-    await expect(status).toHaveText("Showing 9 stories.");
-
-    const sport = page.getByRole("group", { name: "Sport" });
-    await sport.getByRole("button", { name: "Soccer" }).click();
-    await expect(sport.getByRole("button", { name: "Soccer" })).toHaveAttribute("aria-pressed", "true");
-    await expect(page).toHaveURL(/\?sport=soccer$/);
-    await expect(page.getByRole("status").first()).toHaveText("Showing 2 stories about soccer.");
-    await expect(page.locator("main article")).toHaveCount(2);
-
-    await page.getByRole("group", { name: "Type" }).getByRole("button", { name: "Essay", exact: true }).click();
-    await expect(page.getByText("No stories match these filters.")).toBeVisible();
-    await page.getByRole("button", { name: "Show all stories" }).click();
-    await expect(page).toHaveURL("/stories");
-    await expect(page.locator("main article")).toHaveCount(9);
+    const headlines = page.locator("main article h2");
+    await expect(headlines).toHaveCount(9);
+    await expect(headlines.first()).toHaveText("The Long Count");
+    await expect(headlines.last()).toHaveText("The Noon Run");
+    await expect(page.getByRole("group")).toHaveCount(0);
+    await expect(page.locator("main button")).toHaveCount(0);
   });
 
-  test("filters work with the keyboard", async ({ page }) => {
+  test("story cards open their article", async ({ page }) => {
     await page.goto("/stories");
-    const boxing = page.getByRole("group", { name: "Sport" }).getByRole("button", { name: "Boxing" });
-    await boxing.focus();
-    await page.keyboard.press("Enter");
-    await expect(boxing).toHaveAttribute("aria-pressed", "true");
-    await expect(page.locator("main article")).toHaveCount(1);
-    const hockey = page.getByRole("group", { name: "Sport" }).getByRole("button", { name: "Hockey" });
-    await hockey.focus();
-    await page.keyboard.press("Space");
-    await expect(page.locator("main article h2")).toHaveText("Pond Season");
-  });
-
-  test("a filtered URL loads with the filter applied", async ({ page }) => {
-    await page.goto("/stories?sport=surfing");
-    await expect(page.locator("main article")).toHaveCount(1);
-    await expect(page.locator("main article h2")).toHaveText("What the Water Takes");
+    await page.getByRole("link", { name: /Pond Season/ }).click();
+    await expect(page).toHaveURL("/stories/pond-season");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Pond Season");
   });
 });
 
 test.describe("story page", () => {
-  test("shows byline, date, captions and marks example stories", async ({ page }) => {
+  test("shows byline, reading time, captions and marks example stories", async ({ page }) => {
     await page.goto("/stories/the-long-count");
     await expect(page.getByText(/^By Shane Riley/)).toBeVisible();
-    await expect(page.locator("header time[datetime='2026-08-30']")).toBeVisible();
+    await expect(page.getByText(/min read$/)).toBeVisible();
     await expect(page.getByText("Example story · placeholder copy")).toBeVisible();
     await expect(page.locator("figcaption").first()).toContainText("The corner after the final bell");
     await expect(page.locator("blockquote").first()).toContainText("You don't retire from this");

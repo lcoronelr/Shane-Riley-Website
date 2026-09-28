@@ -8,7 +8,7 @@ import { activeSocialLinks, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `Biography of ${site.name}, ${site.role.toLowerCase()}.`,
+  description: `Biography of ${site.name}.`,
   alternates: { canonical: "/about" },
   openGraph: { url: "/about", title: `About — ${site.name}` },
 };

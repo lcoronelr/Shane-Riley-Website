@@ -302,10 +302,6 @@
     .hero-settle {
       animation: hero-settle 2.6s var(--ease-out-expo) both;
     }
-    .fade-up-list > * {
-      animation: hero-rise 0.7s var(--ease-out-expo) both;
-      animation-delay: calc(var(--i, 0) * 60ms);
-    }
   }
 
   /* ---------- Reading progress (CSS scroll timeline, no JS) ---------- */

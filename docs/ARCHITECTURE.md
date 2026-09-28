@@ -7,7 +7,7 @@ The site is a portfolio of published work, so it is built as a **static site wit
 Complexity is added only where a feature requires it:
 
 - **Server Components by default.** Pages, cards, the story body and the footer render on the server and send no JavaScript.
-- **Client Components only for interaction:** the header (active indicator, mobile menu, dark-section detection), story filters, share and copy buttons, the video player, the photo gallery and lightbox, the print button, and one global reveal observer.
+- **Client Components only for interaction:** the header (active indicator, mobile menu, dark-section detection), share and copy buttons, the video player, the photo gallery and lightbox, the print button, and one global reveal observer.
 - **Motion for React is loaded lazily.** `LazyMotion` code-splits the animation features, so the initial bundle carries only the lightweight `m` components. Motion is used for the mobile menu, the navigation indicator and lightbox transitions. Everything else (scroll reveals, hero entrance, hover states, reading progress) is plain CSS.
 
 ## Stack
@@ -30,7 +30,7 @@ src/
   app/                    Routes (App Router)
     layout.tsx            Fonts, metadata defaults, skip link, header/footer shell
     page.tsx              Home
-    stories/page.tsx      Story archive + filters
+    stories/page.tsx      Story archive
     stories/[slug]/       Article pages (generateStaticParams, dynamicParams = false)
     multimedia/ about/ resume/ contact/ credits/
     sitemap.ts robots.ts  Generated sitemap.xml / robots.txt
@@ -42,12 +42,12 @@ src/
     layout/               SiteHeader (client), SiteFooter
     media/                Picture, Caption, VideoPlayer, PhotoGallery (+ lightbox), PortraitPlaceholder
     motion/               MotionProvider (LazyMotion), RevealObserver
-    stories/              StoryCard variants, StoryBody, StoryFilter, ShareControls
+    stories/              StoryCard variants, StoryBody, ShareControls
     ui/                   Buttons, labels, PlaceholderTag, PrintButton, CopyEmailButton
   content/                Editable, typed content (see CONTENT_GUIDE.md)
     types.ts              Content model
     site.ts stories.ts multimedia.ts resume.ts photos.ts
-  lib/content.ts          Queries (sorting, related stories), date formatting, JSON-LD serialisation
+  lib/content.ts          Queries (sorting, related stories), reading time, JSON-LD serialisation
   assets/
     photos/               Your photography (statically imported)
     posters/              Video poster frames
@@ -70,8 +70,8 @@ MDX was considered but not used. Typed blocks cover every layout the site needs 
 ## Routing and navigation
 
 - All routes are static (`○`/`●` in the build output).
-- Internal links use `next/link` for client-side navigation with prefetching. Browser back and forward work normally, and filters use `history.replaceState`, so they never add history entries.
-- Story filters keep their state in the URL query (`/stories?sport=boxing&type=feature`), read through `useSyncExternalStore`. The prerendered HTML shows every story, and the filter applies on hydration.
+- Internal links use `next/link` for client-side navigation with prefetching. Browser back and forward work normally.
+- The story archive is a Server Component that lists every story newest first; it sends no JavaScript of its own.
 
 ## Rendering decisions worth knowing
 

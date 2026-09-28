@@ -4,18 +4,15 @@ import type { SocialLink } from "./types";
  * Site-wide identity and contact details. Everything the visitor reads about
  * the journalist — name, tagline, biography, email, social links — lives here.
  *
- * Values marked PLACEHOLDER must be replaced before launch. The name was taken
- * from the project folder; confirm it is correct.
+ * Values marked PLACEHOLDER must be replaced before launch.
  */
 export const site = {
   name: "Shane Riley",
-  /** Short line under the name in the header and metadata. */
-  role: "Sports Journalist",
   /** PLACEHOLDER: one-sentence positioning statement. */
   tagline: "Long-form sports journalism about the people, places and pressure behind the game.",
   /** PLACEHOLDER: two or three sentences used on the home page. */
   shortBio:
-    "Shane Riley is a sports journalist writing features, profiles and video stories. This short biography is placeholder copy — replace it with your own introduction in src/content/site.ts.",
+    "Shane Riley writes features, profiles and video stories about sport. This short biography is placeholder copy — replace it with your own introduction in src/content/site.ts.",
   /** PLACEHOLDER: city or region you report from, or leave empty. */
   location: "",
   /**

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 import { site } from "@/content/site";
 
-export const alt = `${site.name} — ${site.role}`;
+export const alt = site.name;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -23,10 +23,7 @@ export default function OpengraphImage() {
           fontFamily: "serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 20, fontSize: 24, letterSpacing: 4, color: "#a1a8b0", fontFamily: "sans-serif" }}>
-          <div style={{ width: 48, height: 2, background: "#325df4" }} />
-          {site.role.toUpperCase()}
-        </div>
+        <div style={{ display: "flex", width: 48, height: 2, background: "#325df4" }} />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 124, lineHeight: 1, letterSpacing: -4 }}>{site.name}</div>
           <div style={{ marginTop: 28, fontSize: 36, lineHeight: 1.3, color: "#c9cdd2", maxWidth: 900 }}>

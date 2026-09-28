@@ -31,7 +31,6 @@ export default function ResumePage() {
         <div className="lg:col-span-7">
           <p className="kicker text-slate-ink">Résumé</p>
           <h1 className="mt-4 font-serif text-step-5 font-light tracking-[-0.03em]">{site.name}</h1>
-          <p className="mt-3 text-step-1 text-charcoal/80">{site.role}</p>
         </div>
         <div className="space-y-4 lg:col-span-5 lg:text-right">
           <ul className="space-y-1 text-step-0 lg:ml-auto">

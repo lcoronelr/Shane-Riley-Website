@@ -76,7 +76,7 @@ If the site ever gains dynamic user content, switch to the nonce approach with `
 
 ### Input handling
 
-The site accepts no user input: there are no forms, no API routes and no server actions. The only client-side input is the story filter query string (`?sport=&type=`), which is matched against a fixed list of known values and otherwise ignored. It is never rendered as HTML or used in a request.
+The site accepts no user input: there are no forms, no API routes, no server actions, and no pages that read query strings.
 
 A contact form was **deliberately not built**: the brief allows one only with a real backend, and none is configured. The contact page uses a `mailto:` link, so no personal data touches the site. If a form is added later, it needs server-side validation (e.g. a schema library), a rate limit, spam protection (honeypot or a CAPTCHA provider added to the CSP), a provider API key kept only in server-side environment variables (never `NEXT_PUBLIC_`), generic error messages, and a note on the contact page about how messages are stored.
 

@@ -9,7 +9,7 @@ import { StoryCard, StoryMeta } from "@/components/stories/StoryCard";
 import { PlaceholderTag } from "@/components/ui/primitives";
 import { site, siteUrl } from "@/content/site";
 import { stories } from "@/content/stories";
-import { formatDate, getRelatedStories, getStory, jsonLd, readingMinutes } from "@/lib/content";
+import { getRelatedStories, getStory, jsonLd, readingMinutes } from "@/lib/content";
 
 export const dynamicParams = false;
 
@@ -106,7 +106,7 @@ export default async function StoryPage({ params }: PageProps<"/stories/[slug]">
 
           <div className="mx-auto mt-10 max-w-4xl text-center lg:mt-14">
             <div className="flex justify-center">
-              <StoryMeta story={story} showDate={false} />
+              <StoryMeta story={story} />
             </div>
             <h1 className="hero-rise mt-6 font-serif text-step-5 font-light tracking-[-0.03em]">
               {story.title}
@@ -133,17 +133,7 @@ export default async function StoryPage({ params }: PageProps<"/stories/[slug]">
                 </Link>
                 {story.publication && <span className="text-slate-ink"> for {story.publication}</span>}
               </p>
-              <p className="mt-0.5 text-slate-ink">
-                <time dateTime={story.published}>{formatDate(story.published)}</time>
-                {story.updated && (
-                  <>
-                    {" · Updated "}
-                    <time dateTime={story.updated}>{formatDate(story.updated)}</time>
-                  </>
-                )}
-                {" · "}
-                {minutes} min read
-              </p>
+              <p className="mt-0.5 text-slate-ink">{minutes} min read</p>
             </div>
             <ShareControls title={story.title} path={path} />
           </div>

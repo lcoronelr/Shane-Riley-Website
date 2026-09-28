@@ -50,7 +50,7 @@ export default function HomePage() {
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-9">
               <p className="hero-rise kicker text-slate-light" style={{ ["--rise-delay" as string]: "80ms" }}>
-                {site.name} <span aria-hidden="true">·</span> {site.role}
+                {site.name}
               </p>
               <h1
                 id="hero-heading"
@@ -91,7 +91,7 @@ export default function HomePage() {
       <section aria-labelledby="featured-heading" className="shell py-section">
         <div className="flex flex-wrap items-end justify-between gap-6" data-reveal>
           <div>
-            <SectionLabel index="01">Featured</SectionLabel>
+            <SectionLabel>Featured</SectionLabel>
             <h2 id="featured-heading" className="mt-5 font-serif text-step-3 tracking-[-0.02em]">
               Recent reporting
             </h2>
@@ -129,7 +129,7 @@ export default function HomePage() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>
-                      <StoryMeta story={story} showDate={false} />
+                      <StoryMeta story={story} />
                       <span className="mt-2 block font-serif text-step-1 leading-snug">
                         <span className="link-draw">{story.title}</span>
                       </span>
@@ -151,7 +151,7 @@ export default function HomePage() {
         <div className="shell relative">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-end" data-reveal>
             <div className="lg:col-span-7">
-              <SectionLabel index="02" tone="dark">
+              <SectionLabel tone="dark">
                 Multimedia
               </SectionLabel>
               <h2 id="multimedia-heading" className="mt-5 font-serif text-step-4 font-light tracking-[-0.025em]">
@@ -217,7 +217,7 @@ export default function HomePage() {
             <PortraitPlaceholder />
           </div>
           <div className="md:col-span-7 lg:col-span-7 lg:col-start-6" data-reveal style={{ ["--reveal-delay" as string]: "120ms" }}>
-            <SectionLabel index="03">About</SectionLabel>
+            <SectionLabel>About</SectionLabel>
             <h2 id="about-heading" className="mt-5 font-serif text-step-3 tracking-[-0.02em]">
               Reporting from the places where sport becomes a story.
             </h2>
@@ -239,7 +239,7 @@ export default function HomePage() {
         <div className="shell py-section">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end" data-reveal>
             <div className="lg:col-span-8">
-              <SectionLabel index="04">Contact</SectionLabel>
+              <SectionLabel>Contact</SectionLabel>
               <h2 id="contact-heading" className="mt-5 font-serif text-step-4 font-light tracking-[-0.025em]">
                 Have a story that deserves <span className="italic">telling?</span>
               </h2>

@@ -3,30 +3,19 @@ import Link from "next/link";
 import { Picture } from "@/components/media/Picture";
 import { PlaceholderTag } from "@/components/ui/primitives";
 import type { Story } from "@/content/types";
-import { formatDate } from "@/lib/content";
 
 export function StoryMeta({
   story,
   tone = "light",
-  showDate = true,
 }: {
-  story: Pick<Story, "sport" | "type" | "published">;
+  story: Pick<Story, "sport" | "type">;
   tone?: "light" | "dark";
-  showDate?: boolean;
 }) {
   return (
     <p className={`kicker flex flex-wrap items-center gap-x-3 gap-y-1 ${tone === "dark" ? "text-slate-light" : "text-slate-ink"}`}>
       <span className={tone === "dark" ? "text-cobalt-light" : "text-cobalt"}>{story.sport}</span>
       <span aria-hidden="true" className="h-3 w-px bg-current opacity-40" />
       <span>{story.type}</span>
-      {showDate && (
-        <>
-          <span aria-hidden="true" className="h-3 w-px bg-current opacity-40" />
-          <time dateTime={story.published} className="tabular">
-            {formatDate(story.published)}
-          </time>
-        </>
-      )}
     </p>
   );
 }
@@ -68,7 +57,7 @@ export function SupportingStoryCard({ story, index }: { story: Story; index: num
     <article className="group" data-reveal style={{ ["--reveal-delay" as string]: `${index * 90}ms` }}>
       <Link href={`/stories/${story.slug}`} className="grid grid-cols-[minmax(0,1fr)_7.5rem] gap-5 rounded-sm sm:grid-cols-[minmax(0,1fr)_10rem]">
         <div>
-          <StoryMeta story={story} showDate={false} />
+          <StoryMeta story={story} />
           <h3 className="mt-3 font-serif text-step-2 tracking-[-0.01em]">
             <span className="link-draw">{story.title}</span>
           </h3>

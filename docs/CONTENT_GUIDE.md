@@ -6,7 +6,7 @@ Everything a visitor reads lives in `src/content/`. Edit those files, then run `
 
 | What | Where | Currently |
 | --- | --- | --- |
-| Name, role, tagline, short bio | `src/content/site.ts` | Name taken from the project folder; tagline and bio are placeholders |
+| Name, tagline, short bio | `src/content/site.ts` | Name confirmed (Shane Riley); tagline and bio are placeholders. There is intentionally no job-title line anywhere on the site |
 | Email address | `site.ts`, `email` (then set `emailIsPlaceholder: false`) | `hello@example.com`, a reserved domain that reaches no one |
 | Social profiles | `site.ts`, `social` | Empty. Links with an empty `url` are hidden, never shown as dead links |
 | Biography, interests | `src/content/resume.ts`, `about` | `[Placeholder]` text |
@@ -56,7 +56,7 @@ Add an object to the `stories` array in `src/content/stories.ts`:
   excerpt: "Short summary for cards and search results.",
   sport: "Boxing",                        // one of SPORTS in types.ts (add new sports there)
   type: "Feature",                        // one of STORY_TYPES in types.ts
-  published: "2026-08-30",                // ISO date
+  published: "2026-08-30",                // ISO date: sets the order and search metadata; not shown on the page
   updated: "2026-09-02",                  // optional
   publication: "The Example Times",       // optional: where it first ran
   originalUrl: "https://…",               // optional: link to the original
@@ -74,7 +74,7 @@ Add an object to the `stories` array in `src/content/stories.ts`:
 }
 ```
 
-- Stories are sorted by `published` automatically.
+- Stories are sorted by `published` automatically. Dates are not displayed on story cards or story pages; they are only used for ordering and for search-engine metadata.
 - The first `featured` story leads the home page spread; the next three sit beside it.
 - **Do not** set `placeholder: true` on real work. Real stories are added to the sitemap, are indexable, and get `NewsArticle` structured data built from their title, dates, hero image and publication.
 - If a story was published elsewhere and you don't hold the rights to republish it in full, publish a short summary with `originalUrl` linking to the original instead of copying the text.
@@ -143,4 +143,4 @@ Profiles appear in the footer, the mobile menu, About, Contact and the résumé 
 
 ## Social sharing image
 
-The default Open Graph image (`src/app/opengraph-image.tsx`) is generated from the name, role and tagline in `site.ts`, so it updates automatically. Story pages use their hero photograph. To use a designed image instead, delete `opengraph-image.tsx` and add `src/app/opengraph-image.png` (1200 × 630).
+The default Open Graph image (`src/app/opengraph-image.tsx`) is generated from the name and tagline in `site.ts`, so it updates automatically. Story pages use their hero photograph. To use a designed image instead, delete `opengraph-image.tsx` and add `src/app/opengraph-image.png` (1200 × 630).

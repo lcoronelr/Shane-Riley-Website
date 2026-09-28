@@ -18,6 +18,29 @@ test("primary navigation reaches every section and marks the current page", asyn
   }
 });
 
+test("'Sports Journalist' appears nowhere on the site", async ({ page }) => {
+  for (const path of ["/", "/stories", "/stories/the-long-count", "/multimedia", "/about", "/resume", "/contact"]) {
+    await page.goto(path);
+    const html = await page.content();
+    expect(html, path).not.toMatch(/sports journalist/i);
+  }
+});
+
+test("story listings and pages show no dates", async ({ page }) => {
+  for (const path of ["/", "/stories", "/stories/the-long-count"]) {
+    await page.goto(path);
+    await expect(page.locator("main article time"), path).toHaveCount(0);
+    await expect(page.locator("main"), path).not.toContainText(/(January|February|March|April|May|June|July|August|September|October|November|December) d{1,2}, 20dd/i);
+  }
+});
+
+test("home sections carry no numbers", async ({ page }) => {
+  await page.goto("/");
+  for (const index of ["01", "02", "03", "04"]) {
+    await expect(page.locator("main section span.kicker").getByText(index, { exact: true })).toHaveCount(0);
+  }
+});
+
 test("browser back and forward restore pages", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Explore stories" }).click();

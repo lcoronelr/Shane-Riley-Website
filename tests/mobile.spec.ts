@@ -27,19 +27,20 @@ test("mobile menu navigates by touch and closes after navigation", async ({ page
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Multimedia");
 });
 
-test("tap targets in navigation and filters are at least 44px tall", async ({ page }) => {
-  await page.goto("/stories");
+test("tap targets in navigation and share controls are at least 44px tall", async ({ page }) => {
+  await page.goto("/stories/under-the-lights");
   const heights = await page.$$eval(
-    "header button, [role='group'] button, footer nav a",
+    "header button, main button, footer nav a",
     (els) => els.map((el) => el.getBoundingClientRect().height),
   );
+  expect(heights.length).toBeGreaterThan(0);
   for (const h of heights) expect(h).toBeGreaterThanOrEqual(44);
 });
 
-test("story filters work by touch", async ({ page }) => {
+test("story cards open by touch", async ({ page }) => {
   await page.goto("/stories");
-  await page.getByRole("group", { name: "Sport" }).getByRole("button", { name: "Tennis" }).tap();
-  await expect(page.locator("main article")).toHaveCount(1);
+  await page.getByRole("link", { name: /Blue Court Geometry/ }).tap();
+  await expect(page).toHaveURL("/stories/blue-court-geometry");
 });
 
 test("lightbox supports swipe", async ({ page }) => {

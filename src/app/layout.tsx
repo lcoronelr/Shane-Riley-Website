@@ -35,7 +35,7 @@ const geist = Geist({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${site.name} — ${site.role}`,
+    default: site.name,
     template: `%s — ${site.name}`,
   },
   description: site.tagline,
@@ -47,13 +47,13 @@ export const metadata: Metadata = {
     type: "website",
     siteName: site.name,
     locale: site.locale,
-    title: `${site.name} — ${site.role}`,
+    title: site.name,
     description: site.tagline,
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.role}`,
+    title: site.name,
     description: site.tagline,
   },
   formatDetection: { email: false, telephone: false, address: false },

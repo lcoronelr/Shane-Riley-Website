@@ -44,22 +44,11 @@ export function readingMinutes(story: Story): number {
   return Math.max(1, Math.round(words / 230));
 }
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  timeZone: "UTC",
-});
-
 const shortDateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "short",
   timeZone: "UTC",
 });
-
-export function formatDate(iso: string): string {
-  return dateFormatter.format(new Date(`${iso}T00:00:00Z`));
-}
 
 export function formatShortDate(iso: string): string {
   return shortDateFormatter.format(new Date(`${iso}T00:00:00Z`));

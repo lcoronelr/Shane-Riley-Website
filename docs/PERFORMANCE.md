@@ -4,7 +4,7 @@
 
 **Rendering**
 - Every route is statically prerendered (`next build` output: all `○` static or `●` SSG). There is no server work per request and pages can be CDN-cached.
-- Server Components by default. Client JavaScript is limited to the header, filters, share and copy buttons, the video player, the gallery and the reveal observer.
+- Server Components by default. Client JavaScript is limited to the header, share and copy buttons, the video player, the gallery and the reveal observer.
 - Motion's animation features are code-split with `LazyMotion` and loaded after hydration.
 - No analytics, tag managers, web fonts from third parties or other third-party scripts.
 

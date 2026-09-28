@@ -124,16 +124,11 @@ export function SiteHeader() {
       <div className="shell flex h-full items-center justify-between gap-6">
         <Link
           href="/"
-          className="group flex items-baseline gap-3 rounded-sm"
-          aria-label={`${site.name}, ${site.role} — home`}
+          className="group flex items-baseline rounded-sm"
+          aria-label={`${site.name} — home`}
         >
           <span className="font-serif text-[1.375rem] leading-none font-medium tracking-[-0.01em]">
             {site.name}
-          </span>
-          <span
-            className={`kicker hidden text-[0.6875rem] sm:inline ${dark ? "text-slate-light" : "text-slate-ink"}`}
-          >
-            {site.role}
           </span>
         </Link>
 
