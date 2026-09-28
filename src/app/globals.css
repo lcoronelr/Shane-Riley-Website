@@ -1,0 +1,421 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens — documented in docs/DESIGN_SYSTEM.md
+   ========================================================================== */
+
+@theme {
+  /* Palette */
+  --color-ivory: #f7f6f2;
+  --color-charcoal: #17191c;
+  --color-charcoal-soft: #22252a;
+  --color-slate: #747b84; /* decorative / large text only on ivory (3.96:1) */
+  --color-slate-ink: #5c636c; /* small text on ivory and white (≥5.6:1) */
+  --color-slate-light: #a1a8b0; /* small text on charcoal (7.3:1) */
+  --color-cobalt: #325df4; /* 4.9:1 on ivory, 5.3:1 white-on-cobalt */
+  --color-cobalt-deep: #2346c8;
+  --color-cobalt-light: #8aa6ff; /* cobalt for use on charcoal (7.5:1) */
+  --color-surface: #ffffff;
+  --color-rule: rgb(23 25 28 / 0.14);
+  --color-rule-strong: rgb(23 25 28 / 0.32);
+  --color-rule-dark: rgb(255 255 255 / 0.16);
+
+  /* Fluid type scale (min at 375px, max at ~1440px) */
+  --text-step--1: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --text-step--1--line-height: 1.45;
+  --text-step-0: clamp(1rem, 0.96rem + 0.18vw, 1.125rem);
+  --text-step-0--line-height: 1.6;
+  --text-step-1: clamp(1.1875rem, 1.1rem + 0.4vw, 1.4375rem);
+  --text-step-1--line-height: 1.45;
+  --text-step-2: clamp(1.4375rem, 1.26rem + 0.8vw, 2rem);
+  --text-step-2--line-height: 1.2;
+  --text-step-3: clamp(1.875rem, 1.5rem + 1.7vw, 3rem);
+  --text-step-3--line-height: 1.08;
+  --text-step-4: clamp(2.375rem, 1.7rem + 3vw, 4.5rem);
+  --text-step-4--line-height: 1.02;
+  --text-step-5: clamp(2.875rem, 1.6rem + 5.6vw, 7.25rem);
+  --text-step-5--line-height: 0.96;
+
+  /* Spacing additions */
+  --spacing-gutter: clamp(1rem, 0.6rem + 2.2vw, 3rem);
+  --spacing-section: clamp(4.5rem, 3rem + 6vw, 10rem);
+  --spacing-header: 4rem;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-quick: 180ms;
+  --duration-base: 320ms;
+  --duration-slow: 900ms;
+  --duration-cinematic: 1400ms;
+
+  /* Tracking */
+  --tracking-kicker: 0.14em;
+}
+
+@theme inline {
+  --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Page gutter + maximum measure shared by every section. */
+@utility shell {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 0.5rem + 3.4vw, 3.5rem);
+}
+
+/* Small uppercase label used for sport/category metadata. */
+@utility kicker {
+  font-family: var(--font-sans);
+  font-size: var(--text-step--1);
+  font-weight: 600;
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    background: var(--color-ivory);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: calc(var(--spacing-header) + 1rem);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    min-height: 100dvh;
+    font-size: var(--text-step-0);
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-cobalt);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cobalt);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  [data-surface="dark"] :focus-visible {
+    outline-color: var(--color-cobalt-light);
+  }
+
+  /* Lock page scroll while the mobile menu or lightbox is open. */
+  html[data-scroll-locked] {
+    overflow: hidden;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+
+@layer components {
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.75rem 1.125rem;
+    background: var(--color-charcoal);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 999px;
+    transform: translateY(-200%);
+    transition: transform var(--duration-base) var(--ease-out-expo);
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  /* Underline that draws in from the left on hover/focus. */
+  .link-draw {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size var(--duration-base) var(--ease-out-expo);
+    padding-bottom: 0.1em;
+  }
+  .link-draw:hover,
+  .link-draw:focus-visible,
+  .group:hover .link-draw,
+  .group:focus-visible .link-draw {
+    background-size: 100% 1px;
+  }
+
+  /* Persistent underline for inline links in prose. */
+  .link-inline {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    transition: text-decoration-color var(--duration-quick) ease;
+  }
+  .link-inline:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Image that eases in scale on hover of its card. */
+  .media-zoom img {
+    transition: transform var(--duration-cinematic) var(--ease-out-expo);
+  }
+  @media (hover: hover) {
+    .group:hover .media-zoom img {
+      transform: scale(1.035);
+    }
+  }
+
+  /* Film grain for cinematic dark sections (pure CSS, no network request). */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.09;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- Long-form story typography ---------- */
+  .story-body {
+    font-family: var(--font-serif);
+    font-size: clamp(1.125rem, 1.04rem + 0.38vw, 1.3125rem);
+    line-height: 1.7;
+    color: #22252a;
+  }
+  .story-body > * + * {
+    margin-top: 1.4em;
+  }
+  .story-body > p:first-of-type::first-letter {
+    float: left;
+    font-size: 4.1em;
+    line-height: 0.82;
+    padding: 0.06em 0.1em 0 0;
+    font-weight: 500;
+    color: var(--color-charcoal);
+  }
+  .story-body h2 {
+    font-family: var(--font-sans);
+    font-size: var(--text-step-1);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin-top: 2.4em;
+  }
+  .story-body h2 + * {
+    margin-top: 0.8em;
+  }
+
+  /* ---------- Reveal-on-scroll ----------
+     Elements with [data-reveal] start hidden only when JavaScript is running
+     (html.js) and the visitor has not asked for reduced motion. RevealObserver
+     sets [data-revealed] as they enter the viewport. Without JS they are
+     simply visible. */
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] {
+      transition:
+        opacity var(--duration-slow) var(--ease-out-expo),
+        transform var(--duration-slow) var(--ease-out-expo);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+    .js [data-reveal]:not([data-revealed]) {
+      opacity: 0;
+      transform: translate3d(0, 1.75rem, 0);
+    }
+
+    /* Signature: a curtain lifts off the image while the photo settles. */
+    .js [data-reveal="mask"] {
+      opacity: 1;
+      transform: none;
+    }
+    .js [data-reveal="mask"]:not([data-revealed]) {
+      opacity: 1;
+      transform: none;
+    }
+    [data-reveal="mask"] .mask-curtain {
+      transform-origin: 50% 0%;
+      transition: transform var(--duration-cinematic) var(--ease-in-out-quart);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+    .js [data-reveal="mask"]:not([data-revealed]) .mask-curtain {
+      transform: scaleY(1);
+    }
+    .js [data-reveal="mask"][data-revealed] .mask-curtain {
+      transform: scaleY(0);
+    }
+    [data-reveal="mask"] .mask-photo {
+      transition: transform 1.8s var(--ease-out-expo);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+    .js [data-reveal="mask"]:not([data-revealed]) .mask-photo {
+      transform: scale(1.14);
+    }
+  }
+  .mask-curtain {
+    transform: scaleY(0);
+  }
+
+  /* ---------- Hero entrance ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-rise {
+      animation: hero-rise 1.2s var(--ease-out-expo) both;
+      animation-delay: var(--rise-delay, 0ms);
+    }
+    .hero-settle {
+      animation: hero-settle 2.6s var(--ease-out-expo) both;
+    }
+    .fade-up-list > * {
+      animation: hero-rise 0.7s var(--ease-out-expo) both;
+      animation-delay: calc(var(--i, 0) * 60ms);
+    }
+  }
+
+  /* ---------- Reading progress (CSS scroll timeline, no JS) ---------- */
+  .reading-progress {
+    display: none;
+  }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reading-progress {
+        display: block;
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+        animation: progress-grow linear both;
+        animation-timeline: scroll(root block);
+      }
+    }
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 2.25rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes progress-grow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Serif italics come from a separately loaded face. Unlayered so it wins over
+   the font-serif utility. */
+.font-serif.italic,
+.font-serif .italic,
+.font-serif em,
+.story-body em {
+  font-family: var(--font-newsreader-italic), var(--font-newsreader), Georgia, serif;
+}
+
+/* ==========================================================================
+   Accessibility: honour reduced-motion everywhere, including libraries.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Print — primarily for the résumé, but every page prints cleanly.
+   ========================================================================== */
+
+@media print {
+  @page {
+    margin: 16mm 14mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+  }
+  [data-print="hide"],
+  .skip-link,
+  header[role="banner"],
+  footer[role="contentinfo"] {
+    display: none !important;
+  }
+  .shell {
+    max-width: none;
+    padding: 0;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+  [data-print="show-url"] a[href^="http"]::after,
+  [data-print="show-url"] a[href^="mailto"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #444;
+  }
+  section,
+  li {
+    break-inside: avoid;
+  }
+  .js [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
