@@ -2,9 +2,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
-import { site } from "@/content/site";
-
-/** Small label marking example/placeholder content. */
+/** Small label marking draft or example content (stories with `placeholder: true`). */
 export function PlaceholderTag({
   children = "Placeholder",
   tone = "light",
@@ -14,7 +12,6 @@ export function PlaceholderTag({
   tone?: "light" | "dark";
   className?: string;
 }) {
-  if (!site.showPlaceholderLabels) return null;
   return (
     <span
       className={[

@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { PortraitPlaceholder } from "@/components/media/PortraitPlaceholder";
+import { Picture } from "@/components/media/Picture";
 import { VideoPlayer } from "@/components/media/VideoPlayer";
 import { LeadStoryCard, StoryMeta, SupportingStoryCard } from "@/components/stories/StoryCard";
-import { ButtonLink, PlaceholderTag, SectionLabel } from "@/components/ui/primitives";
+import { ButtonLink, SectionLabel } from "@/components/ui/primitives";
 import { mediaItems } from "@/content/multimedia";
-import { photos } from "@/content/photos";
+import { heroPhoto, portraitPhoto } from "@/content/photos";
 import { site } from "@/content/site";
+import type { MediaItem, Photo } from "@/content/types";
 import { getAllStories, getFeaturedStories } from "@/lib/content";
 
 export default function HomePage() {
@@ -18,7 +19,10 @@ export default function HomePage() {
     .filter((s) => !featuredSlugs.has(s.slug))
     .slice(0, 3);
   const playable = mediaItems.find((item) => item.video);
-  const moreMedia = mediaItems.filter((item) => item !== playable).slice(0, 3);
+  // One of each other kind, so the teaser shows the range of work.
+  const moreMedia = (["Commentary", "Podcast", "Photo Essay"] as const)
+    .map((kind) => mediaItems.find((item) => item.kind === kind && item.poster))
+    .filter((item): item is MediaItem & { poster: Photo } => Boolean(item?.poster));
 
   return (
     <>
@@ -30,20 +34,20 @@ export default function HomePage() {
       >
         <div className="hero-settle absolute inset-0">
           <Image
-            src={photos.nightField.src}
-            alt={photos.nightField.alt}
+            src={heroPhoto.src}
+            alt={heroPhoto.alt}
             fill
             preload
             fetchPriority="high"
             placeholder="blur"
             sizes="100vw"
             className="object-cover"
-            style={{ objectPosition: photos.nightField.focus }}
+            style={{ objectPosition: heroPhoto.focus }}
           />
         </div>
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(180deg,rgb(23_25_28/0.55)_0%,rgb(23_25_28/0.05)_28%,rgb(23_25_28/0.25)_55%,rgb(23_25_28/0.92)_100%)]"
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgb(23_25_28/0.6)_0%,rgb(23_25_28/0.4)_25%,rgb(23_25_28/0.78)_55%,rgb(23_25_28/0.96)_100%)]"
         />
 
         <div className="shell relative pt-40 pb-14 sm:pb-20 lg:pb-24">
@@ -81,8 +85,7 @@ export default function HomePage() {
             className="hero-rise mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-rule-dark pt-5 text-step--1 text-slate-light"
             style={{ ["--rise-delay" as string]: "560ms" }}
           >
-            <p>{photos.nightField.credit}</p>
-            <PlaceholderTag tone="dark">Placeholder photography</PlaceholderTag>
+            <p>{heroPhoto.caption}</p>
           </div>
         </div>
       </section>
@@ -214,7 +217,7 @@ export default function HomePage() {
       <section aria-labelledby="about-heading" className="shell py-section">
         <div className="grid gap-12 md:grid-cols-12 md:items-center md:gap-10 lg:gap-16">
           <div className="md:col-span-5 lg:col-span-4" data-reveal>
-            <PortraitPlaceholder />
+            <Picture photo={portraitPhoto} sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 40vw, 100vw" ratio="4 / 5" />
           </div>
           <div className="md:col-span-7 lg:col-span-7 lg:col-start-6" data-reveal style={{ ["--reveal-delay" as string]: "120ms" }}>
             <SectionLabel>About</SectionLabel>
@@ -254,11 +257,6 @@ export default function HomePage() {
               >
                 {site.email}
               </a>
-              {site.emailIsPlaceholder && (
-                <div className="mt-3">
-                  <PlaceholderTag>Placeholder address</PlaceholderTag>
-                </div>
-              )}
             </div>
           </div>
         </div>

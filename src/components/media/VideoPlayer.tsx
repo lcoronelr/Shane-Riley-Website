@@ -16,6 +16,12 @@ const PROVIDERS: Record<
     embedUrl: (id) =>
       `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`,
   },
+  "youtube-playlist": {
+    idPattern: /^PL[A-Za-z0-9_-]{16,64}$/,
+    host: "youtube-nocookie.com",
+    embedUrl: (id) =>
+      `https://www.youtube-nocookie.com/embed/videoseries?list=${id}&autoplay=1&rel=0&playsinline=1`,
+  },
   vimeo: {
     idPattern: /^\d{6,12}$/,
     host: "player.vimeo.com",
@@ -138,9 +144,11 @@ function VideoMeta({
 }) {
   const captionsNote =
     video.kind === "embed"
-      ? video.captions
-        ? "Captions available in the player."
-        : "Captions not yet provided."
+      ? video.captions === undefined
+        ? null
+        : video.captions
+          ? "Captions available in the player."
+          : "Captions not yet provided."
       : video.captionsSrc
         ? "Captions available."
         : "Captions not yet provided.";
@@ -148,7 +156,7 @@ function VideoMeta({
   return (
     <figcaption className={`mt-3 space-y-2 text-step--1 ${muted}`}>
       <p className="flex flex-wrap gap-x-4 gap-y-1">
-        <span>{captionsNote}</span>
+        {captionsNote && <span>{captionsNote}</span>}
         {externalHost && <span>Plays from {externalHost} after you press play.</span>}
       </p>
       {video.note && <p>{video.note}</p>}

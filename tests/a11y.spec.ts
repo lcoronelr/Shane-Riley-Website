@@ -1,7 +1,17 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const ROUTES = ["/", "/stories", "/stories/the-long-count", "/multimedia", "/about", "/resume", "/contact", "/credits"];
+const ROUTES = [
+  "/",
+  "/stories",
+  "/stories/first-pro-fight-norfolk",
+  "/stories/tatafu-polota-nau",
+  "/stories/wjmc-reflection",
+  "/multimedia",
+  "/about",
+  "/resume",
+  "/contact",
+];
 
 for (const route of ROUTES) {
   test(`axe: ${route} has no WCAG 2.2 A/AA violations`, async ({ page }) => {
@@ -20,7 +30,7 @@ for (const route of ROUTES) {
 test("axe: open lightbox and mobile-width layout", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto("/multimedia");
-  await page.locator("#night-games").getByRole("button", { name: /^Open photo 1/ }).click();
+  await page.locator("#heliotrope").getByRole("button", { name: /^Open photo 1 of/ }).click();
   await page.waitForTimeout(800);
   const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag22aa"]).analyze();
   expect(results.violations.map((v) => v.id)).toEqual([]);

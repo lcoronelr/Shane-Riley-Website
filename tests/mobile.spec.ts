@@ -28,7 +28,7 @@ test("mobile menu navigates by touch and closes after navigation", async ({ page
 });
 
 test("tap targets in navigation and share controls are at least 44px tall", async ({ page }) => {
-  await page.goto("/stories/under-the-lights");
+  await page.goto("/stories/tatafu-polota-nau");
   const heights = await page.$$eval(
     "header button, main button, footer nav a",
     (els) => els.map((el) => el.getBoundingClientRect().height),
@@ -39,19 +39,19 @@ test("tap targets in navigation and share controls are at least 44px tall", asyn
 
 test("story cards open by touch", async ({ page }) => {
   await page.goto("/stories");
-  await page.getByRole("link", { name: /Blue Court Geometry/ }).tap();
-  await expect(page).toHaveURL("/stories/blue-court-geometry");
+  await page.getByRole("link", { name: /Matt Miller/ }).tap();
+  await expect(page).toHaveURL("/stories/matt-miller-rowing");
 });
 
 test("lightbox supports swipe", async ({ page }) => {
   await page.goto("/multimedia");
-  await page.locator("#lines").getByRole("button", { name: /^Open photo 1 of 4/ }).tap();
+  await page.locator("#heliotrope").getByRole("button", { name: /^Open photo 1 of 10/ }).tap();
   const dialog = page.getByRole("dialog");
-  await expect(dialog).toContainText("1 / 4");
+  await expect(dialog).toContainText("1 / 10");
   await dialog.evaluate((el) => {
     const touch = (x: number) => new Touch({ identifier: 1, target: el, clientX: x, clientY: 400 });
     el.dispatchEvent(new TouchEvent("touchstart", { touches: [touch(300)], bubbles: true }));
     el.dispatchEvent(new TouchEvent("touchend", { changedTouches: [touch(100)], bubbles: true }));
   });
-  await expect(dialog).toContainText("2 / 4");
+  await expect(dialog).toContainText("2 / 10");
 });

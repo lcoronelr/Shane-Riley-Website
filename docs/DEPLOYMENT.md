@@ -1,6 +1,6 @@
 # Deployment
 
-The site builds to static HTML plus a small Node server that `next start` runs for image optimisation. Any host that runs Next.js 16 works. Vercel requires no configuration; Netlify, Cloudflare (via OpenNext), Render, Railway, Fly.io or a VPS with Node all work too.
+The site builds to static HTML and static images. Responsive WebP files are generated into `public/img` by the `prebuild` step, which `npm run build` runs automatically. Any host that runs Next.js 16 works. Vercel requires no configuration; Netlify, Cloudflare (via OpenNext), Render, Railway, Fly.io or a VPS with Node all work too.
 
 ## Build configuration
 
@@ -58,8 +58,8 @@ If your host also adds security headers, check for duplicates or conflicts. Two 
 
 ## Post-deployment checklist
 
-- [ ] Every placeholder in `docs/CONTENT_GUIDE.md` is replaced, and `showPlaceholderLabels` is `false`
-- [ ] Example stories are removed (or still `placeholder: true` if intentionally kept for a preview)
+- [ ] The "Things worth checking" items in `docs/CONTENT_GUIDE.md` are resolved (photo credits, where stories first ran, phone number)
+- [ ] No story is still marked `placeholder: true` unless it is intentionally a draft
 - [ ] `NEXT_PUBLIC_SITE_URL` is set; view source on a story and confirm the `canonical` and `og:url` use the real domain
 - [ ] `https://yourdomain.com/robots.txt` allows crawling and points to the sitemap
 - [ ] `https://yourdomain.com/sitemap.xml` lists the real pages and stories
@@ -67,7 +67,7 @@ If your host also adds security headers, check for duplicates or conflicts. Two 
 - [ ] Headers are present: `curl -sI https://yourdomain.com | grep -iE "content-security|strict-transport|x-content|referrer|permissions|x-frame"`, or use securityheaders.com
 - [ ] The TLS configuration grades well on ssllabs.com
 - [ ] A video plays on the live site, and the browser console shows no CSP errors
-- [ ] The résumé Download PDF button appears if a PDF was added, and the file downloads
+- [ ] The résumé Download PDF button downloads the current PDF
 - [ ] The email link opens a mail client with the right address; social links go to the right profiles
 - [ ] Share previews look right (opengraph.xyz, or paste the link into a messaging app)
 - [ ] Lighthouse or PageSpeed Insights has been run on the live URL, and results recorded in `docs/PERFORMANCE.md`

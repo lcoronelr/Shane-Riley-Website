@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { PortraitPlaceholder } from "@/components/media/PortraitPlaceholder";
-import { ButtonLink, PlaceholderTag, SectionLabel } from "@/components/ui/primitives";
+import { Picture } from "@/components/media/Picture";
+import { ButtonLink, SectionLabel } from "@/components/ui/primitives";
+import { portraitPhoto } from "@/content/photos";
 import { about, timeline } from "@/content/resume";
 import { activeSocialLinks, site } from "@/content/site";
 
@@ -29,10 +30,9 @@ export default function AboutPage() {
             >
               {about.intro}
             </p>
-            <PlaceholderTag className="mt-6">Placeholder biography</PlaceholderTag>
           </div>
           <div className="lg:col-span-5 lg:pt-6">
-            <PortraitPlaceholder />
+            <Picture photo={portraitPhoto} sizes="(min-width: 64rem) 36vw, 100vw" ratio="4 / 5" preload />
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@ export default function AboutPage() {
           <aside className="space-y-12 lg:col-span-4 lg:col-start-9" data-reveal style={{ ["--reveal-delay" as string]: "120ms" }}>
             <section aria-labelledby="interests-heading">
               <h2 id="interests-heading" className="kicker text-slate-ink">
-                Reporting interests
+                Interests
               </h2>
               <ul className="mt-5 divide-y divide-rule border-y border-rule">
                 {about.interests.map((interest) => (

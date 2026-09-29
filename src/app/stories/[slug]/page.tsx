@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps<"/stories/[slug]">)
     title: story.title,
     description: story.excerpt,
     alternates: { canonical: path },
-    // Example stories must never be indexed as real journalism.
+    // Draft stories (placeholder: true) are kept out of search results.
     robots: story.placeholder ? { index: false, follow: true } : undefined,
     openGraph: {
       type: "article",
@@ -58,9 +58,13 @@ export default async function StoryPage({ params }: PageProps<"/stories/[slug]">
   const related = getRelatedStories(story);
   const path = `/stories/${story.slug}`;
   const minutes = readingMinutes(story);
+  const { width: heroW, height: heroH } = story.hero.src;
+  const wideHero = heroW >= 1400 && heroW / heroH >= 1.3;
+  // Allow modest upscaling so small images still read at a comfortable size.
+  const heroMaxWidth = Math.round(Math.min(heroW * 1.6, (heroW / heroH) * 720));
 
-  // Structured data only for real, published stories with accurate metadata.
-  const articleData = story.placeholder
+  // Structured data only for published stories with an exact publication date.
+  const articleData = story.placeholder || !story.published
     ? null
     : {
         "@context": "https://schema.org",
@@ -119,7 +123,7 @@ export default async function StoryPage({ params }: PageProps<"/stories/[slug]">
             </p>
             {story.placeholder && (
               <div className="mt-6 flex justify-center">
-                <PlaceholderTag>Example story · placeholder copy</PlaceholderTag>
+                <PlaceholderTag>Draft</PlaceholderTag>
               </div>
             )}
           </div>
@@ -139,22 +143,27 @@ export default async function StoryPage({ params }: PageProps<"/stories/[slug]">
           </div>
         </header>
 
-        <figure className="shell mt-10 lg:mt-14">
-          <Picture
-            photo={story.hero}
-            sizes="(min-width: 90rem) 83rem, 100vw"
-            ratio="16 / 9"
-            preload
-          />
-          <Caption photo={story.hero} />
-        </figure>
+        {wideHero ? (
+          <figure className="shell mt-10 lg:mt-14">
+            <Picture photo={story.hero} sizes="(min-width: 90rem) 83rem, 100vw" ratio="16 / 9" preload />
+            <Caption photo={story.hero} />
+          </figure>
+        ) : (
+          <figure className="shell mt-10 lg:mt-14">
+            {/* Smaller or portrait photos are shown near their natural size so they stay sharp. */}
+            <div className="mx-auto" style={{ maxWidth: `min(100%, 40rem, ${heroMaxWidth}px)` }}>
+              <Picture photo={story.hero} sizes={`(min-width: 44rem) ${Math.min(640, heroMaxWidth)}px, 100vw`} preload />
+              <Caption photo={story.hero} />
+            </div>
+          </figure>
+        )}
 
         <div className="shell mt-14 lg:mt-20">
           <StoryBody blocks={story.body} />
 
           {story.originalUrl && (
             <p className="mx-auto mt-12 max-w-[40rem] text-step--1 text-slate-ink">
-              Originally published{story.publication ? ` in ${story.publication}` : ""}.{" "}
+              Published{story.publication ? ` in ${story.publication}` : ""}.{" "}
               <a href={story.originalUrl} className="link-inline" rel="noopener noreferrer" target="_blank">
                 Read the original
                 <span className="sr-only"> (opens in a new tab)</span>

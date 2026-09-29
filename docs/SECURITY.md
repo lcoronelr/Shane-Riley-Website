@@ -70,7 +70,7 @@ If the site ever gains dynamic user content, switch to the nonce approach with `
 ### Video embeds
 
 - Only YouTube (via the privacy-enhanced `youtube-nocookie.com`) and Vimeo (with `dnt=1`) are allowed, both in code and by `frame-src`.
-- Video IDs are validated against strict patterns (`^[A-Za-z0-9_-]{11}$` for YouTube, digits for Vimeo) before any URL is built. An invalid ID shows an error message instead of an iframe.
+- Video IDs are validated against strict patterns (`^[A-Za-z0-9_-]{11}$` for YouTube videos, `^PL[A-Za-z0-9_-]{16,64}$` for YouTube playlists, digits for Vimeo) before any URL is built. An invalid ID shows an error message instead of an iframe.
 - Iframes load **only after a click**. No third-party request is made on page view (checked by an automated test).
 - Iframes are sandboxed (`allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox`) with a minimal `allow` list and `referrerPolicy="strict-origin-when-cross-origin"`.
 
@@ -106,7 +106,7 @@ There are no secrets. The only environment variables are `NEXT_PUBLIC_SITE_URL` 
 | Automated header test (`tests/navigation.spec.ts`) | Passes: CSP, nosniff, referrer policy, permissions policy, X-Frame-Options, no X-Powered-By |
 | Real YouTube playback under the CSP, sandbox and Permissions-Policy (Chrome 153) | Plays after one click; no CSP violations or console errors |
 | No third-party requests before the video is played (`tests/multimedia.spec.ts`) | Passes |
-| Example stories are `noindex` and carry no structured data (`tests/stories.spec.ts`) | Passes |
+| Stories are indexable and canonical, carry no undated structured data, and drafts are `noindex` (`tests/stories.spec.ts`) | Passes |
 | `npm audit` | 0 vulnerabilities |
 
 Not verified here: HTTPS, HSTS and TLS configuration. These depend on the host; see DEPLOYMENT.md for the post-deploy checks.

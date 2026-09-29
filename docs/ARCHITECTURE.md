@@ -32,7 +32,7 @@ src/
     page.tsx              Home
     stories/page.tsx      Story archive
     stories/[slug]/       Article pages (generateStaticParams, dynamicParams = false)
-    multimedia/ about/ resume/ contact/ credits/
+    multimedia/ about/ resume/ contact/
     sitemap.ts robots.ts  Generated sitemap.xml / robots.txt
     opengraph-image.tsx   Default social card, rendered at build time
     icon.svg              Favicon
@@ -40,27 +40,31 @@ src/
     globals.css           Design tokens, base styles, motion, print styles
   components/
     layout/               SiteHeader (client), SiteFooter
-    media/                Picture, Caption, VideoPlayer, PhotoGallery (+ lightbox), PortraitPlaceholder
+    media/                Picture, Caption, VideoPlayer (YouTube, playlists, Vimeo, files), PhotoGallery (+ lightbox)
     motion/               MotionProvider (LazyMotion), RevealObserver
     stories/              StoryCard variants, StoryBody, ShareControls
-    ui/                   Buttons, labels, PlaceholderTag, PrintButton, CopyEmailButton
+    ui/                   Buttons, labels, PlaceholderTag (drafts), PrintButton, CopyEmailButton
   content/                Editable, typed content (see CONTENT_GUIDE.md)
     types.ts              Content model
     site.ts stories.ts multimedia.ts resume.ts photos.ts
-  lib/content.ts          Queries (sorting, related stories), reading time, JSON-LD serialisation
+  lib/content.ts          Queries (ordering, featured, related stories), reading time, JSON-LD serialisation
+  lib/image-loader.ts     next/image loader that points at pre-generated WebP files
+  lib/image-manifest.json Generated list of available widths per image (git-ignored)
   assets/
-    photos/               Your photography (statically imported)
-    posters/              Video poster frames
-    placeholder/          CC0 stand-in photography (replace)
+    photos/               Portrait; stories/ (article photos); essays/ (photo essays)
+    posters/              Video posters (local copies of YouTube thumbnails)
 public/
-  resume/                 Optional résumé PDF
+  resume/                 Résumé PDF
+  img/                    Generated responsive WebP images (git-ignored)
+scripts/
+  generate-images.mjs     Builds public/img and the image manifest (runs before dev/build/typecheck)
 tests/                    Playwright specs
 ```
 
 ## Content flow
 
 1. Content is written as TypeScript objects in `src/content/*.ts`, checked against the types in `types.ts`. A missing alt text, a misspelt sport or an invalid block type fails `npm run typecheck` and the build.
-2. Images are **statically imported**, so Next.js knows their dimensions (no layout shift), generates blur placeholders and fingerprints the files for long-term caching.
+2. Images are **statically imported**, so Next.js knows their dimensions (no layout shift) and generates blur placeholders. The files themselves are served from `public/img/`, pre-generated at build time, through a custom loader. PERFORMANCE.md explains why runtime optimisation is not used.
 3. Pages read content through `src/lib/content.ts` and render it with Server Components.
 4. Story bodies are arrays of typed blocks rendered by `StoryBody`. Text is always rendered as React text nodes and never as HTML, so content cannot inject markup or scripts.
 5. `generateStaticParams` lists every story slug, and `dynamicParams = false` makes any other slug a real 404.

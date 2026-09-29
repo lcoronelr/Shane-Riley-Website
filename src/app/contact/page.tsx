@@ -2,7 +2,7 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
 import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
-import { PlaceholderTag, SectionLabel } from "@/components/ui/primitives";
+import { SectionLabel } from "@/components/ui/primitives";
 import { activeSocialLinks, site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const reasons = [
   { title: "Commissions", text: "Features, profiles and long-form reporting for editors and publications." },
-  { title: "Video & multimedia", text: "Field reporting, interviews and short documentary projects." },
+  { title: "Broadcast & multimedia", text: "Play-by-play and sideline work, radio, video packages and podcasts." },
   { title: "Story tips", text: "Something the sports world should know about? Get in touch." },
 ];
 
@@ -43,7 +43,6 @@ export default function ContactPage() {
             </a>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <CopyEmailButton email={site.email} />
-              {site.emailIsPlaceholder && <PlaceholderTag>Placeholder address — replace in site.ts</PlaceholderTag>}
             </div>
           </div>
 
@@ -51,8 +50,7 @@ export default function ContactPage() {
             <h2 id="social-heading" className="kicker text-slate-ink">
               Professional profiles
             </h2>
-            {activeSocialLinks.length > 0 ? (
-              <ul className="mt-4 divide-y divide-rule border-y border-rule">
+            <ul className="mt-4 divide-y divide-rule border-y border-rule">
                 {activeSocialLinks.map((s) => (
                   <li key={s.label}>
                     <a
@@ -75,15 +73,6 @@ export default function ContactPage() {
                   </li>
                 ))}
               </ul>
-            ) : (
-              <div className="mt-4 flex flex-wrap items-center gap-3 border border-dashed border-rule-strong p-5 text-step--1 text-slate-ink">
-                <PlaceholderTag>Placeholder</PlaceholderTag>
-                <span>
-                  No profiles yet. Add your X, Instagram, LinkedIn, YouTube or Muck Rack links in{" "}
-                  <code className="text-[0.9em]">src/content/site.ts</code> and they will appear here.
-                </span>
-              </div>
-            )}
           </section>
         </div>
 

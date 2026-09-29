@@ -4,14 +4,14 @@ import path from "node:path";
 import type { Metadata } from "next";
 
 import { PrintButton } from "@/components/ui/PrintButton";
-import { ButtonLink, PlaceholderTag } from "@/components/ui/primitives";
+import { ButtonLink } from "@/components/ui/primitives";
 import { resume } from "@/content/resume";
 import { activeSocialLinks, site } from "@/content/site";
-import type { TimelineEntry } from "@/content/types";
+import type { ResumeOrganization } from "@/content/types";
 
 export const metadata: Metadata = {
   title: "Résumé",
-  description: `Résumé of ${site.name}: experience, education, selected work, skills and awards.`,
+  description: `Résumé of ${site.name}: education, journalism and media experience, and skills.`,
   alternates: { canonical: "/resume" },
   openGraph: { url: "/resume", title: `Résumé — ${site.name}` },
 };
@@ -24,6 +24,7 @@ function hasPdf() {
 
 export default function ResumePage() {
   const pdfAvailable = hasPdf();
+  const profileLinks = activeSocialLinks.filter((s) => s.label === "LinkedIn" || s.label === "YouTube");
 
   return (
     <div className="shell pt-12 pb-section sm:pt-16 lg:pt-20" data-print="show-url">
@@ -34,16 +35,22 @@ export default function ResumePage() {
         </div>
         <div className="space-y-4 lg:col-span-5 lg:text-right">
           <ul className="space-y-1 text-step-0 lg:ml-auto">
+            <li className="text-slate-ink">{site.location}</li>
+            <li>
+              <a href={`tel:${resume.phone.replace(/[^\d+]/g, "")}`} className="link-inline tabular">
+                {resume.phone}
+              </a>
+            </li>
             <li>
               <a href={`mailto:${site.email}`} className="link-inline">
                 {site.email}
               </a>
             </li>
-            {site.location && <li className="text-slate-ink">{site.location}</li>}
-            {activeSocialLinks.map((s) => (
+            {profileLinks.map((s) => (
               <li key={s.label}>
                 <a href={s.url} className="link-inline" rel="me noopener noreferrer" target="_blank">
                   {s.label}
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </li>
             ))}
@@ -59,67 +66,41 @@ export default function ResumePage() {
         </div>
       </header>
 
-      <div className="mt-8" data-print="hide">
-        <PlaceholderTag>Placeholder résumé — every bracketed field needs real, verifiable details</PlaceholderTag>
-      </div>
-
       <div className="mt-12 grid gap-x-16 gap-y-14 lg:grid-cols-12">
-        <ResumeSection title="Summary" className="lg:col-span-12">
+        <ResumeSection title="Professional profile" className="lg:col-span-8">
           <p className="max-w-[70ch] font-serif text-step-1 leading-relaxed">{resume.summary}</p>
         </ResumeSection>
 
-        <ResumeSection title="Experience" className="lg:col-span-8">
-          <Entries entries={resume.experience} />
+        <ResumeSection title="Education" className="lg:col-span-4">
+          <h3 className="font-serif text-step-1 font-medium">{resume.education.institution}</h3>
+          <p className="text-step--1 text-slate-ink">{resume.education.location}</p>
+          <ul className="mt-3 space-y-1">
+            {resume.education.degrees.map((degree) => (
+              <li key={degree}>{degree}</li>
+            ))}
+          </ul>
+        </ResumeSection>
+
+        <ResumeSection title="Journalism & media experience" className="lg:col-span-8">
+          <Organizations items={resume.experience} />
         </ResumeSection>
 
         <div className="space-y-14 lg:col-span-4">
-          <ResumeSection title="Education">
-            <Entries entries={resume.education} compact />
+          <ResumeSection title="Additional experience">
+            <Organizations items={resume.additionalExperience} compact />
           </ResumeSection>
 
-          <ResumeSection title="Awards">
-            <ul className="space-y-4">
-              {resume.awards.map((award, i) => (
-                <li key={i}>
-                  <p className="font-medium">{award.title}</p>
-                  <p className="text-step--1 text-slate-ink">
-                    {award.organization} · {award.year}
-                  </p>
-                </li>
+          <ResumeSection title="Skills">
+            <dl className="space-y-4">
+              {resume.skills.map((group) => (
+                <div key={group.group}>
+                  <dt className="kicker text-slate-ink">{group.group}</dt>
+                  <dd className="mt-1.5">{group.items.join(", ")}</dd>
+                </div>
               ))}
-            </ul>
+            </dl>
           </ResumeSection>
         </div>
-
-        <ResumeSection title="Selected work" className="lg:col-span-8">
-          <ol className="divide-y divide-rule border-y border-rule">
-            {resume.selectedWork.map((work, i) => (
-              <li key={i} className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                {work.url ? (
-                  <a href={work.url} className="link-inline font-serif text-step-1" rel="noopener noreferrer" target="_blank">
-                    {work.title}
-                  </a>
-                ) : (
-                  <span className="font-serif text-step-1">{work.title}</span>
-                )}
-                <span className="shrink-0 text-step--1 text-slate-ink">
-                  {work.outlet} · {work.year}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </ResumeSection>
-
-        <ResumeSection title="Skills" className="lg:col-span-4">
-          <dl className="space-y-4">
-            {resume.skills.map((group) => (
-              <div key={group.group}>
-                <dt className="kicker text-slate-ink">{group.group}</dt>
-                <dd className="mt-1.5">{group.items.join(", ")}</dd>
-              </div>
-            ))}
-          </dl>
-        </ResumeSection>
       </div>
     </div>
   );
@@ -134,7 +115,7 @@ function ResumeSection({
   children: React.ReactNode;
   className?: string;
 }) {
-  const id = `resume-${title.toLowerCase().replace(/\s+/g, "-")}`;
+  const id = `resume-${title.toLowerCase().replace(/[^a-z]+/g, "-")}`;
   return (
     <section aria-labelledby={id} className={className}>
       <h2 id={id} className="kicker mb-5 border-b border-rule pb-3 text-charcoal">
@@ -145,17 +126,33 @@ function ResumeSection({
   );
 }
 
-function Entries({ entries, compact = false }: { entries: TimelineEntry[]; compact?: boolean }) {
+function Organizations({ items, compact = false }: { items: ResumeOrganization[]; compact?: boolean }) {
   return (
-    <ol className="space-y-7">
-      {entries.map((entry, i) => (
-        <li key={i} className={compact ? "" : "grid gap-1 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6"}>
-          <p className="tabular text-step--1 text-slate-ink sm:pt-1">{entry.period}</p>
-          <div>
-            <h3 className="font-serif text-step-1 font-medium">{entry.title}</h3>
-            <p className="text-charcoal/80">{entry.organization}</p>
-            {entry.description && <p className="mt-2 text-step--1 text-slate-ink">{entry.description}</p>}
-          </div>
+    <ol className="space-y-9">
+      {items.map((org) => (
+        <li key={org.organization}>
+          <h3 className="font-serif text-step-1 font-medium">
+            {org.organization}
+            <span className="font-sans text-step--1 font-normal text-slate-ink"> — {org.location}</span>
+          </h3>
+          <ol className="mt-3 space-y-5">
+            {org.roles.map((role) => (
+              <li
+                key={role.title}
+                className={compact ? "" : "grid gap-1 sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-6"}
+              >
+                <p className="text-step--1 text-slate-ink sm:pt-0.5">{role.period}</p>
+                <div>
+                  <p className="font-semibold">{role.title}</p>
+                  <ul className="mt-2 list-disc space-y-1.5 pl-5 text-step--1 leading-relaxed text-charcoal/85 marker:text-slate">
+                    {role.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ol>
         </li>
       ))}
     </ol>

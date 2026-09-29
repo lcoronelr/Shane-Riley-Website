@@ -61,13 +61,6 @@ export function SiteFooter() {
         <p>
           © {year} {site.name}. All rights reserved.
         </p>
-        <p>
-          <Link href="/credits" className="link-inline">
-            Photo credits
-          </Link>
-          <span aria-hidden="true"> · </span>
-          Placeholder photography is CC0 stock.
-        </p>
       </div>
     </footer>
   );

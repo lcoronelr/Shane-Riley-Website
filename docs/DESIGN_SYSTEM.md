@@ -57,16 +57,15 @@ Breakpoints are Tailwind defaults: `sm` 40rem (640px), `md` 48rem (768px), `lg` 
 | Component | Notes |
 | --- | --- |
 | `SiteHeader` | Sticky; transparent over dark heroes, translucent ivory or charcoal once scrolled; animated active-link underline (`layoutId`); full-screen mobile menu |
-| `SiteFooter` | Wordmark, section links, profiles, credits link |
+| `SiteFooter` | Wordmark, section links, profiles |
 | `ButtonLink` | `primary` (cobalt), `secondary` (outline, inverts on hover), `ghost-dark` (on charcoal). Pill shape, 48px minimum height, 0.98 press scale |
 | `SectionLabel` | Index number, hairline and kicker above section titles |
-| `PlaceholderTag` | Labels example content; disabled globally with `site.showPlaceholderLabels` |
+| `PlaceholderTag` | "Draft" label for stories marked `placeholder: true` |
 | `Picture` / `Caption` | Aspect-locked `next/image` with blur placeholder and focal point; caption with credit |
 | `LeadStoryCard`, `SupportingStoryCard`, `StoryCard`, `StoryMeta` | Magazine-spread and archive cards |
 | `StoryBody` | Renders typed story blocks; wide images and galleries break out of the text column |
 | `VideoPlayer` | Poster-first, click-to-load YouTube (nocookie) and Vimeo (dnt), or native `<video>` with captions |
 | `PhotoGallery` | Mosaic or strip of thumbnails opening a `<dialog>` lightbox |
-| `PortraitPlaceholder` | Monogram block used instead of a stock portrait |
 
 ## Motion
 

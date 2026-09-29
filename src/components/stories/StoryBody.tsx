@@ -52,11 +52,21 @@ function Block({ block }: { block: StoryBlock }) {
               : "my-12 font-sans"
           }
         >
-          <Picture
-            photo={block.photo}
-            sizes={block.size === "wide" ? "(min-width: 72rem) 68rem, 100vw" : "(min-width: 44rem) 40rem, 100vw"}
-          />
-          <Caption photo={block.photo} />
+          <div
+            className="mx-auto"
+            style={
+              block.size === "wide"
+                ? undefined
+                : // Keep small or tall photos near their natural size so they stay sharp.
+                  { maxWidth: `min(100%, ${Math.round(Math.min(block.photo.src.width * 1.6, (block.photo.src.width / block.photo.src.height) * 640))}px)` }
+            }
+          >
+            <Picture
+              photo={block.photo}
+              sizes={block.size === "wide" ? "(min-width: 72rem) 68rem, 100vw" : "(min-width: 44rem) 40rem, 100vw"}
+            />
+            <Caption photo={block.photo} />
+          </div>
         </figure>
       );
     case "gallery":

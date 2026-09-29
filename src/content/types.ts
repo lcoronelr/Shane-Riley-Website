@@ -15,7 +15,8 @@ export interface Photo {
   placeholder?: boolean;
 }
 
-export type VideoProvider = "youtube" | "vimeo";
+/** "youtube-playlist" embeds a whole playlist; its id is the `list=` value. */
+export type VideoProvider = "youtube" | "youtube-playlist" | "vimeo";
 
 /**
  * A video. Either an external embed (loaded only after the visitor clicks
@@ -25,14 +26,17 @@ export type Video =
   | {
       kind: "embed";
       provider: VideoProvider;
-      /** The provider's video ID, e.g. the `v=` value of a YouTube URL. */
+      /** The provider's video or playlist ID, e.g. the `v=` value of a YouTube URL. */
       id: string;
       title: string;
       poster: Photo;
       duration?: string;
       /** Plain-text transcript shown in an expandable panel. */
       transcript?: string;
-      /** Whether the hosted video has captions switched on at the provider. */
+      /**
+       * Whether captions are available at the provider. Leave unset when
+       * unknown and the player makes no claim either way.
+       */
       captions?: boolean;
       /** Short note shown under the player, e.g. licensing for demo media. */
       note?: string;
@@ -59,25 +63,20 @@ export type StoryBlock =
   | { type: "video"; video: Video }
   | { type: "divider" };
 
+/** Topics shown on story cards. Add new ones here. */
 export const SPORTS = [
-  "Boxing",
-  "Soccer",
-  "Baseball",
   "Basketball",
-  "Tennis",
-  "Surfing",
-  "Hockey",
-  "Running",
+  "Boxing",
+  "Field Hockey",
+  "Football",
+  "Rowing",
+  "Rugby",
+  "Sports Media",
+  "Journalism",
 ] as const;
 export type Sport = (typeof SPORTS)[number];
 
-export const STORY_TYPES = [
-  "Feature",
-  "Profile",
-  "Essay",
-  "Analysis",
-  "Photo Essay",
-] as const;
+export const STORY_TYPES = ["News", "Feature", "Profile", "Q&A", "Column", "Reflection"] as const;
 export type StoryType = (typeof STORY_TYPES)[number];
 
 export interface Story {
@@ -90,8 +89,11 @@ export interface Story {
   excerpt: string;
   sport: Sport;
   type: StoryType;
-  /** ISO date, e.g. "2026-03-14". */
-  published: string;
+  /**
+   * Optional ISO date, e.g. "2026-03-14". Never shown on the page; used only
+   * for search-engine metadata, so leave it out unless the date is exact.
+   */
+  published?: string;
   updated?: string;
   /** Publication the story first appeared in, if any. */
   publication?: string;
@@ -99,8 +101,8 @@ export interface Story {
   originalUrl?: string;
   hero: Photo;
   body: StoryBlock[];
-  /** Show on the home page featured spread. First featured story leads. */
-  featured?: boolean;
+  /** Position in the home page featured spread: 1 leads, 2–4 sit beside it. */
+  featured?: number;
   /**
    * Marks example content. Example stories are labelled on the page, kept out
    * of the sitemap, marked noindex and never receive article structured data.
@@ -108,20 +110,28 @@ export interface Story {
   placeholder?: boolean;
 }
 
-export type MediaKind = "Video" | "Interview" | "Documentary" | "Photo Essay";
+export type MediaKind =
+  | "Video"
+  | "Interview"
+  | "Documentary"
+  | "Commentary"
+  | "Podcast"
+  | "Audio"
+  | "Photo Essay";
 
 export interface MediaItem {
   slug: string;
   kind: MediaKind;
   title: string;
   description: string;
-  published: string;
-  /** Poster image shown in listings. */
-  poster: Photo;
+  /** Poster image shown in listings. Items without one get a typographic tile. */
+  poster?: Photo;
   /** Video/interview/documentary playback. Omit when nothing is attached. */
   video?: Video;
   /** Photo essay frames, opened in the lightbox. */
   photos?: Photo[];
+  /** Where to hear or watch an item that can't be embedded here. */
+  link?: { href: string; label: string };
   placeholder?: boolean;
 }
 
@@ -136,4 +146,16 @@ export interface TimelineEntry {
   title: string;
   organization: string;
   description?: string;
+}
+
+export interface ResumeRole {
+  title: string;
+  period: string;
+  bullets: string[];
+}
+
+export interface ResumeOrganization {
+  organization: string;
+  location: string;
+  roles: ResumeRole[];
 }

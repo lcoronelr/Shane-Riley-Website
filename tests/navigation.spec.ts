@@ -19,7 +19,7 @@ test("primary navigation reaches every section and marks the current page", asyn
 });
 
 test("'Sports Journalist' appears nowhere on the site", async ({ page }) => {
-  for (const path of ["/", "/stories", "/stories/the-long-count", "/multimedia", "/about", "/resume", "/contact"]) {
+  for (const path of ["/", "/stories", "/stories/first-pro-fight-norfolk", "/multimedia", "/about", "/resume", "/contact"]) {
     await page.goto(path);
     const html = await page.content();
     expect(html, path).not.toMatch(/sports journalist/i);
@@ -27,7 +27,7 @@ test("'Sports Journalist' appears nowhere on the site", async ({ page }) => {
 });
 
 test("story listings and pages show no dates", async ({ page }) => {
-  for (const path of ["/", "/stories", "/stories/the-long-count"]) {
+  for (const path of ["/", "/stories", "/stories/first-pro-fight-norfolk", "/stories/tatafu-polota-nau"]) {
     await page.goto(path);
     await expect(page.locator("main article time"), path).toHaveCount(0);
     await expect(page.locator("main"), path).not.toContainText(/(January|February|March|April|May|June|July|August|September|October|November|December) d{1,2}, 20dd/i);
@@ -45,8 +45,8 @@ test("browser back and forward restore pages", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Explore stories" }).click();
   await expect(page).toHaveURL("/stories");
-  await page.getByRole("link", { name: /The Long Count/ }).first().click();
-  await expect(page).toHaveURL("/stories/the-long-count");
+  await page.getByRole("link", { name: /W&L Viewership Drops/ }).first().click();
+  await expect(page).toHaveURL("/stories/flosports-viewership-drop");
   await page.goBack();
   await expect(page).toHaveURL("/stories");
   await page.goBack();
@@ -97,7 +97,8 @@ test("sitemap and robots are generated and exclude example stories", async ({ re
   expect(robots).toContain("Sitemap:");
   const sitemap = await (await request.get("/sitemap.xml")).text();
   expect(sitemap).toContain("/stories</loc>");
-  expect(sitemap).not.toContain("/stories/the-long-count");
+  expect(sitemap).toContain("/stories/flosports-viewership-drop");
+  expect(sitemap).not.toContain("/credits");
 });
 
 test("reduced motion shows all content without scrolling animations", async ({ browser }) => {

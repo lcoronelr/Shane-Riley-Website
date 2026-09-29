@@ -10,7 +10,9 @@
 
 **Images**
 - All photographs are statically imported: dimensions are known (no layout shift), blur placeholders are inlined, and files are fingerprinted for immutable caching.
-- `next/image` serves AVIF/WebP at responsive widths. Every image has a `sizes` attribute matching its rendered width.
+- **Images are pre-generated at build time.** `scripts/generate-images.mjs` writes WebP versions of every photo at 96–2400px into `public/img/`, and a custom `next/image` loader (`src/lib/image-loader.ts`) points `srcset` at them. Images are plain static files that a CDN can cache, and the server does no image work at request time.
+- Every image has a `sizes` attribute matching its rendered width, so browsers download the smallest adequate file.
+- **Why not Next's runtime optimiser?** Testing found a Next.js 16.3.6 bug in self-hosted `next start`: if the first request for an image size is cancelled within about a millisecond (which browsers do routinely when a visitor navigates away), that image size hangs forever for every later visitor. It was reproduced with a script; about 1 in 4 very early aborts poisoned the image. AVIF encoding also hung on at least one photo size. Pre-generating removes both problems.
 - Only the LCP image on each page is preloaded with `fetchPriority="high"` (home hero, article hero, first multimedia poster). Everything else is lazy-loaded.
 - Aspect ratios are reserved with CSS `aspect-ratio`.
 
@@ -28,30 +30,29 @@
 
 ## Measured results
 
-Measured on 2026-09-27 with **Lighthouse 12** (npm), headless Google Chrome 153, against the local production build (`next build && next start`) on a Windows 11 desktop. "Mobile" is Lighthouse's default mobile emulation with simulated slow-4G throttling and 4× CPU slowdown; "Desktop" uses `--preset=desktop`.
+Measured on 2026-09-28, with Shane's real content, using **Lighthouse 12** (npm), headless Google Chrome 153, against the local production build (`next build && next start`) on a Windows 11 desktop. "Mobile" is Lighthouse's default mobile emulation with simulated slow-4G throttling and 4× CPU slowdown; "Desktop" uses `--preset=desktop`.
 
 | Page | Mobile P / A / BP / SEO | Mobile LCP | Desktop P / A / BP / SEO | Desktop LCP | CLS (mobile) | TBT (mobile) |
 | --- | --- | --- | --- | --- | --- | --- |
-| `/` | 88 / 100 / 100 / 100 | 3.8 s | 100 / 100 / 100 / 100 | 0.8 s | 0.048 | 20 ms |
-| `/stories` | 91 / 100 / 100 / 100 | 3.5 s | 99 / 100 / 100 / 100 | 0.9 s | 0 | 10 ms |
-| `/stories/the-long-count` | 89 / 100 / 100 / 69* | 3.8 s | 100 / 100 / 100 / 69* | 0.8 s | 0.002 | 20 ms |
-| `/multimedia` | 89 / 100 / 100 / 100 | 3.8 s | 100 / 100 / 100 / 100 | 0.8 s | 0 | 10 ms |
-| `/about` | 94 / 100 / 100 / 100 | 3.1 s | 100 / 100 / 100 / 100 | 0.6 s | 0 | 10 ms |
-| `/resume` | 94 / 100 / 100 / 100 | 3.1 s | 100 / 100 / 100 / 100 | 0.6 s | 0 | 10 ms |
+| `/` | 84 / 100 / 100 / 100 | 4.4 s | 99 / 100 / 100 / 100 | 0.9 s | 0.049 | 10 ms |
+| `/stories` | 91 / 100 / 100 / 100 | 3.5 s | 99 / 100 / 100 / 100 | 0.9 s | 0 | 20 ms |
+| `/stories/leah-crouse-consistent-growth` | 87 / 100 / 100 / 100 | 4.1 s | 99 / 100 / 100 / 100 | 1.0 s | 0.002 | 10 ms |
+| `/multimedia` | 88 / 100 / 100 / 100 | 3.9 s | 99 / 100 / 100 / 100 | 0.9 s | 0 | 50 ms |
+| `/about` | 93 / 100 / 100 / 100 | 3.3 s | 100 / 100 / 100 / 100 | 0.6 s | 0 | 20 ms |
+| `/resume` | 94 / 100 / 100 / 100 | 3.1 s | 100 / 100 / 100 / 100 | 0.6 s | 0 | 20 ms |
 | `/contact` | 93 / 100 / 100 / 100 | 3.2 s | 100 / 100 / 100 / 100 | 0.7 s | 0 | 20 ms |
 
-\* SEO 69 on the article is intentional: example stories are marked `noindex`, which Lighthouse penalises. Real stories are indexable.
-
-Before the font optimisation, mobile performance was 81–86 with an LCP of 4.2–5.3s.
+Earlier history: before the font optimisation, mobile performance was 81–86 with an LCP of 4.2–5.3s.
 
 These are **lab** results from one machine over localhost, not real-user (field) Core Web Vitals. The site has no real-user data yet. Once deployed, check PageSpeed Insights or the Chrome UX Report for 75th-percentile LCP, CLS and INP.
 
 ## Remaining limitations
 
-- **Mobile LCP is 3.1–3.8s in the simulated slow-4G profile**, above the 2.5s target. The LCP element on most pages is Newsreader text, and the remaining time is the web-font download inside Lighthouse's throttled model. Options if field data confirms a problem: `display: "optional"` for Newsreader (fastest, but first-time visitors on slow networks may see the fallback serif), or subsetting the font further.
+- **Mobile LCP is 3.1–4.4s in the simulated slow-4G profile**, above the 2.5s target. The LCP element on most pages is Newsreader text, and the remaining time is the web-font download inside Lighthouse's throttled model. Options if field data confirms a problem: `display: "optional"` for Newsreader (fastest, but first-time visitors on slow networks may see the fallback serif), or subsetting the font further.
 - Home mobile CLS is 0.048 (under the 0.1 target), caused by the italic hero line swapping from the fallback to Newsreader Italic.
-- Placeholder photos are only 960px wide, so they look soft on large retina screens. Replace them with originals of at least 2400px (see CONTENT_GUIDE.md).
-- The first `next/image` request for each size is optimised on demand by the server and cached afterwards. On serverless hosts this can make the very first view of an image slower.
+- Several story photos are small originals (225–640px wide, as supplied on the portfolio). They are shown near natural size on story pages but look soft when cropped into cards. Larger originals would fix this.
+- The home-page hero is a 1280×720 video frame, slightly soft on large screens.
+- `public/img` holds about 39 MB of generated images. That's fine for static hosting; unchanged images are skipped when it regenerates.
 - INP could not be measured in the lab. TBT, its lab proxy, is 10–20ms.
 
 ## How to re-measure

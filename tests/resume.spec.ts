@@ -5,7 +5,7 @@ import { expect, test } from "@playwright/test";
 
 test("résumé sections render", async ({ page }) => {
   await page.goto("/resume");
-  for (const name of ["Summary", "Experience", "Education", "Awards", "Selected work", "Skills"]) {
+  for (const name of ["Professional profile", "Education", "Journalism & media experience", "Additional experience", "Skills"]) {
     await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
   }
   await expect(page.getByRole("button", { name: "Print résumé" })).toBeVisible();
@@ -30,5 +30,5 @@ test("print layout hides site chrome and controls", async ({ page }) => {
   await expect(page.locator("header[role='banner']")).toBeHidden();
   await expect(page.locator("footer[role='contentinfo']")).toBeHidden();
   await expect(page.getByRole("button", { name: "Print résumé" })).toBeHidden();
-  await expect(page.getByRole("heading", { level: 2, name: "Experience" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 2, name: "Journalism & media experience" })).toBeVisible();
 });

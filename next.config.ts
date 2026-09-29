@@ -77,13 +77,23 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   images: {
-    formats: ["image/avif", "image/webp"],
-    qualities: [75],
-    // All photography is bundled locally; no remote image hosts are allowed.
-    remotePatterns: [],
+    // Images are pre-generated at build time (scripts/generate-images.mjs) and
+    // served as static files instead of by the runtime optimiser, which can
+    // hang on an image whose first request is cancelled. Keep these widths in
+    // sync with WIDTHS in that script.
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
+    deviceSizes: [640, 828, 1080, 1280, 1920, 2400],
+    imageSizes: [96, 256, 384],
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      {
+        source: "/img/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }],
+      },
+    ];
   },
 };
 

@@ -1,21 +1,20 @@
 # Shane Riley — Sports Journalism Portfolio
 
-A premium editorial sports-reporting portfolio: long-form stories, video and photo essays, biography, an HTML résumé and contact details. Built with Next.js (App Router), TypeScript and Tailwind CSS, and fully statically generated.
+The portfolio of Shane Riley, a student journalist at Washington and Lee University: long-form stories, video packages, game commentary, podcasts, photo essays, biography, an HTML résumé and contact details. Built with Next.js (App Router), TypeScript and Tailwind CSS, and fully statically generated.
 
-> **Status: placeholder content.** The name, Shane Riley, is confirmed. The biography, résumé, stories, email address and photography are clearly labelled placeholders. See [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md) before launch.
+> **Content:** stories, photos, captions and audio descriptions come from Shane's [Adobe Portfolio](https://shane-riley.myportfolio.com/about-shane-riley); videos from his [YouTube channel](https://www.youtube.com/@ShaneRileyPortfolio) and Rockbridge Report packages; the résumé from his September 2026 PDF. See [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md) to update anything.
 
 ## Pages
 
 | Route | What it is |
 | --- | --- |
 | `/` | Cinematic hero, featured-story magazine spread, multimedia teaser, about teaser, contact call to action |
-| `/stories` | Story archive, newest first, with a lead story and a three-column grid |
+| `/stories` | All 11 stories in authored order, with a lead story and a three-column grid |
 | `/stories/[slug]` | Long-form article: byline, captions, pull quotes, lightbox galleries, click-to-load video, share controls, reading progress |
-| `/multimedia` | Video, interviews, documentary and photo essays, with a keyboard-accessible lightbox |
-| `/about` | Biography, reporting interests, experience timeline |
-| `/resume` | Printable HTML résumé; the Download PDF button appears only when the PDF exists |
+| `/multimedia` | Video packages, game-commentary playlists, podcasts and photo essays, with a keyboard-accessible lightbox |
+| `/about` | Biography, portrait, interests, experience timeline |
+| `/resume` | Printable HTML résumé with a Download PDF button (`public/resume/shane-riley-resume.pdf`) |
 | `/contact` | Email link, copy-address button and social profiles (no form, no data collection) |
-| `/credits` | Licences for the placeholder photography |
 
 ## Prerequisites
 
@@ -27,7 +26,7 @@ A premium editorial sports-reporting portfolio: long-form stories, video and pho
 
 ```bash
 npm install
-npm run dev          # development server at http://localhost:3000
+npm run dev          # generates images, then starts http://localhost:3000
 ```
 
 To preview the production build:
@@ -40,6 +39,7 @@ npm run start        # http://localhost:3000
 ## Checks
 
 ```bash
+npm run images       # regenerate responsive WebP images into public/img (runs automatically before dev/build/typecheck)
 npm run typecheck    # TypeScript
 npm run lint         # ESLint (Next.js core-web-vitals + TypeScript rules)
 npm run build        # production build
@@ -60,11 +60,11 @@ All editable content lives in `src/content/`:
 
 | File | Contains |
 | --- | --- |
-| `site.ts` | Name, tagline, short bio, email, social links, placeholder-label switch |
+| `site.ts` | Name, tagline, short bio, location, email, profile links |
 | `stories.ts` | Stories (typed blocks: paragraphs, headings, quotes, images, galleries, video) |
-| `multimedia.ts` | Videos, interviews, documentaries and photo essays |
-| `resume.ts` | About-page biography and interests, résumé sections, PDF path |
-| `photos.ts` | Photo registry with alt text, captions and credits |
+| `multimedia.ts` | Video packages, commentary playlists, podcasts and photo essays |
+| `resume.ts` | About-page biography and interests; résumé profile, education, experience, skills, phone, PDF path |
+| `photos.ts` | Portrait, home-page hero and photo-essay photos with alt text, captions and credits |
 
 Step-by-step instructions are in [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md).
 

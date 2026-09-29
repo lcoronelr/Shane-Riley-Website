@@ -44,3 +44,7 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /.shots.tmp.mjs
+
+# Generated responsive images (npm run images)
+/public/img/
+/src/lib/image-manifest.json

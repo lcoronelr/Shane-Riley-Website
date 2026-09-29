@@ -4,9 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "npm run images",
     "build": "next build",
+    "prebuild": "npm run images",
     "start": "next start",
     "lint": "eslint",
+    "images": "node scripts/generate-images.mjs",
+    "pretypecheck": "npm run images",
     "typecheck": "next typegen && tsc --noEmit",
     "test:e2e": "playwright test",
     "check": "npm run typecheck && npm run lint && npm run build && npm run test:e2e"
@@ -27,6 +31,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

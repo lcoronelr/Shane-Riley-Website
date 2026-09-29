@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
 
 import { StoryCard } from "@/components/stories/StoryCard";
-import { PlaceholderTag, SectionLabel } from "@/components/ui/primitives";
+import { SectionLabel } from "@/components/ui/primitives";
 import { site } from "@/content/site";
 import { getAllStories } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Stories",
-  description: `Features, profiles, essays and analysis by ${site.name}.`,
+  description: `Features, profiles, news and columns by ${site.name}.`,
   alternates: { canonical: "/stories" },
   openGraph: { url: "/stories", title: `Stories — ${site.name}` },
 };
 
 export default function StoriesPage() {
   const stories = getAllStories();
-  const hasExamples = stories.some((s) => s.placeholder);
 
   return (
     <div className="shell pt-12 pb-section sm:pt-16 lg:pt-20">
@@ -25,11 +24,8 @@ export default function StoriesPage() {
         </div>
         <div className="lg:col-span-4">
           <p className="text-step-1 leading-relaxed text-charcoal/80">
-            Long-form features, profiles, essays and analysis.
+            Features, profiles, news and columns, from college athletics to Olympians.
           </p>
-          {hasExamples && (
-            <PlaceholderTag className="mt-4">Example stories — replace before launch</PlaceholderTag>
-          )}
         </div>
       </header>
 

@@ -1,10 +1,9 @@
 import { stories } from "@/content/stories";
 import type { Story, StoryBlock } from "@/content/types";
 
-const byNewest = (a: Story, b: Story) => b.published.localeCompare(a.published);
-
+/** Stories in the order they are listed in src/content/stories.ts. */
 export function getAllStories(): Story[] {
-  return [...stories].sort(byNewest);
+  return [...stories];
 }
 
 export function getStory(slug: string): Story | undefined {
@@ -12,11 +11,13 @@ export function getStory(slug: string): Story | undefined {
 }
 
 export function getFeaturedStories(): Story[] {
-  const featured = stories.filter((s) => s.featured);
+  const featured = stories
+    .filter((s) => s.featured !== undefined)
+    .sort((a, b) => (a.featured ?? 0) - (b.featured ?? 0));
   return featured.length > 0 ? featured : getAllStories().slice(0, 4);
 }
 
-/** Same-sport stories first, then the most recent others. */
+/** Same-topic stories first, then the others in listed order. */
 export function getRelatedStories(story: Story, count = 3): Story[] {
   const others = getAllStories().filter((s) => s.slug !== story.slug);
   const sameSport = others.filter((s) => s.sport === story.sport);
@@ -42,16 +43,6 @@ export function readingMinutes(story: Story): number {
     .split(/\s+/)
     .filter(Boolean).length;
   return Math.max(1, Math.round(words / 230));
-}
-
-const shortDateFormatter = new Intl.DateTimeFormat("en-US", {
-  year: "numeric",
-  month: "short",
-  timeZone: "UTC",
-});
-
-export function formatShortDate(iso: string): string {
-  return shortDateFormatter.format(new Date(`${iso}T00:00:00Z`));
 }
 
 /** Serialises JSON-LD safely for inline <script> output. */

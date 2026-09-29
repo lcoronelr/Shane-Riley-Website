@@ -46,7 +46,7 @@ export function LeadStoryCard({ story }: { story: Story }) {
           <p className="mt-4 max-w-[38ch] font-serif text-step-1 text-charcoal/80 italic">{story.dek}</p>
         </div>
       </Link>
-      {story.placeholder && <PlaceholderTag className="mt-5">Example story</PlaceholderTag>}
+      {story.placeholder && <PlaceholderTag className="mt-5">Draft</PlaceholderTag>}
     </article>
   );
 }
