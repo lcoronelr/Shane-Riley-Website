@@ -30,7 +30,7 @@ export function LeadStoryCard({ story }: { story: Story }) {
       <Link href={`/stories/${story.slug}`} className="block rounded-sm">
         <div data-reveal="mask" className="relative">
           <Picture
-            photo={story.hero}
+            photo={story.cover ?? story.hero}
             sizes="(min-width: 64rem) 58vw, 100vw"
             ratio="4 / 3"
             className="media-zoom"
@@ -63,7 +63,7 @@ export function SupportingStoryCard({ story, index }: { story: Story; index: num
           </h3>
           <p className="mt-2 line-clamp-3 text-step--1 text-slate-ink">{story.excerpt}</p>
         </div>
-        <Picture photo={story.hero} sizes="10rem" ratio="1 / 1" className="media-zoom self-start" />
+        <Picture photo={story.cover ?? story.hero} sizes="10rem" ratio="1 / 1" className="media-zoom self-start" />
       </Link>
     </article>
   );
@@ -88,7 +88,7 @@ export function StoryCard({
     <article className="group">
       <Link href={`/stories/${story.slug}`} className="block rounded-sm">
         <Picture
-          photo={story.hero}
+          photo={story.cover ?? story.hero}
           sizes={sizes}
           ratio={ratio}
           aspectClassName={aspectClassName}

@@ -52,9 +52,17 @@ Run the Node process under a supervisor (systemd, pm2, or a container restart po
 - Redirect HTTP to HTTPS at the host or proxy. Managed hosts do this by default.
 - The app sends `Strict-Transport-Security: max-age=63072000` (two years) in production. Browsers act on it only when it arrives over HTTPS, and from then on they refuse plain-HTTP connections to the domain.
 - `includeSubDomains` and `preload` are intentionally **not** set. Add them only when every subdomain (including `www` and any mail or legacy subdomains) serves HTTPS, and submit the domain to hstspreload.org only once you are sure. Preloading is hard to undo.
-- The CSP includes `upgrade-insecure-requests`, so any stray `http://` sub-resource is fetched over HTTPS.
+- When `NEXT_PUBLIC_SITE_URL` starts with `https://`, the CSP includes `upgrade-insecure-requests`, so any stray `http://` sub-resource is fetched over HTTPS, and the HSTS header is sent. **Set it before building for production.**
 
 If your host also adds security headers, check for duplicates or conflicts. Two different CSP headers are combined by browsers, which makes the effective policy the stricter intersection.
+
+## Preview on another device (same Wi-Fi)
+
+1. Build and start the site: `npm run build`, then `npx next start -H 0.0.0.0`.
+2. Find this computer's local IP address: `ipconfig` (Windows) and look for the IPv4 address, e.g. `192.168.1.232`.
+3. On the phone or other computer, connected to the same network, open `http://<that-IP>:3000`.
+
+If it doesn't load, allow Node.js through the firewall for the current network (Windows Security → Firewall & network protection → Allow an app through firewall). Don't set `NEXT_PUBLIC_SITE_URL` to an `https://` address for this kind of local preview build, or assets will be forced to HTTPS and fail to load.
 
 ## Post-deployment checklist
 

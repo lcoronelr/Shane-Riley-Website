@@ -26,7 +26,7 @@ Out of scope: the security of the hosting account, the domain registrar and emai
 | `Permissions-Policy` | Denies camera, microphone, geolocation, payment, USB, sensors, Topics and similar. Allows `autoplay`, `fullscreen`, `encrypted-media` and `picture-in-picture` only for this site and the two approved video players. `web-share` for this site |
 | `X-Frame-Options` | `DENY` (legacy companion to `frame-ancestors 'none'`) |
 | `Cross-Origin-Opener-Policy` | `same-origin` |
-| `Strict-Transport-Security` | `max-age=63072000` in production builds (browsers ignore it over plain HTTP; see DEPLOYMENT.md) |
+| `Strict-Transport-Security` | `max-age=63072000`, only when built with an `https://` `NEXT_PUBLIC_SITE_URL` (see DEPLOYMENT.md) |
 | `X-Powered-By` | Removed (`poweredByHeader: false`) |
 
 ### Content Security Policy
@@ -49,7 +49,9 @@ worker-src 'self' blob:;
 upgrade-insecure-requests
 ```
 
-In development, `'unsafe-eval'` (required by React's dev tooling) and `ws:` (hot reload) are added and `upgrade-insecure-requests` is dropped.
+In development, `'unsafe-eval'` (required by React's dev tooling) and `ws:` (hot reload) are added.
+
+`upgrade-insecure-requests` (and HSTS) are included only when the site is built with an `https://` `NEXT_PUBLIC_SITE_URL`. On a local build they would force every asset to `https://`, which breaks the site when it's viewed from another device at `http://<LAN-IP>:3000` (browsers exempt only `localhost`).
 
 **Trade-off: `'unsafe-inline'` for scripts.** Next.js emits inline scripts to hydrate each page. A stricter nonce-based CSP requires every page to be rendered dynamically per request (see `node_modules/next/dist/docs/01-app/02-guides/content-security-policy.md`), giving up static generation and CDN caching. For a site that renders no user input, this was judged a poor trade. The actual XSS risk is mitigated because:
 
@@ -71,6 +73,7 @@ If the site ever gains dynamic user content, switch to the nonce approach with `
 
 - Only YouTube (via the privacy-enhanced `youtube-nocookie.com`) and Vimeo (with `dnt=1`) are allowed, both in code and by `frame-src`.
 - Video IDs are validated against strict patterns (`^[A-Za-z0-9_-]{11}$` for YouTube videos, `^PL[A-Za-z0-9_-]{16,64}$` for YouTube playlists, digits for Vimeo) before any URL is built. An invalid ID shows an error message instead of an iframe.
+- Podcast audio is self-hosted (`media-src 'self'`), so no third-party audio player or host is contacted.
 - Iframes load **only after a click**. No third-party request is made on page view (checked by an automated test).
 - Iframes are sandboxed (`allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox`) with a minimal `allow` list and `referrerPolicy="strict-origin-when-cross-origin"`.
 

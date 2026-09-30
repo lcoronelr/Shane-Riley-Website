@@ -19,7 +19,7 @@ Target: **WCAG 2.2 Level AA**.
 
 **Content**
 - Every photograph has written alt text in `photos.ts` (a required field). Decorative duplicates, such as thumbnails whose button already carries a label, use `alt=""`.
-- Captions and photographer credits are visible under images and in the lightbox where they exist. Shane's photo essays carry his full captions; most article photos have alt text but no caption.
+- Every article photo has alt text and a visible caption with its credit, both under the photo and in the lightbox. Audio uses the browser's native, keyboard-accessible controls with a labelled player.
 - Videos show whether captions are available, and provide a transcript in an expandable `<details>` panel where one exists.
 - Link text is meaningful ("All stories", "Full biography"). Links that open a new tab say so to screen readers.
 
@@ -35,7 +35,7 @@ Target: **WCAG 2.2 Level AA**.
 
 ## Checks performed (2026-09-27)
 
-**Automated** (`npm run test:e2e`, Chrome 153, production build, real content: 80 tests, all passing):
+**Automated** (`npm run test:e2e`, Chrome 153, production build, real content: 87 tests, all passing):
 
 | Check | Where |
 | --- | --- |

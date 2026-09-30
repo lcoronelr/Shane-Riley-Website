@@ -52,7 +52,7 @@ These are **lab** results from one machine over localhost, not real-user (field)
 - Home mobile CLS is 0.048 (under the 0.1 target), caused by the italic hero line swapping from the fallback to Newsreader Italic.
 - Several story photos are small originals (225–640px wide, as supplied on the portfolio). They are shown near natural size on story pages but look soft when cropped into cards. Larger originals would fix this.
 - The home-page hero is a 1280×720 video frame, slightly soft on large screens.
-- `public/img` holds about 39 MB of generated images. That's fine for static hosting; unchanged images are skipped when it regenerates.
+- `public/img` holds about 16 MB of generated images. Unchanged images are skipped when it regenerates, and versions of deleted photos are removed. `public/audio` adds about 15 MB of recordings, which load only when played (`preload="none"`).
 - INP could not be measured in the lab. TBT, its lab proxy, is 10–20ms.
 
 ## How to re-measure

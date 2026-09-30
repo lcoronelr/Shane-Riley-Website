@@ -20,7 +20,7 @@ export default function HomePage() {
     .slice(0, 3);
   const playable = mediaItems.find((item) => item.video);
   // One of each other kind, so the teaser shows the range of work.
-  const moreMedia = (["Commentary", "Podcast", "Photo Essay"] as const)
+  const moreMedia = (["Commentary", "Interview", "Podcast"] as const)
     .map((kind) => mediaItems.find((item) => item.kind === kind && item.poster))
     .filter((item): item is MediaItem & { poster: Photo } => Boolean(item?.poster));
 
@@ -162,7 +162,7 @@ export default function HomePage() {
               </h2>
             </div>
             <p className="max-w-md text-white/75 lg:col-span-5">
-              Video reporting, interviews, short documentaries and photo essays.
+              Video packages, game commentary, interviews and podcasts.
             </p>
           </div>
 

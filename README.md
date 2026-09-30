@@ -1,17 +1,17 @@
 # Shane Riley — Sports Journalism Portfolio
 
-The portfolio of Shane Riley, a student journalist at Washington and Lee University: long-form stories, video packages, game commentary, podcasts, photo essays, biography, an HTML résumé and contact details. Built with Next.js (App Router), TypeScript and Tailwind CSS, and fully statically generated.
+The portfolio of Shane Riley, a student journalist at Washington and Lee University: long-form stories, video packages, game commentary, podcasts, biography, an HTML résumé and contact details. Built with Next.js (App Router), TypeScript and Tailwind CSS, and fully statically generated.
 
-> **Content:** stories, photos, captions and audio descriptions come from Shane's [Adobe Portfolio](https://shane-riley.myportfolio.com/about-shane-riley); videos from his [YouTube channel](https://www.youtube.com/@ShaneRileyPortfolio) and Rockbridge Report packages; the résumé from his September 2026 PDF. See [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md) to update anything.
+> **Content:** this site replaces Shane's previous portfolio; its stories, captions, audio and portrait were carried over. Videos come from his [YouTube channel](https://www.youtube.com/@ShaneRileyPortfolio) and Rockbridge Report packages, and the résumé from his September 2026 PDF. See [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md) to update anything.
 
 ## Pages
 
 | Route | What it is |
 | --- | --- |
 | `/` | Cinematic hero, featured-story magazine spread, multimedia teaser, about teaser, contact call to action |
-| `/stories` | All 11 stories in authored order, with a lead story and a three-column grid |
-| `/stories/[slug]` | Long-form article: byline, captions, pull quotes, lightbox galleries, click-to-load video, share controls, reading progress |
-| `/multimedia` | Video packages, game-commentary playlists, podcasts and photo essays, with a keyboard-accessible lightbox |
+| `/stories` | All 11 stories, plus links to Shane's articles at The Ring-tum Phi and the Rockbridge Report |
+| `/stories/[slug]` | Long-form article: byline, visible photo captions, floated photos and justified galleries (with a lightbox), click-to-load video, audio, share controls, reading progress |
+| `/multimedia` | Video packages, game-commentary playlists, and podcasts and audio |
 | `/about` | Biography, portrait, interests, experience timeline |
 | `/resume` | Printable HTML résumé with a Download PDF button (`public/resume/shane-riley-resume.pdf`) |
 | `/contact` | Email link, copy-address button and social profiles (no form, no data collection) |
@@ -62,9 +62,10 @@ All editable content lives in `src/content/`:
 | --- | --- |
 | `site.ts` | Name, tagline, short bio, location, email, profile links |
 | `stories.ts` | Stories (typed blocks: paragraphs, headings, quotes, images, galleries, video) |
-| `multimedia.ts` | Video packages, commentary playlists, podcasts and photo essays |
+| `multimedia.ts` | Video packages, commentary playlists, podcasts and audio |
+| `published.ts` | Links to Shane's articles at other outlets (Stories page) |
 | `resume.ts` | About-page biography and interests; résumé profile, education, experience, skills, phone, PDF path |
-| `photos.ts` | Portrait, home-page hero and photo-essay photos with alt text, captions and credits |
+| `photos.ts` | Portrait and home-page hero |
 
 Step-by-step instructions are in [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md).
 

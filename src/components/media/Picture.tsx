@@ -63,13 +63,13 @@ export function Caption({
   if (!photo.caption && !photo.credit) return null;
   return (
     <figcaption
-      className={`mt-3 flex flex-col gap-1 text-step--1 sm:flex-row sm:justify-between sm:gap-6 ${
+      className={`mt-3 flex flex-col gap-1 text-step--1 leading-snug ${
         tone === "dark" ? "text-slate-light" : "text-slate-ink"
       } ${className}`}
     >
-      {photo.caption && <span className="max-w-prose">{photo.caption}</span>}
+      {photo.caption && <span>{photo.caption}</span>}
       {photo.credit && (
-        <span className="shrink-0 text-[0.75rem] tracking-[0.02em] uppercase">
+        <span className="text-[0.75rem] tracking-[0.02em] uppercase">
           {photo.credit}
         </span>
       )}

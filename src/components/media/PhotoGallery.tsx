@@ -5,98 +5,106 @@ import { AnimatePresence, m } from "motion/react";
 import Image from "next/image";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
+import { Caption } from "@/components/media/Picture";
 import type { Photo } from "@/content/types";
 
+/** Splits photos into rows of at most three, keeping rows as even as possible. */
+function toRows<T>(items: T[]): T[][] {
+  if (items.length <= 3) return [items];
+  const rowCount = Math.ceil(items.length / 3);
+  const base = Math.floor(items.length / rowCount);
+  let extra = items.length % rowCount;
+  const rows: T[][] = [];
+  let start = 0;
+  for (let r = 0; r < rowCount; r++) {
+    const size = base + (extra-- > 0 ? 1 : 0);
+    rows.push(items.slice(start, start + size));
+    start += size;
+  }
+  return rows;
+}
+
 /**
- * Grid of thumbnails that open a full-screen lightbox. The lightbox is a
- * native modal <dialog>, which provides focus containment, Escape to close
- * and an inert page behind it. Arrow keys and swipes move between photos.
+ * Photos laid out in justified rows: every photo in a row shares the same
+ * height at its natural shape, with equal gaps, so there is no uneven white
+ * space. Captions are always visible. Selecting a photo opens a full-screen
+ * lightbox — a native modal <dialog> with focus containment, Escape to close,
+ * arrow keys and swipe between photos.
  */
 export function PhotoGallery({
   photos,
   title,
-  layout = "grid",
   tone = "light",
 }: {
   photos: Photo[];
   title: string;
-  layout?: "grid" | "strip";
   tone?: "light" | "dark";
 }) {
   const [index, setIndex] = useState<number | null>(null);
   const triggerRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const open = (i: number) => setIndex(i);
   const close = useCallback(() => {
     setIndex((current) => {
       if (current !== null) {
-        // Return focus to the thumbnail of the photo that was showing.
+        // Return focus to the photo that was showing.
         requestAnimationFrame(() => triggerRefs.current[current]?.focus());
       }
       return null;
     });
   }, []);
 
-  const mosaic = layout === "grid" && photos.length > 3;
-  const gridClass = mosaic
-    ? "grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-6"
-    : "grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3";
-
-  // Mosaic: a large lead frame with two beside it, then the remaining frames
-  // share a full row so no grid cell is left empty.
-  const remaining = photos.length - 3;
-  const cell = (i: number) => {
-    if (!mosaic) return { li: "", frame: "aspect-[4/3]" };
-    if (i === 0) return { li: "col-span-2 md:col-span-4 md:row-span-2", frame: "aspect-[4/3] md:aspect-auto md:h-full" };
-    if (i < 3) return { li: "md:col-span-2", frame: "aspect-[4/3]" };
-    const span = remaining === 1 ? "col-span-2 md:col-span-6" : remaining === 2 ? "md:col-span-3" : "md:col-span-2";
-    return { li: span, frame: remaining <= 2 ? "aspect-[4/3] md:aspect-[16/9]" : "aspect-[4/3]" };
-  };
+  const rows = toRows(photos.map((photo, i) => ({ photo, i })));
 
   return (
     <>
-      <ul className={gridClass} aria-label={`${title}: ${photos.length} photographs`}>
-        {photos.map((photo, i) => (
-          <li key={`${photo.src.src}-${i}`} className={cell(i).li}>
-            <button
-              ref={(el) => {
-                triggerRefs.current[i] = el;
-              }}
-              type="button"
-              onClick={() => open(i)}
-              className="group relative block size-full overflow-hidden bg-charcoal/10"
-              aria-label={`Open photo ${i + 1} of ${photos.length}: ${photo.alt}`}
-              aria-haspopup="dialog"
-            >
-              <span className={`relative block w-full ${cell(i).frame}`}>
-                <Image
-                  src={photo.src}
-                  alt=""
-                  fill
-                  sizes={
-                    mosaic && i === 0
-                      ? "(min-width: 48rem) 60vw, 100vw"
-                      : mosaic && remaining <= 2 && i >= 3
-                        ? "(min-width: 48rem) 50vw, 100vw"
-                        : "(min-width: 48rem) 30vw, 50vw"
-                  }
-                  placeholder="blur"
-                  className="object-cover transition-transform duration-[1400ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
-                  style={{ objectPosition: photo.focus ?? "50% 50%" }}
-                />
-              </span>
-              <span
-                aria-hidden="true"
-                className={`absolute right-2 bottom-2 grid size-9 place-items-center rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 ${
-                  tone === "dark" ? "bg-white text-charcoal" : "bg-charcoal text-white"
-                }`}
-              >
-                <Expand className="size-4" strokeWidth={1.75} />
-              </span>
-            </button>
-          </li>
+      <div className="space-y-8" role="list" aria-label={`${title}: ${photos.length} photographs`}>
+        {rows.map((row, r) => (
+          <div key={r} className="flex flex-col gap-8 sm:flex-row sm:gap-4">
+            {row.map(({ photo, i }) => {
+              const ratio = photo.src.width / photo.src.height;
+              const share = ratio / row.reduce((sum, { photo: p }) => sum + p.src.width / p.src.height, 0);
+              return (
+                <figure
+                  key={`${photo.src.src}-${i}`}
+                  role="listitem"
+                  className="min-w-0 sm:basis-0"
+                  style={{ flexGrow: ratio }}
+                >
+                  <button
+                    ref={(el) => {
+                      triggerRefs.current[i] = el;
+                    }}
+                    type="button"
+                    onClick={() => setIndex(i)}
+                    className="group relative block w-full overflow-hidden bg-charcoal/10"
+                    style={{ aspectRatio: `${photo.src.width} / ${photo.src.height}` }}
+                    aria-label={`Open photo ${i + 1} of ${photos.length}: ${photo.alt}`}
+                    aria-haspopup="dialog"
+                  >
+                    <Image
+                      src={photo.src}
+                      alt=""
+                      fill
+                      sizes={`(min-width: 72rem) ${Math.round(68 * share)}rem, (min-width: 40rem) ${Math.round(100 * share)}vw, 100vw`}
+                      placeholder="blur"
+                      className="object-cover transition-transform duration-[1400ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className={`absolute right-2 bottom-2 grid size-9 place-items-center rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 ${
+                        tone === "dark" ? "bg-white text-charcoal" : "bg-charcoal text-white"
+                      }`}
+                    >
+                      <Expand className="size-4" strokeWidth={1.75} />
+                    </span>
+                  </button>
+                  <Caption photo={photo} tone={tone} className="mt-2.5" />
+                </figure>
+              );
+            })}
+          </div>
         ))}
-      </ul>
+      </div>
       <Lightbox photos={photos} title={title} index={index} onIndex={setIndex} onClose={close} />
     </>
   );

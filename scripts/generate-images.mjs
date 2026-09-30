@@ -9,7 +9,7 @@
  * Runs automatically before `dev`, `build` and `typecheck`. Unchanged images
  * are skipped, so repeat runs are fast.
  */
-import { mkdir, readdir, stat, writeFile } from "node:fs/promises";
+import { mkdir, readdir, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -66,5 +66,17 @@ for await (const file of walk(assetsDir)) {
   }
 }
 
+// Remove variants whose source image no longer exists.
+const expected = new Set(Object.entries(manifest).flatMap(([base, ws]) => ws.map((w) => `${base}-${w}.webp`)));
+let removed = 0;
+for (const file of await readdir(outDir)) {
+  if (!expected.has(file)) {
+    await rm(path.join(outDir, file));
+    removed++;
+  }
+}
+
 await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`images: ${Object.keys(manifest).length} sources, ${written} variants written to public/img`);
+console.log(
+  `images: ${Object.keys(manifest).length} sources, ${written} variants written, ${removed} stale removed (public/img)`,
+);

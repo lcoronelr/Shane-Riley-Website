@@ -2,30 +2,33 @@
 
 Everything a visitor reads lives in `src/content/`. Edit those files, then run `npm run dev` to preview, or `npm run typecheck` to validate. A mistake such as a missing alt text or an unknown topic stops the build with a clear error, so broken content can't ship.
 
+This site replaces Shane's previous portfolio. Its material (stories, captions, audio, portrait) was carried over, but nothing on the site links back to the old one.
+
 ## Where the current content came from
 
 | Content | Source |
 | --- | --- |
-| Name, email, location, phone, education, experience, skills | Shane's résumé PDF (September 2026), also offered as a download at `public/resume/shane-riley-resume.pdf` |
-| About-page biography | Shane's Adobe Portfolio "About" text, plus facts from the résumé |
-| 11 stories (text and photos) | Shane's Adobe Portfolio "Articles" section |
-| Video packages, commentary playlists, podcasts | Shane's YouTube channel (@ShaneRileyPortfolio), Rockbridge Report packages, and the portfolio's Video and Audio pages |
-| Photo essays (Heliotrope, Reid Hall) and their captions | Shane's Adobe Portfolio "Photography" page |
-| Portrait | The photo on Shane's Adobe Portfolio "Video" page |
+| Name, email, location, phone, education, experience, skills | Shane's résumé PDF (September 2026), offered as a download at `public/resume/shane-riley-resume.pdf` |
+| About-page biography, portrait | The previous portfolio's About and Video pages, plus facts from the résumé |
+| 11 stories: text, photos and photo captions | The previous portfolio's Articles section |
+| Three podcast recordings (`public/audio/`) | The previous portfolio's Audio page, now hosted on this site |
+| Video titles and descriptions | Shane's YouTube channel (@ShaneRileyPortfolio) and his Rockbridge Report stories |
+| "More published work" on the Stories page | Shane's author pages at The Ring-tum Phi and the Rockbridge Report (`src/content/published.ts`) |
 | Video posters | Each video's own YouTube thumbnail, saved locally |
 
 ### Things worth checking
 
-- **Photo rights and credits.** Some story photos appear to be supplied or agency images rather than Shane's own, for example the Top Rank boxing photos, the Team USA field hockey and rowing images, and the Navy football photo. They were used this way on the portfolio, but no credit lines came with them. Add a `credit` (see "Add photographs") wherever one is known, or replace any photo that can't be credited.
-- **Headlines.** Three portfolio titles were lightly tidied: "Matt Miller Feature" became "Matt Miller", "Tatafu Polota-Nau Feature" became "Tatafu Polota-Nau", and "Ed Kashi W&L Visit" became "Ed Kashi's Visit to W&L". Change `title` in `stories.ts` to revert.
-- **Where stories first ran.** Only the Isaac Hibbard profile names its publication (Playbook, Winter 2025). If others ran in The Ring-tum Phi, the Rockbridge Report or elsewhere, add `publication` and `originalUrl`.
+- **Photo rights and credits.** Credits from the original posts are shown under every photo (e.g. "Courtesy of Mikey Williams/Top Rank"). Two caption typos were fixed ("Coutesy", "Polata-Nau").
+- **The résumé PDF** still lists the old portfolio address at the top. Upload a new PDF to `public/resume/shane-riley-resume.pdf` once that line is updated.
+- **Headlines.** Three titles were lightly tidied: "Matt Miller Feature" became "Matt Miller", "Tatafu Polota-Nau Feature" became "Tatafu Polota-Nau", and "Ed Kashi W&L Visit" became "Ed Kashi's Visit to W&L". Change `title` in `stories.ts` to revert.
 - **Phone number.** It appears on the résumé page and in the PDF. Remove `phone` from `resume.ts` (and use a PDF without it) to keep it off the public site.
-- **Dates.** Stories have no `published` date, because the portfolio only gave years. Dates are never shown on the site; adding exact ones enables article structured data for search engines.
+- **Dates.** Stories have no `published` date, because the old portfolio only gave years. Dates are never shown on the site; adding exact ones enables article structured data for search engines.
+- **Archived photo essays.** The Heliotrope and Reid Hall photo essays were taken off the Multimedia page. Their photos are kept in `archive/photo-essays/`, which isn't published.
 
 ## Add photographs
 
 1. Put the file in `src/assets/photos/` (story photos in `src/assets/photos/stories/`). Use JPEG or PNG, ideally **at least 2400px on the long edge**, and don't pre-shrink it. Every file name must be unique across `src/assets`.
-2. Run `npm run images`, or just `npm run dev` or `npm run build`, which do it automatically. This writes resized WebP versions to `public/img/`.
+2. Run `npm run images`, or just `npm run dev` or `npm run build`, which do it automatically. This writes resized WebP versions to `public/img/` and deletes versions of photos you've removed.
 3. Import the photo where you use it:
 
    ```ts
@@ -34,15 +37,13 @@ Everything a visitor reads lives in `src/content/`. Edit those files, then run `
    const photo = {
      src: ringWalk,
      alt: "A boxer walks to the ring through a tunnel of fans holding up phones.",
-     caption: "Walkout before the main event, Scope Arena, March 2026.",
-     credit: "Shane Riley",
-     focus: "50% 35%", // optional: what stays in frame when cropped
+     caption: "Walkout before the main event, Scope Arena",
+     credit: "Photo by Shane Riley",
+     focus: "50% 35%", // optional: what stays in frame when the photo is cropped (cards)
    };
    ```
 
-**Alt text** describes what is in the picture for someone who can't see it, in one sentence. **Captions** add the journalism: who, where, when. Credit the photographer and keep any licence terms.
-
-Small or portrait photos are shown near their natural size rather than stretched full width, so they stay sharp. Larger originals therefore always look better.
+**Alt text** describes what is in the picture for someone who can't see it, in one sentence. **Captions** add the journalism: who, where, when. Captions and credits always show under the photo.
 
 ## Publish a story
 
@@ -59,23 +60,41 @@ Add an object to the `stories` array in `src/content/stories.ts`. Stories appear
   published: "2025-06-14",                // optional, exact date only; never displayed
   publication: "The Ring-tum Phi",        // optional: where it first ran
   originalUrl: "https://…",               // optional: link to the original
-  hero: { src: ringWalk, alt: "…" },
+  hero: { src: ringWalk, alt: "…", caption: "…", credit: "…" }, // photo at the top of the story
+  heroRow: [photoA, photoB],              // optional: two or three photos side by side at the top instead
+  cover: { src: …, alt: "…" },            // optional: a different photo for story cards and link previews
   featured: 2,                            // optional: position on the home page (1 = lead)
-  body: [
-    { type: "paragraph", text: "…" },
-    { type: "heading", text: "A subheading or Q&A question" },
-    { type: "quote", text: "A pull quote.", attribution: "Name, role" },
-    { type: "image", photo: { src: ringWalk, alt: "…" }, size: "wide" }, // size: "inline" (default) | "wide"
-    { type: "gallery", title: "Fight night", photos: [/* two or more photos */] },
-    { type: "video", video: { kind: "embed", provider: "youtube", id: "…", title: "…", poster: { src: …, alt: "…" } } },
-    { type: "divider" },
-  ],
+  body: [/* blocks, see below */],
 }
 ```
 
-- **Home page.** Four stories carry a `featured` number: 1 leads the spread and 2–4 sit beside it. The next three unfeatured stories fill the "More stories" row.
+### Story blocks
+
+| Block | Use |
+| --- | --- |
+| `{ type: "paragraph", text }` | Body text |
+| `{ type: "heading", text }` | Subheading or Q&A question |
+| `{ type: "quote", text, attribution }` | Large pull quote |
+| `{ type: "image", photo, size }` | One photo. `size` is `"inline"` (fills the text column), `"wide"` (breaks out of it), or `"left"` / `"right"` (floats beside the text on larger screens; best for portrait photos, with at least three or four paragraphs after it) |
+| `{ type: "gallery", photos }` | Two or more photos side by side. Rows are justified: every photo in a row has the same height at its natural shape, with equal gaps. More than three photos wrap into balanced rows |
+| `{ type: "video", video }` | Click-to-load video (see "Embed a video") |
+| `{ type: "audio", audio: { src, title, duration, description } }` | Audio player for a file in `public/audio/` |
+| `{ type: "divider" }` | A short rule between sections |
+
+**Layout tips.** Alternate floated photos left and right, and give each one enough following text to wrap around. Galleries, videos, audio and inline photos always start below any floated photo, so nothing overlaps.
+
+- **Home page.** Four stories carry a `featured` number: 1 leads the spread and 2–4 sit beside it.
 - **Drafts.** Set `placeholder: true` on a story that isn't ready. It's labelled "Draft", marked `noindex`, and kept out of the sitemap.
-- **Republishing.** If you don't hold the rights to republish a story in full, publish a short summary with `originalUrl` linking to the original, as the Hibbard profile does.
+
+## Published elsewhere
+
+The Stories page lists Shane's articles at The Ring-tum Phi and the Rockbridge Report, from `src/content/published.ts`. Add a new article at the top of the right outlet's `articles` list:
+
+```ts
+{ title: "…", url: "https://…", summary: "One sentence." }
+```
+
+To add another outlet, add a new `{ name, authorUrl, articles }` entry.
 
 ## Embed a video
 
@@ -86,25 +105,38 @@ Videos show a local poster, and nothing loads from the video host until the visi
 ```ts
 video: {
   kind: "embed",
-  provider: "youtube",            // played from youtube-nocookie.com
+  provider: "youtube",
   id: "aJX64OC45xk",
   title: "W&L's Mary Schleusner sets two Division III women's hoops records",
   poster: { src: poster, alt: "…" },
-  duration: "2:41",               // optional
-  captions: true,                 // optional; omit if unknown and the player makes no claim
+  duration: "1:51",               // optional, shown on the play button
   transcript: "Full transcript…", // optional, shown in an expandable panel
 }
 ```
 
 **YouTube playlist:** use `provider: "youtube-playlist"` and the playlist ID (the `list=` value, starting with `PL`). The nine game-commentary entries work this way.
 
-**Vimeo:** use `provider: "vimeo"` and the numeric ID (played with Do Not Track on).
+**Vimeo:** use `provider: "vimeo"` and the numeric ID.
 
-**Self-hosted files** (short clips): put `clip.mp4` and optionally `clip.en.vtt` in `public/video/`, then use `{ kind: "file", src: "/video/clip.mp4", captionsSrc: "/video/clip.en.vtt", title: "…", poster: … }`.
+**Self-hosted video files:** put `clip.mp4` (and optionally `clip.en.vtt` captions) in `public/video/`, then use `{ kind: "file", src: "/video/clip.mp4", captionsSrc: "/video/clip.en.vtt", title: "…", poster: … }`. Use this to replace a YouTube video that has a problem, such as missing audio.
 
-**Posters.** To use a video's own thumbnail as the poster, download `https://i.ytimg.com/vi/<id>/maxresdefault.jpg` (or `hqdefault.jpg`) into `src/assets/posters/`. Posters are served locally, never hot-linked, so no request goes to YouTube before play.
+**Posters.** To use a video's own thumbnail, download `https://i.ytimg.com/vi/<id>/maxresdefault.jpg` (or `hqdefault.jpg`) into `src/assets/posters/`.
 
-Only YouTube and Vimeo are allowed by the Content Security Policy. Adding another provider means updating `VideoPlayer.tsx` and the CSP in `next.config.ts`.
+## Audio
+
+Put the file (MP3, M4A or MP4) in `public/audio/`, then add it to a story as an `audio` block, or to the Multimedia page as an item with an `audio` field:
+
+```ts
+{
+  slug: "lexington-life-john-tucker",
+  kind: "Podcast",
+  title: "Lexington Life: John Tucker",
+  description: "…",
+  audio: { src: "/audio/lexington-life-john-tucker.mp4", title: "Lexington Life: John Tucker", duration: "4:37" },
+}
+```
+
+Audio plays with the browser's own controls and downloads nothing until the listener presses play.
 
 ## Multimedia page
 
@@ -115,11 +147,10 @@ Edit `src/content/multimedia.ts`. Items appear in listed order, grouped by `kind
 | Video packages | `Video`, `Interview`, `Documentary` |
 | Game commentary | `Commentary` |
 | Podcasts & audio | `Podcast`, `Audio` |
-| Photo essays | `Photo Essay` |
 
-- The first `Video` item is featured at the top of the page and in the home-page teaser.
-- For audio that can't be embedded (the three Adobe Portfolio recordings), use `link: { href, label }` instead of `video`. The card links out and shows no play button.
-- Photo essays use `photos: [...]`; each photo's caption shows in the lightbox. The Heliotrope and Reid Hall photos live in `src/content/photos.ts`.
+- The first `Video` item is featured at the top of the page and in the home-page teaser. The item listed after it appears first under "Video packages".
+- Keep descriptions short and free of details the section already states (for example, don't repeat "Rockbridge Report package").
+- `link: { href, label }` adds an extra link under an item. The commentary entries use it for "Full playlist on YouTube".
 
 ## Résumé
 
@@ -129,9 +160,7 @@ Edit `resume` in `src/content/resume.ts`:
 - `experience` and `additionalExperience`: organizations with one or more `roles`, each with `title`, `period` and `bullets`
 - `skills`
 
-The About page timeline is built from `experience`.
-
-**PDF.** When the résumé changes, replace `public/resume/shane-riley-resume.pdf` and update `resume.ts` to match. The Download PDF button only appears when the file exists at build time.
+The About page timeline is built from `experience`. When the résumé changes, replace `public/resume/shane-riley-resume.pdf` too. The Download PDF button only appears when the file exists.
 
 ## Personal details and profile links
 
@@ -139,4 +168,4 @@ In `src/content/site.ts`: `tagline`, `shortBio`, `location`, `email`, and `socia
 
 ## Social sharing image
 
-The default Open Graph image (`src/app/opengraph-image.tsx`) is generated from the name and tagline in `site.ts`. Story pages use their hero photograph. To use a designed image instead, delete `opengraph-image.tsx` and add `src/app/opengraph-image.png` (1200 × 630).
+The default Open Graph image (`src/app/opengraph-image.tsx`) is generated from the name and tagline in `site.ts`. Story pages use their `cover` (or hero) photo. To use a designed image instead, delete `opengraph-image.tsx` and add `src/app/opengraph-image.png` (1200 × 630).

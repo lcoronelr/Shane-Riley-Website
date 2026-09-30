@@ -11,6 +11,17 @@ test.describe("story archive", () => {
     await expect(page.locator("main button")).toHaveCount(0);
   });
 
+  test("links to Shane's articles at other outlets", async ({ page }) => {
+    await page.goto("/stories");
+    const section = page.locator("#published-elsewhere");
+    await expect(section.getByRole("heading", { level: 3, name: "The Ring-tum Phi" })).toBeVisible();
+    await expect(section.getByRole("heading", { level: 3, name: "Rockbridge Report" })).toBeVisible();
+    await expect(section.locator('a[href^="https://ringtumphi.net/"]')).toHaveCount(8);
+    await expect(section.locator('a[href^="https://rockbridgereport.academic.wlu.edu/"]')).toHaveCount(14);
+    await page.getByRole("link", { name: "More published work" }).click();
+    await expect(section).toBeInViewport();
+  });
+
   test("story cards open their article", async ({ page }) => {
     await page.goto("/stories");
     await page.getByRole("link", { name: /Consistent Growth Becomes Success/ }).click();
@@ -30,14 +41,36 @@ test.describe("story page", () => {
     await expect(page.getByRole("complementary", { name: "More stories" }).locator("article")).toHaveCount(3);
   });
 
-  test("Q&A questions render as subheadings and the embedded video is click-to-load", async ({ page }) => {
+  test("Q&A questions render as subheadings; the video sits below the question about his sister", async ({ page }) => {
     await page.goto("/stories/tatafu-polota-nau");
     await expect(
       page.getByRole("heading", { level: 2, name: "When did you know it was time to hang up the cleats?" }),
     ).toBeVisible();
+    const order = await page.evaluate(() => {
+      const heading = [...document.querySelectorAll(".story-body h2")].find((h) =>
+        h.textContent === "Based on the interview below, is your sister truly a better athlete?",
+      );
+      const player = document.querySelector(".story-body button[aria-haspopup], .story-body figure button");
+      return heading && player ? heading.compareDocumentPosition(player) & Node.DOCUMENT_POSITION_FOLLOWING : 0;
+    });
+    expect(order).toBeTruthy();
     await expect(page.locator("iframe")).toHaveCount(0);
     await page.getByRole("button", { name: /^Play.*video: Rugby HQ/ }).click();
     await expect(page.locator("iframe")).toHaveAttribute("src", /youtube-nocookie\.com\/embed\/fHTuDL4Snfk/);
+  });
+
+  test("photo captions and credits from the original posts are visible", async ({ page }) => {
+    await page.goto("/stories/first-pro-fight-norfolk");
+    await expect(page.getByText("Keyshawn (Left) and Keon Davis ringside for Albright vs. Kelvin Davis")).toBeVisible();
+    await expect(page.getByText("Nahir Albright defeats Kelvin Davis in ten rounds")).toBeVisible();
+    await expect(page.getByText("Mason enters the ring")).toBeVisible();
+    await expect(page.getByText("Courtesy of Mikey Williams/Top Rank").first()).toBeVisible();
+  });
+
+  test("the FloSports story includes its audio interview", async ({ page }) => {
+    await page.goto("/stories/flosports-viewership-drop");
+    await expect(page.locator('.story-body audio source[src="/audio/flosports-ryan-connell.mp4"]')).toHaveCount(1);
+    await expect(page.getByText("Courtesy of FloSports")).toBeVisible();
   });
 
   test("magazine story links to the published edition", async ({ page }) => {

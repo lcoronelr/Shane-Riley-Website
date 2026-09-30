@@ -19,7 +19,6 @@ export const site = {
   social: [
     { label: "LinkedIn", url: "https://www.linkedin.com/in/shane-riley-4ab82b338/" },
     { label: "YouTube", url: "https://www.youtube.com/@ShaneRileyPortfolio", handle: "@ShaneRileyPortfolio" },
-    { label: "Adobe Portfolio", url: "https://shane-riley.myportfolio.com/about-shane-riley" },
     { label: "The Ring-tum Phi", url: "https://ringtumphi.net/staff_name/shane-riley/" },
     { label: "Rockbridge Report", url: "https://rockbridgereport.academic.wlu.edu/?s=shane+riley" },
   ] satisfies SocialLink[],

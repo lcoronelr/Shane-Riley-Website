@@ -1,19 +1,17 @@
 /**
  * Stories, in the order they appear on the Stories page (first = top).
- *
- * The text is Shane Riley's, carried over from his Adobe Portfolio. Stories
- * with a `featured` number appear on the home page (1 leads, 2–4 beside it).
- * See docs/CONTENT_GUIDE.md for how to add a story.
+ * Stories with a `featured` number appear on the home page (1 leads, 2–4 beside it).
+ * See docs/CONTENT_GUIDE.md for how to add a story and place photos.
  */
-import wlViewershipDropsAfterFlosportsMove1 from "@/assets/photos/stories/wl-viewership-drops-after-flosports-move-1.jpg";
-import wlViewershipDropsAfterFlosportsMove2 from "@/assets/photos/stories/wl-viewership-drops-after-flosports-move-2.jpg";
 import wlViewershipDropsAfterFlosportsMove3 from "@/assets/photos/stories/wl-viewership-drops-after-flosports-move-3.jpg";
 import wlViewershipDropsAfterFlosportsMove4 from "@/assets/photos/stories/wl-viewership-drops-after-flosports-move-4.jpg";
 import wlViewershipDropsAfterFlosportsMove5 from "@/assets/photos/stories/wl-viewership-drops-after-flosports-move-5.jpg";
-import consistentGrowthBecomesSuccessLeahCrouseFeature1 from "@/assets/photos/stories/consistent-growth-becomes-success-leah-crouse-feature-1.jpg";
+import wlViewershipDropsAfterFlosportsMove1 from "@/assets/photos/stories/wl-viewership-drops-after-flosports-move-1.jpg";
+import wlViewershipDropsAfterFlosportsMove2 from "@/assets/photos/stories/wl-viewership-drops-after-flosports-move-2.jpg";
 import consistentGrowthBecomesSuccessLeahCrouseFeature2 from "@/assets/photos/stories/consistent-growth-becomes-success-leah-crouse-feature-2.jpg";
 import consistentGrowthBecomesSuccessLeahCrouseFeature3 from "@/assets/photos/stories/consistent-growth-becomes-success-leah-crouse-feature-3.jpg";
 import consistentGrowthBecomesSuccessLeahCrouseFeature4 from "@/assets/photos/stories/consistent-growth-becomes-success-leah-crouse-feature-4.jpg";
+import consistentGrowthBecomesSuccessLeahCrouseFeature1 from "@/assets/photos/stories/consistent-growth-becomes-success-leah-crouse-feature-1.jpg";
 import worldUniversityGamesMidoriGalligan2 from "@/assets/photos/stories/world-university-games-midori-galligan-2.jpg";
 import worldUniversityGamesMidoriGalligan3 from "@/assets/photos/stories/world-university-games-midori-galligan-3.jpg";
 import worldUniversityGamesMidoriGalligan4 from "@/assets/photos/stories/world-university-games-midori-galligan-4.jpg";
@@ -22,10 +20,10 @@ import mattMiller2 from "@/assets/photos/stories/matt-miller-2.jpg";
 import mattMiller3 from "@/assets/photos/stories/matt-miller-3.jpg";
 import mattMiller1 from "@/assets/photos/stories/matt-miller-1.jpg";
 import edKashiWlVisit1 from "@/assets/photos/stories/ed-kashi-wl-visit-1.jpg";
-import myFirstProfessionalFightExperience1 from "@/assets/photos/stories/my-first-professional-fight-experience-1.jpg";
 import myFirstProfessionalFightExperience2 from "@/assets/photos/stories/my-first-professional-fight-experience-2.jpg";
 import myFirstProfessionalFightExperience3 from "@/assets/photos/stories/my-first-professional-fight-experience-3.jpg";
 import myFirstProfessionalFightExperience4 from "@/assets/photos/stories/my-first-professional-fight-experience-4.jpg";
+import myFirstProfessionalFightExperience1 from "@/assets/photos/stories/my-first-professional-fight-experience-1.jpg";
 import successMeasuredByTheCulture1 from "@/assets/photos/stories/success-measured-by-the-culture-1.jpg";
 import playbookCover from "@/assets/photos/stories/playbook-cover.jpg";
 import wjmcReflection3 from "@/assets/photos/stories/wjmc-reflection-3.jpg";
@@ -50,23 +48,30 @@ export const stories: Story[] = [
     sport: "Sports Media",
     type: "News",
     featured: 2,
-    hero: { src: wlViewershipDropsAfterFlosportsMove5, alt: "A Washington and Lee volleyball player holds a trophy between two family members in an arena.", focus: "50% 30%" },
+    hero: { src: wlViewershipDropsAfterFlosportsMove1, alt: "A FloSports streaming page for a Washington and Lee women's basketball game against Averett.", caption: "Courtesy of FloSports" },
+    heroRow: [
+      { src: wlViewershipDropsAfterFlosportsMove1, alt: "A FloSports streaming page for a Washington and Lee women's basketball game against Averett.", caption: "Courtesy of FloSports" },
+      { src: wlViewershipDropsAfterFlosportsMove2, alt: "A graphic announcing the Old Dominion Athletic Conference's media rights agreement with FloSports.", caption: "Courtesy of the Old Dominion Athletic Conference" },
+    ],
+    cover: { src: wlViewershipDropsAfterFlosportsMove5, alt: "Ramon, Viviana and Nelva Vasquez hold a trophy in an arena.", caption: "Ramon Vasquez (left), Viviana Vasquez (Middle), and Nelva Vasquez (right) after the 2024 Division III Women's Volleyball Quarterfinal game", credit: "Courtesy of Viviana Vasquez", focus: "50% 72%" },
     body: [
-      {
-        type: "gallery",
-        photos: [
-          { src: wlViewershipDropsAfterFlosportsMove1, alt: "A FloSports streaming page for a Washington and Lee women's basketball game against Averett." },
-          { src: wlViewershipDropsAfterFlosportsMove2, alt: "A graphic announcing the Old Dominion Athletic Conference's media rights agreement with FloSports." },
-        ],
-      },
       { type: "paragraph", text: "Washington and Lee Athletic Communications recorded a 67% decline in fall sports viewership since the Old Dominion Athletic Conference moved its broadcasts to FloSports earlier this year." },
-      { type: "image", photo: { src: wlViewershipDropsAfterFlosportsMove3, alt: "Bar chart comparing average home-game viewership for W&L fall sports on the Generals website in 2024 and on FloSports in 2025." } },
+      { type: "image", size: "inline", photo: { src: wlViewershipDropsAfterFlosportsMove3, alt: "Bar chart comparing average home-game viewership for W&L fall sports on the Generals website in 2024 and on FloSports in 2025.", caption: "Data from the Washington and Lee Athletics Communication Office" } },
       { type: "paragraph", text: "Fall sports that W&L broadcasts include men’s and women’s soccer, football, volleyball, and field hockey. So far, FloSports data has only been collected from these sports, as the winter seasons have just begun." },
       { type: "paragraph", text: "Athletics Broadcaster and Multimedia Creative Specialist Ryan Connell, who tracks viewership numbers for every home contest, said that despite a larger audience presence on FloSports, the view numbers don’t reflect that." },
       { type: "paragraph", text: "“You have to create an account. You have to pay for it. There’s more you have to do, whereas before, you just clicked on our website and the sport you want to watch, and it just pops up,” Connell said." },
+      {
+        type: "audio",
+        audio: {
+          src: "/audio/flosports-ryan-connell.mp4",
+          title: "A conversation with Ryan Connell",
+          duration: "5:24",
+          description: "Shane talks with Ryan Connell, the W&L athletics broadcaster and multimedia creative specialist, about the state of the FloSports streaming service in the ODAC.",
+        },
+      },
       { type: "paragraph", text: "W&L broadcasted 50 home contests last year and 42 this year. Standardizing this season’s viewership with the previous year’s reveals 19,925 fewer total viewers for this fall season." },
       { type: "paragraph", text: "Each sport experienced significant declines in views, especially when comparing the most-viewed game from this year to last year. Most notably, volleyball’s most-viewed game this season had 93% fewer viewers than last year — a difference of 1,221 viewers." },
-      { type: "image", photo: { src: wlViewershipDropsAfterFlosportsMove4, alt: "Bar chart comparing the most-viewed home game for each W&L fall sport in 2024 and 2025." } },
+      { type: "image", size: "inline", photo: { src: wlViewershipDropsAfterFlosportsMove4, alt: "Bar chart comparing the most-viewed home game for each W&L fall sport in 2024 and 2025.", caption: "Data from the Washington and Lee Athletics Communication Office" } },
       { type: "paragraph", text: "Viviana Vasquez ’27, a defensive specialist on W&L’s volleyball team, said she wishes streaming had stayed on W&L’s athletics website." },
       { type: "paragraph", text: "“I’d rather people be able to watch me for free,” she said." },
       { type: "paragraph", text: "FloSports offers users several plan options, including an annual subscription that costs $8.99 per month and a monthly subscription that costs $19.99 per month, as stated on the FloSports website. Accounts with an email address ending in .edu receive a discount." },
@@ -76,6 +81,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "The paywall model has provided each school, through a revenue share, with a five-figure payment at various points throughout the year to assist with production." },
       { type: "paragraph", text: "Vasquez’s father, Ramon Vasquez, said he understands the deal was made for financial incentives, but doesn’t see any difference with FloSports." },
       { type: "paragraph", text: "“We’re paying now, that’s the only difference. It’s the same video as before and the same announcers — nothing different,” he said." },
+      { type: "image", size: "right", photo: { src: wlViewershipDropsAfterFlosportsMove5, alt: "Ramon, Viviana and Nelva Vasquez hold a trophy in an arena.", caption: "Ramon Vasquez (left), Viviana Vasquez (Middle), and Nelva Vasquez (right) after the 2024 Division III Women's Volleyball Quarterfinal game", credit: "Courtesy of Viviana Vasquez", focus: "50% 72%" } },
       { type: "paragraph", text: "Each school is responsible for production quality and uses its own software. FloSports is now just the destination where the streams are broadcast, with little production input on its end." },
       { type: "paragraph", text: "Connell said most schools’ streaming quality does not meet the price tag FloSports is charging." },
       { type: "paragraph", text: "“Sometimes you don’t even see the play or can’t tell who the people are on the field,” he said. “We can’t even do it right when it’s free. Now we’re going to make people pay for something that is not consistently good.”" },
@@ -104,9 +110,9 @@ export const stories: Story[] = [
     sport: "Field Hockey",
     type: "Profile",
     featured: 1,
-    hero: { src: consistentGrowthBecomesSuccessLeahCrouseFeature4, alt: "U.S. women's field hockey players celebrate together on a blue pitch." },
+    hero: { src: consistentGrowthBecomesSuccessLeahCrouseFeature1, alt: "Leah Crouse poses wrapped in an American flag against a blue backdrop.", caption: "Crouse poses for a national team photo", credit: "Courtesy of Leah Crouse", focus: "50% 20%" },
+    cover: { src: consistentGrowthBecomesSuccessLeahCrouseFeature4, alt: "U.S. women's field hockey players celebrate a goal together on a blue pitch.", caption: "Crouse celebrates a goal with her team on the field", credit: "Courtesy of Leah Crouse" },
     body: [
-      { type: "image", photo: { src: consistentGrowthBecomesSuccessLeahCrouseFeature1, alt: "A U.S. women's field hockey player poses wrapped in an American flag against a blue backdrop." } },
       { type: "paragraph", text: "Leah Crouse and the USA women’s field hockey team entered the 2024 Paris Olympics qualification round in Ranchi, India, ranked sixth out of eight attending national teams. The team would finish second, falling 2-0 to Germany, but booked its spot in the Olympics after the team had failed to qualify for the 2020 Tokyo Olympics." },
       { type: "paragraph", text: "“I think all of us were so emotional cause for my whole team, it was our first Olympics,” Crouse said." },
       { type: "paragraph", text: "For Crouse, fulfilling her lifelong dream of making the Olympics allowed her to meet athletes she had always idolized, like Steph Curry, Katie Ledecky, Sha’Carri Richardson, and Breanna Stewart." },
@@ -115,6 +121,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "She believes growing up in Virginia Beach provided her with excellent opportunities to become a star athlete." },
       { type: "paragraph", text: "“Some of the coaches I had, I am still very close with. They really helped me grow not just my work ethic, but a real passion for the game,” Crouse said. “I was always encouraged to be outside and keep moving. The beach, parks, and everything... it just was an exceptional place to grow up.”" },
       { type: "paragraph", text: "Crouse gained her first international playing experience in high school when she represented the U-17 United States team." },
+      { type: "image", size: "left", photo: { src: consistentGrowthBecomesSuccessLeahCrouseFeature2, alt: "Leah Crouse sits in a director's chair in front of a Team USA backdrop.", caption: "Crouse sits in front of a Team USA logo", credit: "Courtesy of Leah Crouse" } },
       { type: "paragraph", text: "At the conclusion of her high school career, she attended Duke University to play field hockey." },
       { type: "paragraph", text: "“I visited a bunch of schools. Duke was definitely the one for me just because of the combination it had of academics and athletics,” Crouse said." },
       { type: "paragraph", text: "Crouse represented the United States again, this time while in college, at the U19 and U21 levels. As she gained experience gradually, some of her teammates outright made the senior team." },
@@ -125,6 +132,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "Crouse finished her Duke career with 18 goals and 16 assists for 52 career points. She also earned an All-ACC second-team selection in 2019." },
       { type: "paragraph", text: "Her collegiate career continued for one graduate season at the University of Maryland." },
       { type: "paragraph", text: "She experienced the most team success she would in college during the 2022 season, when Maryland made the Final Four before falling to Northwestern University. Crouse finished with 10 goals and 5 assists for 25 total points." },
+      { type: "image", size: "right", photo: { src: consistentGrowthBecomesSuccessLeahCrouseFeature3, alt: "Leah Crouse and teammates pose in front of the Olympic rings.", caption: "Crouse and some of her teammates in front of an Olympic logo statue", credit: "Courtesy of Leah Crouse" } },
       { type: "paragraph", text: "She also had extra motivation during her time with the Terrapins." },
       { type: "paragraph", text: "“My Dad ran track at Maryland. It felt really cool to see him bring out his Maryland pride,” she said." },
       { type: "paragraph", text: "Crouse’s dad has been the biggest positive influence in her career. She said he has always encouraged her and been the biggest cheerleader, not just for her but for everyone on every team she has played on." },
@@ -136,6 +144,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "The 2024 Paris Olympics remain her most cherished accomplishment despite the United States finishing ninth." },
       { type: "paragraph", text: "“I compare it to being a kid in a candy store. It’s like an athlete version of that,” Crouse said. “I think I’m still processing what it was like to step on the field... the ability to represent" },
       { type: "paragraph", text: "America has been a big thing for me, but to be able to do it on a stage like that was unbelievable.”" },
+      { type: "image", size: "inline", photo: { src: consistentGrowthBecomesSuccessLeahCrouseFeature4, alt: "U.S. women's field hockey players celebrate a goal together on a blue pitch.", caption: "Crouse celebrates a goal with her team on the field", credit: "Courtesy of Leah Crouse" } },
       { type: "paragraph", text: "Since her Olympic experience, Crouse's career has continued to develop, giving her more opportunities for success." },
       { type: "paragraph", text: "She recently played for HC Oranje-Rood, a club team based in Eindhoven, Netherlands, where she was one of only two Americans in the league." },
       { type: "paragraph", text: "The U.S. field hockey team also qualified for the 2026 International Hockey Federation World Cup after a silver finish in the 2025 Pan American Cup." },
@@ -143,13 +152,6 @@ export const stories: Story[] = [
       { type: "paragraph", text: "“I don’t think I’ve reached my potential yet. I still have a lot of room to grow, and a great coaching staff and teammates pushing me to get there,” she said." },
       { type: "paragraph", text: "Her aspirations outside of field hockey are also developing well. She is in EMT school and said her mom has influenced her passion for medicine and helping others." },
       { type: "paragraph", text: "“After my hockey career, I do really want to go to medical school,” Crouse said." },
-      {
-        type: "gallery",
-        photos: [
-          { src: consistentGrowthBecomesSuccessLeahCrouseFeature2, alt: "An athlete in Team USA apparel sits in a director's chair in front of a Team USA backdrop." },
-          { src: consistentGrowthBecomesSuccessLeahCrouseFeature3, alt: "Members of the U.S. women's field hockey team pose in front of the Olympic rings." },
-        ],
-      },
     ],
   },
   {
@@ -159,9 +161,8 @@ export const stories: Story[] = [
     excerpt: "From no rowing experience to representing the United States, Midori Galligan stepped outside her comfort zone and has reaped the rewards",
     sport: "Rowing",
     type: "Profile",
-    hero: { src: worldUniversityGamesMidoriGalligan1, alt: "A U.S. rower in team kit carries an oar over her shoulder.", focus: "50% 25%" },
+    hero: { src: worldUniversityGamesMidoriGalligan1, alt: "Midori Galligan carries a rowing shell's oar over her shoulder in team kit.", caption: "Galligan carries the boat, getting ready to enter the water", credit: "Courtesy of Midori Galligan", focus: "50% 25%" },
     body: [
-      { type: "image", photo: { src: worldUniversityGamesMidoriGalligan2, alt: "A rower in a Team USA jacket signs an autograph for two young fans." } },
       { type: "paragraph", text: "Before her first-year move-in at George Mason University, Midori Galligan’s parents encouraged her to try new things and put herself out there — advice many new students have heard countless times. Keeping that in mind, while walking to class one day, she was flagged down by Molly Gredel of the GMU rowing team, who said, “You need to join!”" },
       { type: "paragraph", text: "After some initial hesitancy, Galligan decided to take the risk and follow her parents’ advice." },
       { type: "paragraph", text: "“The opportunity to try and be a Division I athlete in a sport that’s willing to take me and teach me from the ground up seemed like a really cool opportunity,” Galligan said." },
@@ -174,6 +175,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "Following her return to soccer in her junior year and the completion of her high school career, Galligan decided to attend George Mason University to study kinesiology and eventually join the rowing team." },
       { type: "paragraph", text: "“I just wanted to prove myself as an athlete,” Galligan said. “I wanted the coaches to know that I have an athletic background and to think that I am driven by what I aspire to do.”" },
       { type: "paragraph", text: "Walking into tryouts, she immediately noticed a large group of girls waiting for their chance to showcase their abilities. The crowd intimidated her, but she did her best to remain composed." },
+      { type: "image", size: "right", photo: { src: worldUniversityGamesMidoriGalligan2, alt: "Midori Galligan signs an autograph for two young fans.", caption: "Galligan signs an autograph for a local spectator", credit: "Courtesy of Midori Galligan" } },
       { type: "paragraph", text: "“It’s really funny because the girls that I sat next to ended up being my best friends now,” she said." },
       { type: "paragraph", text: "The tryouts lasted two weeks, with the first week exclusively indoors. Prospective rowers spent time learning technique on the ergometers. In the second week, the athletes were introduced to GMU’s boathouse and the boats the team uses." },
       { type: "paragraph", text: "After the two weeks had concluded, Galligan had impressed the coaching staff with her form." },
@@ -189,6 +191,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "She celebrated with her teammates and coaches, most of whom didn’t even know she had applied." },
       { type: "paragraph", text: "Training for the Games began in June, leaving her a quick turnaround to confirm her participation. Before camp, Galligan received significant support from teammates, family, and friends back in Chesapeake." },
       { type: "paragraph", text: "“I had so many teammates from Mason and the community in Chesapeake who were willing to have me at their place or let me train on the Occoquan,” she said." },
+      { type: "image", size: "inline", photo: { src: worldUniversityGamesMidoriGalligan3, alt: "A women's four rows on a calm, tree-lined river.", caption: "Galligan and her team prepare for the race on the water", credit: "Courtesy of Midori Galligan" } },
       { type: "paragraph", text: "The camp was held in Ypsilanti, Michigan. Most days featured two training sessions. Galligan and her teammates spent nearly all their time together developing chemistry." },
       { type: "paragraph", text: "That off-water connection helped ease the “imposter syndrome” she felt." },
       { type: "paragraph", text: "“I felt a little underprepared in the sense that I’ve never done anything like this before,” Galligan said. “I noticed that once I felt more comfortable outside the boat, I didn’t feel like I had to prove myself inside the boat.”" },
@@ -200,6 +203,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "On race day, remembering the tree helped calm her. She even surprised herself with how ready she felt." },
       { type: "paragraph", text: "“I remember looking out and seeing a red, white, and blue blade. Then it hit me — I’m wearing the uniform,” Galligan said. “I’m nervous because I care about it, not because I don’t feel capable. I tried very hard just to be in the boat.”" },
       { type: "paragraph", text: "The United States finished fifth in the Women’s Four Final B. Despite the result, Galligan had no regrets." },
+      { type: "image", size: "inline", photo: { src: worldUniversityGamesMidoriGalligan4, alt: "The U.S. rowing team poses together beside the regatta course.", caption: "USRowing 2025 World University Games team picture", credit: "Courtesy of Midori Galligan" } },
       { type: "paragraph", text: "“I got off, and there was no part of me that was disappointed. I did everything that I could because physically I was feeling it, so that was awesome,” she said." },
       { type: "paragraph", text: "Representing the United States and GMU internationally is an experience she’s still processing. Growing up, she watched many U.S. soccer games and admired players who wore the crest, though she never imagined doing something similar." },
       { type: "paragraph", text: "“The fact that I could represent the U.S. in rowing is interesting to me and hard to wrap my head around sometimes,” Galligan said." },
@@ -207,13 +211,6 @@ export const stories: Story[] = [
       { type: "paragraph", text: "Galligan learned a lot about herself and her capabilities through the Games. She hopes to pay it forward to her GMU teammates. Her future goals include making the U23 national team and qualifying for next summer’s World University Championships, also overseen by FISU." },
       { type: "paragraph", text: "The most important thing she learned goes back to that conversation she had with her parents before college." },
       { type: "paragraph", text: "“College is the perfect time to step outside your comfort zone,” she said. “Don’t be afraid to overbook yourself a little, try new things, and feel a little uncomfortable because that’s where real growth happens. Push beyond your bubble, and you’ll open the door to bigger opportunities. You’ll surprise yourself with what you’re capable of and discover strengths you never knew you had.”" },
-      {
-        type: "gallery",
-        photos: [
-          { src: worldUniversityGamesMidoriGalligan3, alt: "A women's four rows on a calm, tree-lined river." },
-          { src: worldUniversityGamesMidoriGalligan4, alt: "The U.S. rowing team poses together beside a regatta course." },
-        ],
-      },
     ],
   },
   {
@@ -224,7 +221,7 @@ export const stories: Story[] = [
     sport: "Rowing",
     type: "Profile",
     featured: 3,
-    hero: { src: mattMiller1, alt: "A U.S. men's rowing crew poses with medals on a dock at a 2014 regatta." },
+    hero: { src: mattMiller1, alt: "A U.S. men's rowing crew poses with medals on a dock at a 2014 regatta.", caption: "Miller and the USRowing team at the 2014 World Rowing Cup II - Aiguebelette, France", credit: "Courtesy of Matt Miller" },
     body: [
       { type: "paragraph", text: "While training at Princeton for the USRowing national team, Matt Miller was setting U.S. records and establishing himself as one of the top men’s rowers. At the same time, he encountered the freshman coach from Harvard who had brought him on a recruiting trip. Harvard eventually waitlisted Miller." },
       { type: "paragraph", text: "“My teammates gave him a hard time about passing up on me, which was kind of funny,” Miller said." },
@@ -245,8 +242,8 @@ export const stories: Story[] = [
       {
         type: "gallery",
         photos: [
-          { src: mattMiller2, alt: "A rowing team in orange poses with medals and a trophy by the water, holding a Virginia flag." },
-          { src: mattMiller3, alt: "Two men in rowing club blazers stand on a village street lined with brick buildings." },
+          { src: mattMiller2, alt: "A rowing team in orange poses with medals and a trophy by the water, holding a Virginia flag.", caption: "UVA Rowing at the ACRA National Championship Regatta", credit: "Courtesy of Matt Miller" },
+          { src: mattMiller3, alt: "Matt Miller and coach Frank Biller stand on a village street in rowing club blazers.", caption: "Miller and coach Frank Biller at the Henley Royal Regatta", credit: "Courtesy of Matt Miller" },
         ],
       },
       { type: "paragraph", text: "“We had a fast boat and a great time. We were doing some training over there before, doing a little sightseeing,” Miller said. “So that was a great trip with your best friends right after graduating college, but the racing went really well too.”" },
@@ -275,7 +272,7 @@ export const stories: Story[] = [
     excerpt: "Ed Kashi's February 4, 2025, presentation in Stackhouse Theater on Washington and Lee's Campus",
     sport: "Journalism",
     type: "News",
-    hero: { src: edKashiWlVisit1, alt: "Photojournalist Ed Kashi smiles during a portrait session.", focus: "50% 30%" },
+    hero: { src: edKashiWlVisit1, alt: "Photojournalist Ed Kashi smiles during a portrait session.", caption: "Ed Kashi", credit: "Courtesy of Wikimedia Commons", focus: "50% 30%" },
     body: [
       { type: "paragraph", text: "Ed Kashi’s experience as a photojournalist and documentarian has exposed him to the harsh conditions vulnerable communities across the globe must endure. Documenting these difficult conditions and the effects on people’s lives has led to self-reflection for Kashi on the necessity of his camera work." },
       { type: "paragraph", text: "“Sometimes in this work, you think like the last thing these people need is another guy with a camera,” Kashi said. “But then the whole point of my work and the work like this that my colleagues do is to raise awareness, because you don’t want these stories to die.”" },
@@ -301,9 +298,9 @@ export const stories: Story[] = [
     sport: "Boxing",
     type: "Column",
     featured: 4,
-    hero: { src: myFirstProfessionalFightExperience4, alt: "Two boxers exchange punches in the ring under bright arena lights.", focus: "60% 50%" },
+    hero: { src: myFirstProfessionalFightExperience1, alt: "Keyshawn and Keon Davis watch from ringside.", caption: "Keyshawn (Left) and Keon Davis ringside for Albright vs. Kelvin Davis", credit: "Courtesy of Mikey Williams/Top Rank" },
+    cover: { src: myFirstProfessionalFightExperience4, alt: "Abdullah Mason and Jeremia Nakathila exchange punches in the ring under bright arena lights.", caption: "Mason and Nakathila in the Ring", credit: "Courtesy of Mikey Williams/Top Rank", focus: "60% 50%" },
     body: [
-      { type: "image", photo: { src: myFirstProfessionalFightExperience1, alt: "Two spectators watch from ringside at a boxing event." } },
       { type: "paragraph", text: "The Keyshawn vs. De Los Santos fight week in Norfolk, Virginia, did not fail to make headlines. Norfolk has hosted two Top Rank Boxing-promoted events in the last eight months, with Davis Brothers Three DB3 as the main draw." },
       { type: "paragraph", text: "Keyshawn Davis and his brothers, Kelvin and Keon, have headlined the events as the hometown heroes for the prominence they've brought to Norfolk through their fighting. Keyshawn Davis won a silver medal at the Tokyo 2020 Olympics." },
       { type: "paragraph", text: "Despite the hometown reunion, the fight week revealed Abdullah Mason as a bigger face and player moving forward in the boxing world, with Keyshawn having no one to blame but himself." },
@@ -313,20 +310,26 @@ export const stories: Story[] = [
       { type: "paragraph", text: "His promoter’s decision to stop the fight was the correct one from a safety standpoint, but Edwin’s frustration is understandable, as he wanted to take the WBO Lightweight title. De Los Santos now finds himself looking for a new promoter and, hopefully, another chance at a title fight." },
       { type: "paragraph", text: "Top Rank then moved Mason vs. Jeremia Nakathila (26-5-0) to the main event of the night to cover for the vacancy left by Keyshawn. Despite the new main event, Keyshawn Davis still managed to make the night about himself." },
       { type: "paragraph", text: "Following a hard-fought majority decision win after ten rounds by Nahir Albright (17-2-0) against Kelvin Davis (15-1-0) in the new main co-event, Keyshawn and Keon Davis (4-0-0) jumped Albright in the locker room. Police escorted Keyshawn out after the chaos." },
-      { type: "image", photo: { src: myFirstProfessionalFightExperience2, alt: "A boxer celebrates with a championship belt as his team surrounds him in the ring." } },
+      { type: "image", size: "inline", photo: { src: myFirstProfessionalFightExperience2, alt: "Nahir Albright celebrates with a championship belt as his team surrounds him in the ring.", caption: "Nahir Albright defeats Kelvin Davis in ten rounds", credit: "Courtesy of Mikey Williams/Top Rank" } },
       { type: "paragraph", text: "The evening was supposed to be a celebration and title defense in Keyshawn’s hometown. Instead, Keyshawn displayed an unserious attitude about his career and reputation, given his clear lack of focus on his fight with De Los Santos." },
       { type: "paragraph", text: "From talking trash and already moving on to provoke another title defense fight against Abdullah Mason, missing weight by over four pounds, and finally, the altercation with Nahir Albright and the police escort out of Scope Arena." },
       { type: "paragraph", text: "The weekend went about as poorly as it could have for the Davis brothers, despite Keon’s win in the ring. Their behavior exhibited during the fight week events and on fight night has greatly reduced the praise the Mayor of Norfolk, Kenneth Alexander, and the rest of the boxing world have given them. Given the fans' attitudes and media members', DB3 lost significant support by the end of fight weekend." },
       { type: "paragraph", text: "On the other end of the spectrum, Abdullah Mason had an exceptional weekend—a TKO win in five rounds against Jeremia Nakathila inside the ring, where he looked very much in control. The first and second rounds saw both fighters feeling each other out before Mason showed his speed and abilities in the next couple of rounds, before the fight was called due to a cut on Nakathila’s left eye." },
       { type: "paragraph", text: "Mason landed 51.4% of his punches compared to Nakathila’s 19.7%, with not a single jab connecting. All in all, Mason’s skills in the ring show he is poised to make a run to the top of the Lightweight division and is focused on that goal. His fight with Nakathila also became the main event following Keyshawn’s weigh-in, stealing the show in Davis’s hometown." },
-      { type: "image", photo: { src: myFirstProfessionalFightExperience3, alt: "A boxer in a turquoise robe walks toward the ring as a title belt is raised behind him." } },
+      {
+        type: "gallery",
+        photos: [
+          { src: myFirstProfessionalFightExperience3, alt: "Abdullah Mason walks toward the ring as a title belt is raised behind him.", caption: "Mason enters the ring", credit: "Courtesy of Mikey Williams/Top Rank" },
+          { src: myFirstProfessionalFightExperience4, alt: "Abdullah Mason and Jeremia Nakathila exchange punches in the ring under bright arena lights.", caption: "Mason and Nakathila in the Ring", credit: "Courtesy of Mikey Williams/Top Rank", focus: "60% 50%" },
+        ],
+      },
       { type: "paragraph", text: "Mason is on the road to being a key figure in boxing for many years to come, given how well he presents himself. Mason acts with great humility and composure. He seems to keep his emotions in check and is very respectful to everyone around him, especially other fighters." },
       { type: "paragraph", text: "He embodies the qualities of a driven and focused individual who, with the help of his four brothers and father, has all the tools he needs to become a great boxer. The weekend in Norfolk might be the propulsion into stardom for Mason." },
       { type: "paragraph", text: "As for the other memorable moments from the night, Patrick O’Connor (1-0-0) looked impressive in his professional debut. He managed to knock out Marcus Smith (2-2-0) in the second round and was in total control the entire way." },
       { type: "paragraph", text: "Deric Davis (7-0-0) took it to Naheem Parker (5-3-0) in only two rounds. He landed massive punches throughout the last two rounds before knocking out Parker." },
       { type: "paragraph", text: "Lastly, despite his antics afterwards, Keon Davis had an excellent night in the ring. He defeated Michael Velez-Garcia (3-1-0) with two quick body shots and claimed his fourth professional win." },
       { type: "paragraph", text: "This particular event was my first experience with professional boxing, and I was thrilled to be deeply immersed in what the world of boxing is like. The Davis drama certainly made for an interesting weekend, but the overall experience was very educational." },
-      { type: "paragraph", text: "Top Rank Boxing was kind enough to provide me with credentials on short notice before the fight, and they were very accommodating. I am deeply appreciative of their help, and I hope this will be the first of many boxing articles I get to share." },
+      { type: "paragraph", text: "Top Rank Boxing was kind enough to provide me with credentials on short notice before the fight, and they were very accommodating. I am deeply appreciative of their help." },
     ],
   },
   {
@@ -336,7 +339,7 @@ export const stories: Story[] = [
     excerpt: "A feature story on Washington and Lee Men's Basketball Head Coach Chris McHugh",
     sport: "Basketball",
     type: "Profile",
-    hero: { src: successMeasuredByTheCulture1, alt: "Washington and Lee men's basketball players run a drill during practice." },
+    hero: { src: successMeasuredByTheCulture1, alt: "Washington and Lee men's basketball players run a drill during practice.", caption: "McHugh coaching mid-practice during the 2024-25 season", credit: "Photo by Shane Riley" },
     body: [
       { type: "paragraph", text: "The first practice of the 2017/2018 season for the Washington and Lee University Men’s basketball team was a momentous start to a new era of Generals basketball. Newly hired Head Coach Chris McHugh could hardly sleep the night before and could barely contain his excitement." },
       { type: "paragraph", text: "He was about to begin leading his alma mater and former team to compete in a strong Old Dominion Athletic Conference. W&L’s Michael F. Walsh Director of Athletics, Jan Hathorn knew McHugh had already fallen in love with the job." },
@@ -402,7 +405,7 @@ export const stories: Story[] = [
     excerpt: "My reflection on my experience at the Washington Journalism and Media Conference at George Mason University",
     sport: "Journalism",
     type: "Reflection",
-    hero: { src: wjmcReflection2, alt: "Hundreds of conference attendees gather for a group photo in front of the U.S. Capitol." },
+    hero: { src: wjmcReflection2, alt: "Hundreds of conference attendees gather for a group photo in front of the U.S. Capitol.", caption: "2022 First Session WJMC Correspondent Group Photo", credit: "Courtesy of WJMC" },
     body: [
       { type: "heading", text: "Introduction" },
       { type: "paragraph", text: "I wish to preface this by saying WJMC time and time again proved my expectations to be incorrect. Before attending the Washington Journalism and Media Conference, I wasn't sure what to expect and was admittedly nervous. I knew beforehand that sports journalism is the field I eventually wish to pursue a career in, but other than that, I was essentially clueless as to what the field of journalism is. I wasn't sure what my 300-plus peers were going to be like and had a very vague idea of what the schedule would be for the week. In hindsight, I cannot comprehend what my insecurity about the conference was for. The week-long conference has had an effect on my aspirations, perceptions of journalism and writing, and views on my relationships with my peers in profound ways." },
@@ -415,20 +418,20 @@ export const stories: Story[] = [
       {
         type: "gallery",
         photos: [
-          { src: wjmcReflection3, alt: "A speaker stands at a podium beneath the Washington Journalism and Media Conference seal." },
-          { src: wjmcReflection4, alt: "Two students in masks play a phrase-guessing game at a museum exhibit." },
+          { src: wjmcReflection3, alt: "Shane Riley stands at the National Press Club podium beneath the conference seal.", caption: "Me standing at The National Press Club podium", credit: "Courtesy of WJMC" },
+          { src: wjmcReflection4, alt: "Two students in masks play a phrase-guessing game at Planet Word.", caption: "Guess the phrase game at Planet Word", credit: "Courtesy of WJMC" },
         ],
       },
       { type: "heading", text: "Speakers" },
       { type: "paragraph", text: "The speakers were largely the bulk of the conference, with at least one a day (excluding Thursday). Each speaker (mostly) had different talking points and different pieces of advice to share, all with their own value. However, there were a few key points every speaker touched on that they believe all aspiring and current journalists should live by and follow: networking is crucial, take risks/change can be a positive, be a good listener, a diverse skillset can advance a career faster, follow ups can make or break an opportunity, and the most stressed point being that truth takes precedence over all else. A couple of speakers took a different approach than the traditional \"talk about who I am and what I have done and am doing.\" Don't get me wrong, that kind of speech/presentation is informative and engaging, but Brian Lamb's (founder of CSPAN) and Tom Jackman's (reporter for the Washington Post) style had a much different effect. They both opted to ask us (the correspondent group) questions about journalism and media as opposed to listing their experiences in the industry. Lamb focused more on truth and our perceptions of it, while Jackman focused on our media outlets and perceptions of them. Tom Jackman also wrote our responses down and compiled them into a mini article. This style demonstrated the process of how reporters can interview as well as shared what some of the collective's opinions are on certain subjects." },
-      { type: "image", photo: { src: wjmcReflection5, alt: "A speaker talks with students in a crowded, dimly lit auditorium." } },
+      { type: "image", size: "right", photo: { src: wjmcReflection5, alt: "Tom Jackman speaks with students in a crowded, dimly lit auditorium.", caption: "Tom Jackman interviewing for his demonstrations", credit: "Photo by Shane Riley" } },
       { type: "heading", text: "My Peers" },
       { type: "paragraph", text: "Easily the best part of the conference and the most beneficial was the connections and friendships made. As I mentioned earlier, I was unsure of what everyone else at the conference was going to be like. However, as soon as I arrived at the Hub (check-in area), everyone I met, I instantly felt an association with. Meeting people was incredibly seamless. In order to divide up correspondents in an organized way, we were placed into color groups (mine being purple). This did not limit interaction with other groups, and it also gave a good opportunity to make close connections with a select group of people. I was able to do just that and became friends with some incredibly interesting and genuine people. Unfortunately, everyone is quite scattered across the country, but they made the week entertaining and worthwhile." },
       {
         type: "gallery",
         photos: [
-          { src: wjmcReflection6, alt: "Students in formal wear pose on a grand staircase." },
-          { src: wjmcReflection7, alt: "A group of students pose with props at a photo booth." },
+          { src: wjmcReflection6, alt: "Students in formal wear pose on a grand staircase at the gala.", caption: "Purple group at the gala", credit: "Courtesy of WJMC" },
+          { src: wjmcReflection7, alt: "A group of students pose with props at the gala photo booth.", caption: "Gala costume photo", credit: "Courtesy of WJMC" },
         ],
       },
       { type: "heading", text: "Personal Growth" },
@@ -446,7 +449,7 @@ export const stories: Story[] = [
     excerpt: "The former Wallaby reflects on his rugby career",
     sport: "Rugby",
     type: "Q&A",
-    hero: { src: tatafuPolotaNauFeature1, alt: "Three rugby players in light-blue club jerseys pose together at a ground on a sunny day." },
+    hero: { src: tatafuPolotaNauFeature1, alt: "Tatafu Polota-Nau and Rodney Taylor pose with a teammate in light-blue club jerseys.", caption: "Tatafu Polota-Nau (left) and Rodney Taylor (right)", credit: "Courtesy of Rodney Taylor" },
     body: [
       { type: "paragraph", text: "At the young age of 8, I was privileged to experience living in a foreign country: Australia. I had always been interested in many sports from a young age, such as baseball, and after watching rugby union, another sport was added to that list. Throughout the three years I lived there, I came to a reasonable understanding of the game and even began to enjoy it more than American football — surprisingly." },
       { type: "paragraph", text: "During this time, my dad met a family friend, Rodney Taylor, who happened to be involved with a local club, the Western Sydney Two Blues (formerly known as the Parramatta Two Blues). He shared stories from his 200-match club career, during which he met many people and players — most notably Tatafu Polota-Nau. Tatafu and Rod met in 2004 when they were both playing for the Two Blues." },
@@ -488,6 +491,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "“Not necessarily. In professional rugby, recovery is as important as working hard. I’ve started a new role in the corporate environment to pivot from rugby, challenge my skills, and discover new areas of life.”" },
       { type: "heading", text: "Are you still involved with any of your former clubs?" },
       { type: "paragraph", text: "“Not currently. My main focus is to get properly trained in my new career so I can get into a healthy routine and hopefully free up my evenings to assist my local club. But I have been approached by friends.”" },
+      { type: "heading", text: "Based on the interview below, is your sister truly a better athlete?" },
       {
         type: "video",
         video: {
@@ -502,7 +506,6 @@ export const stories: Story[] = [
           note: "Video: Rugby HQ, Fox Sports Australia.",
         },
       },
-      { type: "heading", text: "Based on an interview, is your sister truly the better athlete?" },
       { type: "paragraph", text: "“Growing up, yes. She was amazing with any ball in her hand and very quick at a young age. Unfortunately, she pursued the social side of rugby and got influenced into partying almost every weekend. But she definitely had the potential to be the world’s best back in her adolescent years.”" },
       { type: "heading", text: "What sport would you have played if not rugby union? Favorite sport outside rugby?" },
       { type: "paragraph", text: "“Probably tennis, had I had the resources to participate and be coached. I love many sports, and it’s hard to choose one. I enjoy the competitive side.”" },
@@ -513,7 +516,7 @@ export const stories: Story[] = [
       { type: "paragraph", text: "I’m jealous he’s in the 200 club because he’s played more games than me, but I’m certain he would have played even more if teammates in our area had consistently made the travel commitments, which often meant he had to back up for higher teams.”" },
       { type: "paragraph", text: "Tatafu Polota-Nau’s long career provided him with many valuable experiences and moments. Professional athletes like him dedicate years of their lives to their sport out of true commitment and love for the game. It is important for supporters and fans to not allow great careers such as Tatafu’s to fall by the wayside." },
       { type: "paragraph", text: "I would like to give a special thank you to Rodney Taylor for providing me with this interview opportunity, as well as Tatafu himself for agreeing to take part." },
-      { type: "image", photo: { src: tatafuPolotaNauFeature2, alt: "Two men in suits smile together at an outdoor event." } },
+      { type: "image", size: "inline", photo: { src: tatafuPolotaNauFeature2, alt: "Rodney Taylor and Tatafu Polota-Nau smile together in suits at an outdoor event.", caption: "Rodney Taylor (left) and Tatafu Polota-Nau (right)", credit: "Courtesy of Rodney Taylor" } },
     ],
   },
   {
@@ -523,7 +526,7 @@ export const stories: Story[] = [
     excerpt: "A look at a former Navy football player and his post-graduate life and career",
     sport: "Football",
     type: "Profile",
-    hero: { src: whereAreTheyNowTimCannada1, alt: "A Navy football player in a number 26 jersey kneels on the field holding his helmet.", focus: "50% 25%" },
+    hero: { src: whereAreTheyNowTimCannada1, alt: "Tim Cannada kneels on the field in his number 26 Navy uniform, holding his helmet.", caption: "Tim Cannada in his Navy uniform", credit: "Courtesy of Tim Cannada", focus: "50% 25%" },
     body: [
       { type: "heading", text: "Introduction" },
       { type: "paragraph", text: "Oftentimes, memories of great college athletes go by the wayside as many go down different paths other than athletics. This is especially true for athletes in the military academies, as service is required following their time at the academy. This brings me to the topic of this post and the person pictured above, Tim Cannada. He played for the Midshipmen as a Fullback during the 95-'97 seasons and made an appearance in every game during those seasons. Tim posted strong numbers year in and year out and had a breakout senior year where he put up career highs across the board. But, before I get carried away, let's take it back to where it all began." },

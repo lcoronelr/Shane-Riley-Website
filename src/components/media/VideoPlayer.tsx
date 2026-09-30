@@ -8,23 +8,20 @@ import type { Video, VideoProvider } from "@/content/types";
 
 const PROVIDERS: Record<
   VideoProvider,
-  { idPattern: RegExp; host: string; embedUrl: (id: string) => string }
+  { idPattern: RegExp; embedUrl: (id: string) => string }
 > = {
   youtube: {
     idPattern: /^[A-Za-z0-9_-]{11}$/,
-    host: "youtube-nocookie.com",
     embedUrl: (id) =>
       `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`,
   },
   "youtube-playlist": {
     idPattern: /^PL[A-Za-z0-9_-]{16,64}$/,
-    host: "youtube-nocookie.com",
     embedUrl: (id) =>
       `https://www.youtube-nocookie.com/embed/videoseries?list=${id}&autoplay=1&rel=0&playsinline=1`,
   },
   vimeo: {
     idPattern: /^\d{6,12}$/,
-    host: "player.vimeo.com",
     embedUrl: (id) =>
       `https://player.vimeo.com/video/${id}?autoplay=1&dnt=1&title=0&byline=0&portrait=0`,
   },
@@ -128,20 +125,12 @@ export function VideoPlayer({
           </div>
         )}
       </div>
-      <VideoMeta video={video} muted={muted} externalHost={validId && !active ? provider.host : undefined} />
+      <VideoMeta video={video} muted={muted} />
     </figure>
   );
 }
 
-function VideoMeta({
-  video,
-  muted,
-  externalHost,
-}: {
-  video: Video;
-  muted: string;
-  externalHost?: string;
-}) {
+function VideoMeta({ video, muted }: { video: Video; muted: string }) {
   const captionsNote =
     video.kind === "embed"
       ? video.captions === undefined
@@ -153,12 +142,11 @@ function VideoMeta({
         ? "Captions available."
         : "Captions not yet provided.";
 
+  if (!captionsNote && !video.note && !video.transcript) return null;
+
   return (
     <figcaption className={`mt-3 space-y-2 text-step--1 ${muted}`}>
-      <p className="flex flex-wrap gap-x-4 gap-y-1">
-        {captionsNote && <span>{captionsNote}</span>}
-        {externalHost && <span>Plays from {externalHost} after you press play.</span>}
-      </p>
+      {captionsNote && <p>{captionsNote}</p>}
       {video.note && <p>{video.note}</p>}
       {video.transcript && (
         <details className="group/details">

@@ -1,7 +1,7 @@
-import { ArrowUpRight, AudioLines } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
-import { PhotoGallery } from "@/components/media/PhotoGallery";
+import { AudioPlayer } from "@/components/media/AudioPlayer";
 import { VideoPlayer } from "@/components/media/VideoPlayer";
 import { ButtonLink, SectionLabel } from "@/components/ui/primitives";
 import { mediaItems, youtubeChannel } from "@/content/multimedia";
@@ -10,7 +10,7 @@ import type { MediaItem, MediaKind } from "@/content/types";
 
 export const metadata: Metadata = {
   title: "Multimedia",
-  description: `Video packages, game commentary, podcasts and photo essays by ${site.name}.`,
+  description: `Video packages, game commentary and podcasts by ${site.name}.`,
   alternates: { canonical: "/multimedia" },
   openGraph: { url: "/multimedia", title: `Multimedia — ${site.name}` },
 };
@@ -25,32 +25,32 @@ const SECTIONS: { id: string; title: string; intro: string; kinds: MediaKind[] }
   {
     id: "commentary",
     title: "Game commentary",
-    intro: "Play-by-play, color and sideline work for Washington and Lee athletics. Each playlist collects full broadcasts; commentary start times are in each video's description.",
+    intro:
+      "Play-by-play, color and sideline commentary from Washington and Lee broadcasts on the Washington and Lee Sports Network. Each player runs through the full playlist; commentary start times are in each video's description on YouTube.",
     kinds: ["Commentary"],
   },
   {
     id: "audio",
     title: "Podcasts & audio",
-    intro: "Podcasts and audio productions.",
+    intro: "Podcasts, interviews and audio productions.",
     kinds: ["Podcast", "Audio"],
   },
 ];
 
 export default function MultimediaPage() {
   const featured = mediaItems.find((i) => i.video && i.kind === "Video");
-  const essays = mediaItems.filter((i) => i.kind === "Photo Essay");
 
   return (
     <div data-surface="dark" className="grain relative -mt-header bg-charcoal text-white">
       <div className="shell relative pt-[calc(var(--spacing-header)+3rem)] pb-section sm:pt-[calc(var(--spacing-header)+4rem)]">
         <header className="grid gap-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <SectionLabel tone="dark">Watch · Listen · Look</SectionLabel>
+            <SectionLabel tone="dark">Watch · Listen</SectionLabel>
             <h1 className="hero-rise mt-5 font-serif text-step-5 font-light tracking-[-0.03em]">Multimedia</h1>
           </div>
           <div className="lg:col-span-4">
             <p className="text-step-1 leading-relaxed text-white/80">
-              Video packages, game commentary, podcasts and photo essays. Videos load only when you press play.
+              Video packages, game commentary, podcasts and audio.
             </p>
             <ButtonLink
               href={youtubeChannel}
@@ -97,36 +97,6 @@ export default function MultimediaPage() {
             </section>
           );
         })}
-
-        {essays.length > 0 && (
-          <section id="photo-essays" aria-labelledby="essays-heading" className="mt-section">
-            <div className="grid gap-4 border-b border-rule-dark pb-6 lg:grid-cols-12 lg:items-end">
-              <h2 id="essays-heading" className="font-serif text-step-3 tracking-[-0.02em] lg:col-span-6">
-                Photo essays
-              </h2>
-              <p className="text-white/70 lg:col-span-6">Photography by Shane Riley. Select a photo to read its caption.</p>
-            </div>
-            <div className="mt-12 space-y-20">
-              {essays.map((essay) => (
-                <article key={essay.slug} id={essay.slug} aria-labelledby={`${essay.slug}-title`} data-reveal>
-                  <div className="mb-6 grid gap-4 lg:grid-cols-12 lg:items-end">
-                    <div className="lg:col-span-7">
-                      <p className="kicker text-slate-light">Photo essay</p>
-                      <h3
-                        id={`${essay.slug}-title`}
-                        className="mt-3 font-serif text-step-3 font-light tracking-[-0.02em]"
-                      >
-                        {essay.title}
-                      </h3>
-                    </div>
-                    <p className="text-white/75 lg:col-span-5">{essay.description}</p>
-                  </div>
-                  {essay.photos && <PhotoGallery photos={essay.photos} title={essay.title} tone="dark" />}
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
     </div>
   );
@@ -148,28 +118,15 @@ function MediaEntry({
     <article aria-labelledby={`${item.slug}-title`}>
       {item.video ? (
         <VideoPlayer video={item.video} tone="dark" sizes={sizes} priority={priority} />
-      ) : item.link ? (
-        <a
-          href={item.link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative flex aspect-video flex-col justify-between overflow-hidden border border-rule-dark bg-white/[0.04] p-5 transition-colors duration-300 hover:bg-white/[0.08]"
-        >
-          <AudioLines aria-hidden="true" className="size-8 text-cobalt-light" strokeWidth={1.5} />
-          <span className="inline-flex items-center gap-2 text-[0.9375rem] font-medium">
-            {item.link.label}
-            <ArrowUpRight
-              aria-hidden="true"
-              className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              strokeWidth={1.75}
-            />
-            <span className="sr-only">: {item.title} (opens in a new tab)</span>
-          </span>
-        </a>
+      ) : item.audio ? (
+        <AudioPlayer audio={item.audio} tone="dark" showTitle={false} />
       ) : null}
       <div className={`mt-5 ${large ? "grid gap-4 lg:grid-cols-12" : ""}`}>
         <div className={large ? "lg:col-span-7" : ""}>
-          <p className="kicker text-cobalt-light">{item.kind}</p>
+          <p className="kicker text-cobalt-light">
+            {item.kind}
+            {item.audio?.duration && <span className="tabular ml-2 text-slate-light">{item.audio.duration}</span>}
+          </p>
           <Heading
             id={`${item.slug}-title`}
             className={`mt-3 font-serif tracking-[-0.015em] ${large ? "text-step-3 font-light" : "text-step-1 leading-snug"}`}
@@ -177,9 +134,27 @@ function MediaEntry({
             {item.title}
           </Heading>
         </div>
-        <p className={`text-white/75 ${large ? "lg:col-span-5 lg:self-end" : "mt-2 text-step--1 leading-relaxed"}`}>
-          {item.description}
-        </p>
+        {item.description && (
+          <p className={`text-white/75 ${large ? "lg:col-span-5 lg:self-end" : "mt-2 text-step--1 leading-relaxed"}`}>
+            {item.description}
+          </p>
+        )}
+        {item.link && (
+          <a
+            href={item.link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mt-3 inline-flex min-h-11 items-center gap-2 text-step--1 font-medium text-white"
+          >
+            <span className="link-draw">{item.link.label}</span>
+            <ArrowUpRight
+              aria-hidden="true"
+              className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              strokeWidth={1.75}
+            />
+            <span className="sr-only">: {item.title} (opens in a new tab)</span>
+          </a>
+        )}
       </div>
     </article>
   );

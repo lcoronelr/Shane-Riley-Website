@@ -5,7 +5,7 @@ import { expect, test } from "@playwright/test";
 
 test("résumé sections render", async ({ page }) => {
   await page.goto("/resume");
-  for (const name of ["Professional profile", "Education", "Journalism & media experience", "Additional experience", "Skills"]) {
+  for (const name of ["Profile", "Education", "Journalism & media experience", "Additional experience", "Skills"]) {
     await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
   }
   await expect(page.getByRole("button", { name: "Print résumé" })).toBeVisible();

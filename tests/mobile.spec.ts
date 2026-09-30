@@ -44,14 +44,14 @@ test("story cards open by touch", async ({ page }) => {
 });
 
 test("lightbox supports swipe", async ({ page }) => {
-  await page.goto("/multimedia");
-  await page.locator("#heliotrope").getByRole("button", { name: /^Open photo 1 of 10/ }).tap();
+  await page.goto("/stories/wjmc-reflection");
+  await page.getByRole("button", { name: /^Open photo 1 of 2/ }).first().tap();
   const dialog = page.getByRole("dialog");
-  await expect(dialog).toContainText("1 / 10");
+  await expect(dialog).toContainText("1 / 2");
   await dialog.evaluate((el) => {
     const touch = (x: number) => new Touch({ identifier: 1, target: el, clientX: x, clientY: 400 });
     el.dispatchEvent(new TouchEvent("touchstart", { touches: [touch(300)], bubbles: true }));
     el.dispatchEvent(new TouchEvent("touchend", { changedTouches: [touch(100)], bubbles: true }));
   });
-  await expect(dialog).toContainText("2 / 10");
+  await expect(dialog).toContainText("2 / 2");
 });

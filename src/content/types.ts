@@ -58,10 +58,26 @@ export type StoryBlock =
   | { type: "paragraph"; text: string }
   | { type: "heading"; text: string }
   | { type: "quote"; text: string; attribution?: string }
-  | { type: "image"; photo: Photo; size?: "inline" | "wide" }
+  /**
+   * "inline" fills the text column, "wide" breaks out of it, and "left" /
+   * "right" float beside the text on larger screens (best for portrait photos).
+   */
+  | { type: "image"; photo: Photo; size?: "inline" | "wide" | "left" | "right" }
   | { type: "gallery"; title?: string; photos: Photo[] }
   | { type: "video"; video: Video }
+  | { type: "audio"; audio: Audio }
   | { type: "divider" };
+
+/** A self-hosted audio recording under /public, played with native controls. */
+export interface Audio {
+  /** Path under /public, e.g. "/audio/interview.mp4" (MP3, M4A or MP4). */
+  src: string;
+  title: string;
+  /** Display length, e.g. "5:24". */
+  duration?: string;
+  /** One or two sentences shown with the player. */
+  description?: string;
+}
 
 /** Topics shown on story cards. Add new ones here. */
 export const SPORTS = [
@@ -100,6 +116,13 @@ export interface Story {
   /** Link to the original if published elsewhere. */
   originalUrl?: string;
   hero: Photo;
+  /**
+   * Optional photos shown side by side at the top of the story instead of the
+   * single hero (the hero is still used for sharing and cards).
+   */
+  heroRow?: Photo[];
+  /** Optional different photo for story cards; defaults to the hero. */
+  cover?: Photo;
   body: StoryBlock[];
   /** Position in the home page featured spread: 1 leads, 2–4 sit beside it. */
   featured?: number;
@@ -128,9 +151,11 @@ export interface MediaItem {
   poster?: Photo;
   /** Video/interview/documentary playback. Omit when nothing is attached. */
   video?: Video;
+  /** Self-hosted audio, played with native controls. */
+  audio?: Audio;
   /** Photo essay frames, opened in the lightbox. */
   photos?: Photo[];
-  /** Where to hear or watch an item that can't be embedded here. */
+  /** An extra link shown with the item, e.g. the full playlist on YouTube. */
   link?: { href: string; label: string };
   placeholder?: boolean;
 }

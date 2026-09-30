@@ -3,6 +3,13 @@ import type { NextConfig } from "next";
 const isDev = process.env.NODE_ENV === "development";
 
 /**
+ * HTTPS-only directives apply only when the site is built for an https://
+ * origin. Without this, a local build viewed from another device over
+ * http://<LAN-IP> would have every asset upgraded to https and fail.
+ */
+const servedOverHttps = (process.env.NEXT_PUBLIC_SITE_URL ?? "").startsWith("https://");
+
+/**
  * Third-party origins allowed to render inside an <iframe>. Video embeds are
  * only created after a visitor clicks a poster (see VideoEmbed), and only for
  * providers listed here.
@@ -32,7 +39,7 @@ const csp = [
   "frame-ancestors 'none'",
   "manifest-src 'self'",
   "worker-src 'self' blob:",
-  ...(isDev ? [] : ["upgrade-insecure-requests"]),
+  ...(servedOverHttps ? ["upgrade-insecure-requests"] : []),
 ].join("; ");
 
 const embedAllowList = `(self ${VIDEO_FRAME_ORIGINS.map((o) => `"${o}"`).join(" ")})`;
@@ -68,9 +75,7 @@ const securityHeaders = [
   // Browsers ignore HSTS on plain-HTTP responses, so this only takes effect
   // once the site is served over HTTPS. See docs/DEPLOYMENT.md before adding
   // includeSubDomains or preload.
-  ...(isDev
-    ? []
-    : [{ key: "Strict-Transport-Security", value: "max-age=63072000" }]),
+  ...(servedOverHttps ? [{ key: "Strict-Transport-Security", value: "max-age=63072000" }] : []),
 ];
 
 const nextConfig: NextConfig = {

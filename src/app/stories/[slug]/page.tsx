@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { PhotoGallery } from "@/components/media/PhotoGallery";
 import { Caption, Picture } from "@/components/media/Picture";
 import { ShareControls } from "@/components/stories/ShareControls";
 import { StoryBody } from "@/components/stories/StoryBody";
@@ -39,10 +40,10 @@ export async function generateMetadata({ params }: PageProps<"/stories/[slug]">)
       section: story.sport,
       images: [
         {
-          url: story.hero.src.src,
-          width: story.hero.src.width,
-          height: story.hero.src.height,
-          alt: story.hero.alt,
+          url: (story.cover ?? story.hero).src.src,
+          width: (story.cover ?? story.hero).src.width,
+          height: (story.cover ?? story.hero).src.height,
+          alt: (story.cover ?? story.hero).alt,
         },
       ],
     },
@@ -143,7 +144,13 @@ export default async function StoryPage({ params }: PageProps<"/stories/[slug]">
           </div>
         </header>
 
-        {wideHero ? (
+        {story.heroRow && story.heroRow.length > 1 ? (
+          <div className="shell mt-10 lg:mt-14">
+            <div className="mx-auto max-w-[60rem]">
+              <PhotoGallery photos={story.heroRow} title={story.title} />
+            </div>
+          </div>
+        ) : wideHero ? (
           <figure className="shell mt-10 lg:mt-14">
             <Picture photo={story.hero} sizes="(min-width: 90rem) 83rem, 100vw" ratio="16 / 9" preload />
             <Caption photo={story.hero} />

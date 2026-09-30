@@ -46,18 +46,21 @@ src/
     ui/                   Buttons, labels, PlaceholderTag (drafts), PrintButton, CopyEmailButton
   content/                Editable, typed content (see CONTENT_GUIDE.md)
     types.ts              Content model
-    site.ts stories.ts multimedia.ts resume.ts photos.ts
+    site.ts stories.ts multimedia.ts published.ts resume.ts photos.ts
   lib/content.ts          Queries (ordering, featured, related stories), reading time, JSON-LD serialisation
   lib/image-loader.ts     next/image loader that points at pre-generated WebP files
   lib/image-manifest.json Generated list of available widths per image (git-ignored)
   assets/
-    photos/               Portrait; stories/ (article photos); essays/ (photo essays)
+    photos/               Portrait; stories/ (article photos)
     posters/              Video posters (local copies of YouTube thumbnails)
 public/
+  audio/                  Self-hosted podcast and interview recordings
   resume/                 Résumé PDF
   img/                    Generated responsive WebP images (git-ignored)
 scripts/
   generate-images.mjs     Builds public/img and the image manifest (runs before dev/build/typecheck)
+archive/
+  photo-essays/           Retired photo-essay images (not built or published)
 tests/                    Playwright specs
 ```
 
