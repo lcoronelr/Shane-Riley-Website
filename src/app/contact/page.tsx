@@ -1,15 +1,21 @@
 import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
-import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
-import { SectionLabel } from "@/components/ui/primitives";
+import { buttonBase, buttonTones } from "@/components/ui/primitives";
 import { activeSocialLinks, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   description: `Contact ${site.name} about commissions, collaborations and story tips.`,
   alternates: { canonical: "/contact" },
-  openGraph: { url: "/contact", title: `Contact — ${site.name}` },
+  openGraph: { url: "/contact", title: `Contact â€” ${site.name}` },
+};
+
+/** A short line under each profile; falls back to its handle. */
+const profileNotes: Record<string, string> = {
+  LinkedIn: "Professional profile",
+  "The Ring-tum Phi": "Student newspaper",
+  "Rockbridge Report": "Broadcast & digital",
 };
 
 const reasons = [
@@ -19,81 +25,74 @@ const reasons = [
 ];
 
 export default function ContactPage() {
+  const firstName = site.name.split(" ")[0];
+
   return (
-    <div className="shell pt-12 pb-section sm:pt-16 lg:pt-20">
-      <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-7">
-          <SectionLabel>Contact</SectionLabel>
-          <h1 className="hero-rise mt-5 font-serif text-step-5 font-light tracking-[-0.03em]">
-            Let&rsquo;s talk <span className="italic">sport.</span>
-          </h1>
-          <p className="mt-8 max-w-[48ch] text-step-1 leading-relaxed text-charcoal/80">
-            The fastest way to reach {site.name.split(" ")[0]} is by email. Please include your deadline and
-            the publication or project you are working on.
-          </p>
-
-          <div className="mt-12 border-y border-rule py-8">
-            <p className="kicker text-slate-ink">Email</p>
-            <a
-              href={`mailto:${site.email}`}
-              className="group mt-3 inline-flex items-center gap-3 font-serif text-[clamp(1.625rem,1.1rem+2.6vw,3rem)] leading-tight tracking-[-0.015em] break-all text-cobalt"
-            >
-              <Mail aria-hidden="true" className="size-[0.7em] shrink-0" strokeWidth={1.25} />
-              <span className="link-draw">{site.email}</span>
-            </a>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <CopyEmailButton email={site.email} />
-            </div>
-          </div>
-
-          <section aria-labelledby="social-heading" className="mt-12">
-            <h2 id="social-heading" className="kicker text-slate-ink">
-              Professional profiles
-            </h2>
-            <ul className="mt-4 divide-y divide-rule border-y border-rule">
-                {activeSocialLinks.map((s) => (
-                  <li key={s.label}>
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="me noopener noreferrer"
-                      className="group flex min-h-14 items-center justify-between gap-4 py-3"
-                    >
-                      <span className="text-step-1">
-                        <span className="link-draw">{s.label}</span>
-                        {s.handle && <span className="ml-3 text-step--1 text-slate-ink">{s.handle}</span>}
-                      </span>
-                      <ArrowUpRight
-                        aria-hidden="true"
-                        className="size-5 text-slate transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                        strokeWidth={1.5}
-                      />
-                      <span className="sr-only">(opens in a new tab)</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-          </section>
+    <div className="shell pt-16 pb-section sm:pt-20 lg:pt-24">
+      <header className="mx-auto max-w-2xl text-center">
+        <p className="kicker text-slate-ink">Contact</p>
+        <h1 className="hero-rise mt-4 font-serif text-step-5 font-light tracking-[-0.03em]">
+          Let&rsquo;s talk <span className="italic">sport.</span>
+        </h1>
+        <p className="mx-auto mt-6 max-w-[48ch] text-balance text-step-1 leading-relaxed text-charcoal/75">
+          The fastest way to reach {firstName} is by email. Please include your deadline and the publication or
+          project you&rsquo;re working on.
+        </p>
+        <div className="mt-9 flex flex-col items-center gap-4">
+          <a href={`mailto:${site.email}`} className={`${buttonBase} ${buttonTones.primary}`}>
+            <Mail aria-hidden="true" className="size-4" strokeWidth={1.75} />
+            Email {firstName}
+          </a>
+          <a href={`mailto:${site.email}`} className="link-inline text-step-0 text-slate-ink">
+            {site.email}
+          </a>
         </div>
+      </header>
 
-        <aside className="lg:col-span-4 lg:col-start-9 lg:pt-24" aria-labelledby="reasons-heading">
-          <h2 id="reasons-heading" className="kicker text-slate-ink">
-            Get in touch about
-          </h2>
-          <ul className="mt-5 space-y-8">
-            {reasons.map((reason, i) => (
-              <li key={reason.title} data-reveal style={{ ["--reveal-delay" as string]: `${i * 90}ms` }} className="border-t border-rule pt-5">
-                <h3 className="font-serif text-step-2">{reason.title}</h3>
-                <p className="mt-2 text-slate-ink">{reason.text}</p>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-10 text-step--1 text-slate-ink">
-            This site has no contact form and does not collect personal data. Email is handled by your own mail
-            client.
-          </p>
-        </aside>
-      </div>
+      <section aria-labelledby="profiles-heading" className="mx-auto mt-20 max-w-5xl lg:mt-24">
+        <h2 id="profiles-heading" className="kicker text-center text-slate-ink">
+          Elsewhere
+        </h2>
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {activeSocialLinks.map((s) => (
+            <li key={s.label}>
+              <a
+                href={s.url}
+                target="_blank"
+                rel="me noopener noreferrer"
+                className="group flex h-full items-start justify-between gap-4 rounded-2xl border border-rule bg-surface p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-rule-strong hover:shadow-[0_8px_24px_-12px_rgb(0_0_0/0.18)]"
+              >
+                <span className="min-w-0">
+                  <span className="block text-step-0 font-medium text-charcoal">{s.label}</span>
+                  <span className="mt-1 block truncate text-step--1 text-slate-ink">
+                    {profileNotes[s.label] ?? s.handle}
+                  </span>
+                </span>
+                <ArrowUpRight
+                  aria-hidden="true"
+                  className="mt-0.5 size-4 shrink-0 text-slate transition-[transform,color] duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cobalt"
+                  strokeWidth={1.75}
+                />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="reasons-heading" className="mx-auto mt-20 max-w-5xl lg:mt-24">
+        <h2 id="reasons-heading" className="kicker text-center text-slate-ink">
+          Get in touch about
+        </h2>
+        <ul className="mt-8 grid gap-10 text-center md:grid-cols-3 md:gap-8">
+          {reasons.map((reason, i) => (
+            <li key={reason.title} data-reveal style={{ ["--reveal-delay" as string]: `${i * 90}ms` }}>
+              <h3 className="font-serif text-step-1 font-medium">{reason.title}</h3>
+              <p className="mx-auto mt-2 max-w-[30ch] leading-relaxed text-slate-ink">{reason.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

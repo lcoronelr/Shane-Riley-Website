@@ -1,11 +1,11 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 
+import { Download } from "lucide-react";
 import type { Metadata } from "next";
 import { Fragment } from "react";
 
-import { PrintButton } from "@/components/ui/PrintButton";
-import { ButtonLink } from "@/components/ui/primitives";
+import { buttonBase, buttonTones } from "@/components/ui/primitives";
 import { resume } from "@/content/resume";
 import { activeSocialLinks, site } from "@/content/site";
 import type { ResumeOrganization } from "@/content/types";
@@ -15,6 +15,18 @@ export const metadata: Metadata = {
   description: `Résumé of ${site.name}: education, journalism and media experience, and skills.`,
   alternates: { canonical: "/resume" },
   openGraph: { url: "/resume", title: `Résumé — ${site.name}` },
+};
+
+/**
+ * One type scale for the whole résumé, so every section reads the same:
+ * headings (organizations, school), role titles, body copy and meta (dates,
+ * locations) each have a single size.
+ */
+const type = {
+  heading: "font-serif text-step-1 font-medium leading-snug text-charcoal",
+  role: "text-step-0 font-semibold leading-snug text-charcoal",
+  body: "text-step-0 leading-relaxed text-charcoal/85",
+  meta: "text-step--1 tabular text-slate-ink",
 };
 
 /** True only when the PDF genuinely exists, so the button is never broken. */
@@ -36,26 +48,29 @@ export default function ResumePage() {
               <p className="kicker text-slate-ink">Résumé</p>
               <h1 className="mt-3 font-serif text-step-5 font-light tracking-[-0.03em]">{site.name}</h1>
             </div>
-            <div className="flex flex-wrap gap-3" data-print="hide">
-              {pdfAvailable && (
-                <ButtonLink href={resume.pdfPath} download icon="none">
-                  Download PDF
-                </ButtonLink>
-              )}
-              <PrintButton />
-            </div>
+            {pdfAvailable && (
+              <a
+                href={resume.pdfPath}
+                download
+                className={`${buttonBase} ${buttonTones.primary}`}
+                data-print="hide"
+              >
+                <Download aria-hidden="true" className="size-4" strokeWidth={1.75} />
+                Download PDF
+              </a>
+            )}
           </div>
-          <ul className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-step--1 text-slate-ink">
-            <li>{site.location}</li>
+          <ul className={`mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 ${type.body}`}>
+            <li className="text-slate-ink">{site.location}</li>
             <Dot />
             <li>
-              <a href={`tel:${resume.phone.replace(/[^\d+]/g, "")}`} className="link-inline tabular text-charcoal">
+              <a href={`tel:${resume.phone.replace(/[^\d+]/g, "")}`} className="link-inline tabular">
                 {resume.phone}
               </a>
             </li>
             <Dot />
             <li>
-              <a href={`mailto:${site.email}`} className="link-inline text-charcoal">
+              <a href={`mailto:${site.email}`} className="link-inline">
                 {site.email}
               </a>
             </li>
@@ -63,7 +78,7 @@ export default function ResumePage() {
               <Fragment key={s.label}>
                 <Dot />
                 <li>
-                  <a href={s.url} className="link-inline text-charcoal" rel="me noopener noreferrer" target="_blank">
+                  <a href={s.url} className="link-inline" rel="me noopener noreferrer" target="_blank">
                     {s.label}
                     <span className="sr-only"> (opens in a new tab)</span>
                   </a>
@@ -74,17 +89,16 @@ export default function ResumePage() {
         </header>
 
         <ResumeSection title="Profile">
-          <p className="font-serif text-step-1 leading-relaxed">{resume.summary}</p>
+          <p className={type.body}>{resume.summary}</p>
         </ResumeSection>
 
         <ResumeSection title="Education">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-            <h3 className="font-serif text-step-1 font-medium">{resume.education.institution}</h3>
-            <p className="text-step--1 text-slate-ink">{resume.education.location}</p>
-          </div>
+          <EntryHeader title={resume.education.institution} aside={resume.education.location} />
           <ul className="mt-2 space-y-1">
             {resume.education.degrees.map((degree) => (
-              <li key={degree}>{degree}</li>
+              <li key={degree} className={type.body}>
+                {degree}
+              </li>
             ))}
           </ul>
         </ResumeSection>
@@ -100,9 +114,9 @@ export default function ResumePage() {
         <ResumeSection title="Skills">
           <dl className="space-y-3">
             {resume.skills.map((group) => (
-              <div key={group.group} className="grid gap-1 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6">
-                <dt className="font-semibold">{group.group}</dt>
-                <dd className="text-charcoal/85">{group.items.join(", ")}</dd>
+              <div key={group.group} className="grid gap-1 sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:gap-6">
+                <dt className={type.role}>{group.group}</dt>
+                <dd className={type.body}>{group.items.join(", ")}</dd>
               </div>
             ))}
           </dl>
@@ -127,7 +141,7 @@ function ResumeSection({ title, children }: { title: string; children: React.Rea
       aria-labelledby={id}
       className="grid gap-4 border-b border-rule py-9 last:border-b-0 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10"
     >
-      <h2 id={id} className="kicker pt-1 text-charcoal">
+      <h2 id={id} className="kicker pt-1.5 leading-snug text-charcoal">
         {title}
       </h2>
       <div className="min-w-0">{children}</div>
@@ -135,23 +149,29 @@ function ResumeSection({ title, children }: { title: string; children: React.Rea
   );
 }
 
+function EntryHeader({ title, aside }: { title: string; aside: string }) {
+  return (
+    <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+      <h3 className={type.heading}>{title}</h3>
+      <p className={type.meta}>{aside}</p>
+    </div>
+  );
+}
+
 function Organizations({ items }: { items: ResumeOrganization[] }) {
   return (
-    <ol className="space-y-8">
+    <ol className="space-y-9">
       {items.map((org) => (
         <li key={org.organization}>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-            <h3 className="font-serif text-step-1 font-medium">{org.organization}</h3>
-            <p className="text-step--1 text-slate-ink">{org.location}</p>
-          </div>
-          <ol className="mt-3 space-y-4">
+          <EntryHeader title={org.organization} aside={org.location} />
+          <ol className="mt-3 space-y-5">
             {org.roles.map((role) => (
               <li key={role.title}>
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-0.5">
-                  <p className="font-semibold">{role.title}</p>
-                  <p className="tabular text-step--1 text-slate-ink">{role.period}</p>
+                  <p className={type.role}>{role.title}</p>
+                  <p className={type.meta}>{role.period}</p>
                 </div>
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-step--1 leading-relaxed text-charcoal/85 marker:text-slate">
+                <ul className={`mt-2 list-disc space-y-1.5 pl-5 marker:text-slate ${type.body}`}>
                   {role.bullets.map((bullet) => (
                     <li key={bullet}>{bullet}</li>
                   ))}

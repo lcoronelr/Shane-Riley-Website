@@ -25,7 +25,7 @@
 - Only the upright Newsreader and Geist are preloaded (about 151KB). The italic face (about 64KB) loads on demand. Newsreader's optical-size axis was removed after measurement: it doubled the font files and was the main cause of slow mobile LCP.
 
 **Animation**
-- Scroll reveals use a single IntersectionObserver. There are no scroll event handlers, apart from a passive one that toggles the header background.
+- Scroll reveals use a single IntersectionObserver. There are no scroll event handlers, apart from passive ones that toggle the header background and pick its light or dark theme (throttled to one check per frame).
 - Only `opacity` and `transform` are animated. Reading progress is a CSS scroll-driven animation that runs off the main thread.
 
 ## Measured results

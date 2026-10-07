@@ -31,33 +31,33 @@ export function SiteHeader() {
     setOverDark(DARK_TOP_ROUTES.has(pathname));
   }
 
-  // Track whether the header currently sits on top of a dark section.
+  // Track whether the header currently sits on top of a dark section, by
+  // checking what is actually painted underneath it. Hidden or outgoing pages
+  // can't be hit, so the theme never sticks to the previous route.
   useEffect(() => {
-    let io: IntersectionObserver | undefined;
-    const visible = new Set<Element>();
-
-    const setup = () => {
-      io?.disconnect();
-      visible.clear();
-      const band = Math.max(0, window.innerHeight - 64);
-      io = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting) visible.add(e.target);
-            else visible.delete(e.target);
-          }
-          setOverDark(visible.size > 0);
-        },
-        { rootMargin: `0px 0px -${band}px 0px` },
-      );
-      document.querySelectorAll('[data-surface="dark"]').forEach((el) => io!.observe(el));
+    let frame = 0;
+    const check = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const header = document.querySelector("header[role='banner']");
+        const y = header ? header.getBoundingClientRect().height / 2 : 32;
+        const under = document
+          .elementsFromPoint(window.innerWidth / 2, y)
+          .find((el) => !header?.contains(el));
+        setOverDark(Boolean(under?.closest('[data-surface="dark"]')));
+      });
     };
 
-    setup();
-    window.addEventListener("resize", setup);
+    // Re-check as the new page paints and settles after navigation.
+    check();
+    const timers = [100, 300, 700].map((ms) => window.setTimeout(check, ms));
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
     return () => {
-      io?.disconnect();
-      window.removeEventListener("resize", setup);
+      cancelAnimationFrame(frame);
+      timers.forEach(clearTimeout);
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
     };
   }, [pathname]);
 

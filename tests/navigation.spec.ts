@@ -113,3 +113,23 @@ test("reduced motion shows all content without scrolling animations", async ({ b
   expect(scrollBehavior).toBe("auto");
   await context.close();
 });
+
+test("header switches to dark text when navigating from a dark page at the top", async ({ page }) => {
+  await page.goto("/");
+  const header = page.locator("header[role='banner']");
+  await expect(header).toHaveAttribute("data-theme", "dark");
+  const nav = page.getByRole("navigation", { name: "Primary" });
+  for (const [label, theme] of [["Contact", "light"], ["Multimedia", "dark"], ["Résumé", "light"], ["Home", "dark"], ["Stories", "light"]]) {
+    await nav.getByRole("link", { name: label, exact: true }).click();
+    await expect(header, label).toHaveAttribute("data-theme", theme);
+    await page.waitForTimeout(800);
+    await expect(header, `${label} after settling`).toHaveAttribute("data-theme", theme);
+  }
+});
+
+test("contact page has no copy-address button and links every profile", async ({ page }) => {
+  await page.goto("/contact");
+  await expect(page.getByRole("button", { name: /Copy/ })).toHaveCount(0);
+  await expect(page.locator("main").getByRole("link", { name: "shanemriley12@gmail.com" })).toHaveAttribute("href", "mailto:shanemriley12@gmail.com");
+  await expect(page.getByRole("region", { name: "Elsewhere" }).getByRole("link")).toHaveCount(4);
+});

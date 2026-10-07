@@ -43,7 +43,7 @@ src/
     media/                Picture, Caption, VideoPlayer (YouTube, playlists, Vimeo, files), PhotoGallery (+ lightbox)
     motion/               MotionProvider (LazyMotion), RevealObserver
     stories/              StoryCard variants, StoryBody, ShareControls
-    ui/                   Buttons, labels, PlaceholderTag (drafts), PrintButton, CopyEmailButton
+    ui/                   Buttons, labels, PlaceholderTag (drafts),
   content/                Editable, typed content (see CONTENT_GUIDE.md)
     types.ts              Content model
     site.ts stories.ts multimedia.ts published.ts resume.ts photos.ts
@@ -84,4 +84,4 @@ MDX was considered but not used. Typed blocks cover every layout the site needs 
 
 - **Static rendering and CSP.** Nonce-based CSP would force every page to render dynamically. The site uses a static CSP with `'unsafe-inline'` for scripts instead; see SECURITY.md for the trade-off.
 - **`html.js` class.** A one-line inline script adds `js` to `<html>` before first paint. Scroll-reveal styles apply only under that class, so content is never hidden when JavaScript is off or fails.
-- **Header theme.** Sections marked `data-surface="dark"` switch the header to light-on-dark while they sit beneath it. This is detected by an IntersectionObserver, not a scroll handler.
+- **Header theme.** Sections marked `data-surface="dark"` switch the header to light-on-dark while they sit beneath it. A passive, frame-throttled check looks at what is painted under the header (`elementsFromPoint`) on scroll, resize and after each navigation, so the theme never sticks to the previous page.
