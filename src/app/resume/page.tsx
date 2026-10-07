@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { Fragment } from "react";
 
 import { buttonBase, buttonTones } from "@/components/ui/primitives";
-import { resume } from "@/content/resume";
+import { interests, resume } from "@/content/resume";
 import { activeSocialLinks, site } from "@/content/site";
 import type { ResumeOrganization } from "@/content/types";
 
@@ -119,6 +119,18 @@ export default function ResumePage() {
                 <dd className={type.body}>{group.items.join(", ")}</dd>
               </div>
             ))}
+            <div className="grid gap-1 sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:gap-6">
+              <dt className={type.role}>Interests</dt>
+              <dd>
+                <ul className="space-y-2">
+                  {interests.map((interest) => (
+                    <li key={interest.title} className={type.body}>
+                      <span className="font-semibold text-charcoal">{interest.title}:</span> {interest.text}
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
           </dl>
         </ResumeSection>
       </div>

@@ -94,9 +94,9 @@ export default function HomePage() {
       <section aria-labelledby="featured-heading" className="shell py-section">
         <div className="flex flex-wrap items-end justify-between gap-6" data-reveal>
           <div>
-            <SectionLabel>Featured</SectionLabel>
+            <SectionLabel>Stories</SectionLabel>
             <h2 id="featured-heading" className="mt-5 font-serif text-step-3 tracking-[-0.02em]">
-              Recent reporting
+              Featured reporting
             </h2>
           </div>
           <Link href="/stories" className="link-draw text-step-0 font-medium">

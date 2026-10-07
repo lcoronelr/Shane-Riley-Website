@@ -81,7 +81,7 @@ export default function StoriesPage() {
                   rel="noopener noreferrer"
                   className="link-inline inline-flex min-h-11 items-center text-step--1 font-medium"
                 >
-                  All articles<span className="sr-only"> at {outlet.name} (opens in a new tab)</span>
+                  All stories<span className="sr-only"> at {outlet.name} (opens in a new tab)</span>
                 </a>
               </div>
               <ul className="grid md:grid-cols-2 md:gap-x-12">

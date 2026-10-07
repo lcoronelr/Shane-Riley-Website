@@ -33,3 +33,18 @@ test("print layout hides site chrome and controls", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Download PDF" })).toBeHidden();
   await expect(page.getByRole("heading", { level: 2, name: "Journalism & media experience" })).toBeVisible();
 });
+
+test("résumé content: dates, skills in Title Case and interests", async ({ page }) => {
+  await page.goto("/resume");
+  const main = page.locator("main");
+  await expect(main).not.toContainText(/Current/);
+  await expect(main).toContainText("Student Assistant / Multimedia Content");
+  const journalism = main.locator("dt", { hasText: "Journalism" }).locator("xpath=following-sibling::dd[1]");
+  await expect(journalism).toHaveText(
+    "AP Style, News Writing, Sports Reporting, Live Reporting, Broadcast Production, Radio Production, Multimedia Storytelling, Primary Source Vetting, Oral History Interviewing, Archival Research",
+  );
+  await expect(main).not.toContainText(/Hiking/);
+  for (const title of ["Investigative Journalism:", "Sports Storytelling:", "Community Reporting:", "Historical Methodology:"]) {
+    await expect(main.getByText(title, { exact: true })).toBeVisible();
+  }
+});

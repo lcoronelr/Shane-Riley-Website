@@ -5,7 +5,7 @@
  */
 import type { Photo } from "./types";
 
-import heroFrame from "@/assets/posters/1s5OinyKIM0.jpg";
+import heroFrame from "@/assets/photos/hero-schleusner-bethel.jpg";
 import portrait from "@/assets/photos/shane-riley-portrait.jpg";
 
 export const portraitPhoto: Photo = {
@@ -17,7 +17,7 @@ export const portraitPhoto: Photo = {
 /** A frame from Shane's Rockbridge Report coverage of W&L women's basketball. */
 export const heroPhoto: Photo = {
   src: heroFrame,
-  alt: "Washington and Lee women's basketball players huddle on the court in front of a packed crowd.",
-  caption: "From Shane Riley's Rockbridge Report coverage of Washington and Lee women's basketball.",
-  focus: "50% 45%",
+  alt: "Washington and Lee's Mary Schleusner stands on court against Bethel in front of a packed crowd at Holekamp Gym.",
+  caption: "Rockbridge Report: Washington and Lee women's basketball vs. Bethel, NCAA Division III Tournament.",
+  focus: "50% 40%",
 };

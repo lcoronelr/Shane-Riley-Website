@@ -4,6 +4,14 @@
  */
 import type { ResumeOrganization, TimelineEntry } from "./types";
 
+/** Interests, shown on the résumé and in the About page sidebar. */
+export const interests = [
+  { title: "Investigative Journalism", text: "Studying multi-part investigative podcasts and long-form accountability reporting." },
+  { title: "Sports Storytelling", text: "Uncovering grassroots sports narratives and community-level athletic profiles." },
+  { title: "Community Reporting", text: "Building community trust and uncovering character-driven local narratives." },
+  { title: "Historical Methodology", text: "Utilizing archival research and documenting regional oral histories." },
+];
+
 export const about = {
   /** Opening paragraph of the About page. */
   intro:
@@ -12,10 +20,8 @@ export const about = {
   biography: [
     "I am from Chesapeake, Virginia, where my love for sports began with watching local teams like the Norfolk Tides and Admirals. The love and appreciation for sports that I developed as a child fuel my work every day, just as much as the importance of storytelling and truth-telling across all types of journalistic work.",
     "At Washington and Lee, where I am studying journalism and European and Russian history, I report, write, produce and broadcast sports and local news across print, digital, television and radio. I produce the Rockbridge Report's weekly live newscast, call home games as a play-by-play, color and sideline reporter for the Washington and Lee Sports Network, and write for The Ring-tum Phi and The News-Gazette.",
-    "Here you can explore my work, from commentary for W&L athletics to published articles, video packages, podcasts and photography.",
+    "Here you can explore my work, from commentary for W&L athletics to published articles, video packages and podcasts.",
   ],
-  /** Interests listed on the About page. */
-  interests: ["History", "Hiking", "News Writing", "Multimedia Storytelling", "Radio Production"],
 };
 
 export const resume = {
@@ -132,7 +138,7 @@ export const resume = {
       roles: [
         {
           title: "Student Assistant / Multimedia Content",
-          period: "Current",
+          period: "September 2023 – Present",
           bullets: ["Support athletics communications and multimedia coverage through content production and event coverage."],
         },
       ],
@@ -160,16 +166,27 @@ export const resume = {
       ],
     },
   ] satisfies ResumeOrganization[],
+  /** Skill names use Title Case throughout. */
   skills: [
     {
       group: "Journalism",
-      items: ["AP Style", "News writing", "Sports reporting", "Live reporting", "Broadcast production", "Multimedia storytelling"],
+      items: [
+        "AP Style",
+        "News Writing",
+        "Sports Reporting",
+        "Live Reporting",
+        "Broadcast Production",
+        "Radio Production",
+        "Multimedia Storytelling",
+        "Primary Source Vetting",
+        "Oral History Interviewing",
+        "Archival Research",
+      ],
     },
     {
       group: "Technology",
       items: ["iNews", "WordPress", "Adobe Premiere Pro", "Adobe Audition", "Adobe Photoshop", "Microsoft Office"],
     },
-    { group: "Interests", items: ["History", "Hiking", "News Writing", "Multimedia Storytelling", "Radio Production"] },
   ],
   /**
    * Path of a downloadable PDF under /public. The Download PDF button only

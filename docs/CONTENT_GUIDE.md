@@ -13,7 +13,8 @@ This site replaces Shane's previous portfolio. Its material (stories, captions, 
 | 11 stories: text, photos and photo captions | The previous portfolio's Articles section |
 | Three podcast recordings (`public/audio/`) | The previous portfolio's Audio page, now hosted on this site |
 | Video titles and descriptions | Shane's YouTube channel (@ShaneRileyPortfolio) and his Rockbridge Report stories |
-| "More published work" on the Stories page | Shane's author pages at The Ring-tum Phi and the Rockbridge Report (`src/content/published.ts`) |
+| "More published work" on the Stories page | A selection from Shane's author pages at The Ring-tum Phi and the Rockbridge Report (`src/content/published.ts`) |
+| Home-page hero photo | A frame from Shane's Mary Schleusner all-star package (W&L vs. Bethel, NCAA Division III Tournament), `src/assets/photos/hero-schleusner-bethel.jpg` |
 | Video posters | Each video's own YouTube thumbnail, saved locally |
 
 ### Things worth checking
@@ -88,7 +89,7 @@ Add an object to the `stories` array in `src/content/stories.ts`. Stories appear
 
 ## Published elsewhere
 
-The Stories page lists Shane's articles at The Ring-tum Phi and the Rockbridge Report, from `src/content/published.ts`. Add a new article at the top of the right outlet's `articles` list:
+The Stories page lists a selection of Shane's articles at The Ring-tum Phi and the Rockbridge Report, from `src/content/published.ts`. Each outlet also gets an "All stories" link to Shane's author page. Only written Rockbridge Report stories are listed here; its video packages are on the Multimedia page. Add a new article at the top of the right outlet's `articles` list:
 
 ```ts
 { title: "…", url: "https://…", summary: "One sentence." }
@@ -118,7 +119,9 @@ video: {
 
 **Vimeo:** use `provider: "vimeo"` and the numeric ID.
 
-**Self-hosted video files:** put `clip.mp4` (and optionally `clip.en.vtt` captions) in `public/video/`, then use `{ kind: "file", src: "/video/clip.mp4", captionsSrc: "/video/clip.en.vtt", title: "…", poster: … }`. Use this to replace a YouTube video that has a problem, such as missing audio.
+**Self-hosted video files:** put `clip.mp4` (and optionally `clip.en.vtt` captions) in `public/video/`, then use `{ kind: "file", src: "/video/clip.mp4", captionsSrc: "/video/clip.en.vtt", title: "…", poster: … }`. Use this to replace a YouTube video that has a problem, such as missing audio. The Mary Schleusner all-star package works this way.
+
+Compress large camera exports before adding them: GitHub rejects files over 100 MB, and visitors shouldn't download 250 MB. A 1080p H.264 MP4 at about 4 Mbps (`ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 24 -maxrate 4500k -bufsize 9000k -c:a aac -b:a 128k -movflags +faststart out.mp4`) is a good target. Keep the full-quality original in `archive/video-originals/`, which stays on your computer and is never uploaded.
 
 **Posters.** To use a video's own thumbnail, download `https://i.ytimg.com/vi/<id>/maxresdefault.jpg` (or `hqdefault.jpg`) into `src/assets/posters/`.
 
@@ -163,7 +166,8 @@ Edit `src/content/multimedia.ts`. Items appear in listed order, grouped by `kind
 | Game commentary | `Commentary` |
 | Podcasts & audio | The Sports Flash series, then `Podcast` items ("Podcasts"), then `Audio` items ("Audio productions") |
 
-- The first `Video` item is featured at the top of the page and in the home-page teaser. The item listed after it appears first under "Video packages".
+- The first `Video` item is featured at the top of the page and in the home-page teaser. Beside it, the home page shows the first Commentary, Interview and Podcast items that have a `poster` (the FloSports podcast has one for this reason).
+- The first `Video` item is featured at the top of the Multimedia page. The item listed after it appears first under "Video packages".
 - Keep descriptions short and free of details the section already states (for example, don't repeat "Rockbridge Report package").
 - `link: { href, label }` adds an extra link under an item. The commentary entries use it for "Full playlist on YouTube".
 
@@ -173,7 +177,8 @@ Edit `resume` in `src/content/resume.ts`:
 
 - `summary`, `phone`, `education`
 - `experience` and `additionalExperience`: organizations with one or more `roles`, each with `title`, `period` and `bullets`
-- `skills`
+- `skills`: skill names in Title Case (e.g. "Multimedia Storytelling")
+- `interests`: title and one sentence each; shown on the résumé and in the About page sidebar
 
 The About page timeline is built from `experience`. When the résumé changes, replace `public/resume/shane-riley-resume.pdf` too. The Download PDF button only appears when the file exists.
 

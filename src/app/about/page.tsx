@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Picture } from "@/components/media/Picture";
 import { ButtonLink, SectionLabel } from "@/components/ui/primitives";
 import { portraitPhoto } from "@/content/photos";
-import { about, timeline } from "@/content/resume";
+import { about, interests, timeline } from "@/content/resume";
 import { activeSocialLinks, site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -56,9 +56,10 @@ export default function AboutPage() {
                 Interests
               </h2>
               <ul className="mt-5 divide-y divide-rule border-y border-rule">
-                {about.interests.map((interest) => (
-                  <li key={interest} className="py-3.5 text-step-0">
-                    {interest}
+                {interests.map((interest) => (
+                  <li key={interest.title} className="py-4">
+                    <p className="text-step-0 font-medium">{interest.title}</p>
+                    <p className="mt-1 text-step--1 leading-relaxed text-slate-ink">{interest.text}</p>
                   </li>
                 ))}
               </ul>

@@ -133,3 +133,24 @@ test("contact page has no copy-address button and links every profile", async ({
   await expect(page.locator("main").getByRole("link", { name: "shanemriley12@gmail.com" })).toHaveAttribute("href", "mailto:shanemriley12@gmail.com");
   await expect(page.getByRole("region", { name: "Elsewhere" }).getByRole("link")).toHaveCount(4);
 });
+
+test("home page: new hero, featured reporting and the FloSports podcast", async ({ page }) => {
+  await page.goto("/");
+  const main = page.locator("main");
+  await expect(main).not.toContainText("From Shane Riley's");
+  await expect(page.getByRole("heading", { level: 2, name: "Featured reporting" })).toBeVisible();
+  await expect(main).not.toContainText("Recent reporting");
+  const featured = page.locator("section", { has: page.getByRole("heading", { name: "Featured reporting" }) });
+  await expect(featured.getByRole("link", { name: /No Ordinary Passion/ }).first()).toBeVisible();
+  await expect(featured.locator("article").filter({ hasText: "Matt Miller" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /FloSports: A Conversation with Ryan Connell/ })).toHaveAttribute(
+    "href",
+    "/multimedia#flosports-conversation",
+  );
+});
+
+test("About page no longer mentions photography", async ({ page }) => {
+  await page.goto("/about");
+  await expect(page.locator("main")).not.toContainText(/photograph/i);
+  await expect(page.locator("main")).toContainText("Historical Methodology");
+});

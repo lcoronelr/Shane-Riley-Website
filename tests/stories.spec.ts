@@ -16,8 +16,15 @@ test.describe("story archive", () => {
     const section = page.locator("#published-elsewhere");
     await expect(section.getByRole("heading", { level: 3, name: "The Ring-tum Phi" })).toBeVisible();
     await expect(section.getByRole("heading", { level: 3, name: "Rockbridge Report" })).toBeVisible();
-    await expect(section.locator('a[href^="https://ringtumphi.net/"]')).toHaveCount(8);
-    await expect(section.locator('a[href^="https://rockbridgereport.academic.wlu.edu/"]')).toHaveCount(14);
+    // A selection of articles plus the outlet's "All stories" link.
+    await expect(section.locator('a[href^="https://ringtumphi.net/"]')).toHaveCount(5);
+    await expect(section.getByRole("link", { name: /Tebow talks faith, philanthropy/ })).toBeVisible();
+    await expect(section.getByRole("link", { name: /Cross country nationals/ })).toHaveCount(0);
+    // Rockbridge Report: written stories only; its video packages are on Multimedia.
+    await expect(section.locator('a[href^="https://rockbridgereport.academic.wlu.edu/"]')).toHaveCount(5);
+    await expect(section.getByRole("link", { name: /Mary Schleusner earns Division III all-star nod/ })).toHaveCount(0);
+    await expect(section.getByRole("link", { name: /^All stories/ })).toHaveCount(2);
+    await expect(section.getByRole("link", { name: /^All articles/ })).toHaveCount(0);
     await page.getByRole("link", { name: "More published work" }).click();
     await expect(section).toBeInViewport();
   });

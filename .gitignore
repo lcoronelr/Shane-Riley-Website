@@ -48,3 +48,6 @@ next-env.d.ts
 # Generated responsive images (npm run images)
 /public/img/
 /src/lib/image-manifest.json
+
+# Full-quality video originals (too large for GitHub; the site plays compressed copies in public/video)
+/archive/video-originals/

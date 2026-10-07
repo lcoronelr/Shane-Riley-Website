@@ -140,7 +140,7 @@ function VideoMeta({ video, muted }: { video: Video; muted: string }) {
           : "Captions not yet provided."
       : video.captionsSrc
         ? "Captions available."
-        : "Captions not yet provided.";
+        : null;
 
   if (!captionsNote && !video.note && !video.transcript) return null;
 

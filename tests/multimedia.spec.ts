@@ -131,3 +131,13 @@ test("Sports Flash series: every segment is listed, playable and served", async 
   await expect(audio).toHaveAttribute("src", "/audio/sports-flash/2026-07-02-1.mp3");
   await expect(series.locator('[aria-current="true"]')).toHaveCount(1);
 });
+
+test("the Schleusner all-star package plays the self-hosted video", async ({ page, request }) => {
+  await page.goto("/multimedia");
+  const item = page.locator("#schleusner-all-star");
+  await expect(item.getByRole("heading", { name: /Mary Schleusner earns Division III all-star nod/ })).toBeVisible();
+  await expect(item.locator("video source, video[src]").first()).toHaveAttribute("src", "/video/schleusner-all-star.mp4");
+  await expect(item.locator("iframe")).toHaveCount(0);
+  const res = await request.head("/video/schleusner-all-star.mp4");
+  expect(res.status()).toBe(200);
+});

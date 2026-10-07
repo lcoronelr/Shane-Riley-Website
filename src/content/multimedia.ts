@@ -1,7 +1,8 @@
 /**
  * Video packages, game commentary, podcasts and audio.
  *
- * Videos are YouTube embeds that load only when the visitor presses play.
+ * Videos are YouTube embeds that load only when the visitor presses play, or
+ * self-hosted files in public/video.
  * Posters are local copies of each video's own thumbnail; audio files live in
  * public/audio. Items appear in this order within each section of the
  * Multimedia page; the first video is featured at the top.
@@ -9,7 +10,7 @@
 import schleusnerRecords from "@/assets/posters/aJX64OC45xk.jpg";
 import schleusnerOverseas from "@/assets/posters/-SG7GoAMz7s.jpg";
 import golf from "@/assets/posters/FS3J-QV0YHA.jpg";
-import schleusnerAllStar from "@/assets/posters/1s5OinyKIM0.jpg";
+import schleusnerAllStar from "@/assets/posters/schleusner-all-star.jpg";
 import eliteEight from "@/assets/posters/_TE1eJJucEQ.jpg";
 import secondWeekend from "@/assets/posters/cOaqN9oyJlE.jpg";
 import sweetSixteen from "@/assets/posters/EJQGFYyFXPU.jpg";
@@ -22,6 +23,7 @@ import feiginInterview from "@/assets/posters/h9Yz-nNVVsc.jpg";
 import windEnsemble from "@/assets/posters/fvejucNIt4U.jpg";
 import hailMary1 from "@/assets/posters/VbvJ4TGz-s8.jpg";
 import hailMary2 from "@/assets/posters/6yyLLQRzm1w.jpg";
+import flosportsGraphic from "@/assets/photos/stories/wl-viewership-drops-after-flosports-move-2.jpg";
 import christmasCarol from "@/assets/posters/5P0ucLIL8Go.jpg";
 import mensSoccer from "@/assets/posters/PLfpVwYj_UdCFraXDc4N5zRlUHMZx6ydw4.jpg";
 import womensSoccer from "@/assets/posters/PLfpVwYj_UdCF-jpQ9Wk5qmR5PZFSjKnWX.jpg";
@@ -95,15 +97,28 @@ export const mediaItems: MediaItem[] = [
     "The Washington and Lee golf teams have been practicing without a golf course since the beginning of the year. The school and the Lexington Golf and Country Club are renovating the course with improved facilities and plan to host tournaments once construction is complete.",
     { src: golf, alt: "A member of the Washington and Lee golf program is interviewed in an office, a tournament calendar behind her." },
   ),
-  video(
-    "schleusner-all-star",
-    "Video",
-    "1s5OinyKIM0",
-    "Mary Schleusner earns Division III all-star nod as record-setting women's basketball season comes to an end",
-    "After the season ended in the Elite Eight against Denison, Schleusner, the Division III career double-double and rebound record holder, weighs continuing her playing career in college or professionally, and heads to the WBCA Division III All-Star Game.",
-    { src: schleusnerAllStar, alt: "Washington and Lee women's basketball players huddle in front of a packed crowd." },
-    "1:38",
-  ),
+  // Self-hosted: replaces the YouTube upload. Full-quality original in archive/video-originals/.
+  {
+    slug: "schleusner-all-star",
+    kind: "Video",
+    title: "Mary Schleusner earns Division III all-star nod as record-setting women's basketball season comes to an end",
+    description:
+      "After the season ended in the Elite Eight against Denison, Schleusner, the Division III career double-double and rebound record holder, weighs continuing her playing career in college or professionally, and heads to the WBCA Division III All-Star Game.",
+    poster: {
+      src: schleusnerAllStar,
+      alt: "Graphic of Mary Schleusner dribbling beside her NCAA Division III records: 97 double-doubles and 1,992 rebounds.",
+    },
+    video: {
+      kind: "file",
+      src: "/video/schleusner-all-star.mp4",
+      title: "Mary Schleusner earns Division III all-star nod as record-setting women's basketball season comes to an end",
+      poster: {
+        src: schleusnerAllStar,
+        alt: "Graphic of Mary Schleusner dribbling beside her NCAA Division III records: 97 double-doubles and 1,992 rebounds.",
+      },
+      duration: "1:37",
+    },
+  },
   video(
     "elite-eight",
     "Video",
@@ -213,6 +228,8 @@ export const mediaItems: MediaItem[] = [
     title: "FloSports: A Conversation with Ryan Connell",
     description:
       "Ryan Connell, the W&L athletics broadcaster and multimedia creative specialist, on the state of the FloSports streaming service in the ODAC. A companion to the FloSports story.",
+    // Used for the home-page teaser; the Multimedia page shows audio without an image.
+    poster: { src: flosportsGraphic, alt: "A graphic announcing the Old Dominion Athletic Conference's media rights agreement with FloSports." },
     audio: {
       src: "/audio/flosports-ryan-connell.mp4",
       title: "FloSports: A Conversation with Ryan Connell",

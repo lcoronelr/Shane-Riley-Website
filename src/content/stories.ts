@@ -220,7 +220,6 @@ export const stories: Story[] = [
     excerpt: "The former Olympian discusses his rowing career from its beginnings to his current involvement",
     sport: "Rowing",
     type: "Profile",
-    featured: 3,
     hero: { src: mattMiller1, alt: "A U.S. men's rowing crew poses with medals on a dock at a 2014 regatta.", caption: "Miller and the USRowing team at the 2014 World Rowing Cup II - Aiguebelette, France", credit: "Courtesy of Matt Miller" },
     body: [
       { type: "paragraph", text: "While training at Princeton for the USRowing national team, Matt Miller was setting U.S. records and establishing himself as one of the top men’s rowers. At the same time, he encountered the freshman coach from Harvard who had brought him on a recruiting trip. Harvard eventually waitlisted Miller." },
@@ -380,6 +379,7 @@ export const stories: Story[] = [
     excerpt: "Isaac Hibbard's journey from small-town Indiana to the college coaching ranks",
     sport: "Basketball",
     type: "Profile",
+    featured: 3,
     publication: "Playbook, Winter 2025",
     originalUrl: "https://issuu.com/wlumag/docs/playbook_-_winter_2025",
     hero: {
