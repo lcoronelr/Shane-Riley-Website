@@ -50,14 +50,14 @@ test("commentary playlists embed the whole playlist and link to it on YouTube", 
 
 test("podcast recordings play from this site", async ({ page, request }) => {
   await page.goto("/multimedia");
-  const players = page.locator("#audio audio");
+  const players = page.locator("#podcasts audio");
   await expect(players).toHaveCount(3);
   for (const src of [
     "/audio/flosports-ryan-connell.mp4",
     "/audio/campus-thoughts-marketplace.mp4",
     "/audio/lexington-life-john-tucker.mp4",
   ]) {
-    await expect(page.locator(`#audio audio source[src="${src}"]`)).toHaveCount(1);
+    await expect(page.locator(`#podcasts audio source[src="${src}"]`)).toHaveCount(1);
     expect((await request.head(src)).status()).toBe(200);
   }
   const duration = await players.first().evaluate(
@@ -110,4 +110,24 @@ test("story gallery lightbox works with a pointer", async ({ page }) => {
   await expect(dialog.locator("figcaption")).toContainText("Henley Royal Regatta");
   await dialog.getByRole("button", { name: "Close" }).click();
   await expect(dialog).toBeHidden();
+});
+
+test("Sports Flash series: every segment is listed, playable and served", async ({ page, request }) => {
+  await page.goto("/multimedia#sports-flash");
+  const series = page.locator("#sports-flash");
+  await expect(series.getByRole("heading", { level: 3, name: "Sports Flash" })).toBeVisible();
+  const segments = series.getByRole("button", { name: /^(Play|Pause) Sports Flash,/ });
+  await expect(segments).toHaveCount(41);
+
+  for (const day of ["2026-06-18-1", "2026-07-02-1", "2026-07-31-2"]) {
+    expect((await request.head(`/audio/sports-flash/${day}.mp3`)).status()).toBe(200);
+  }
+
+  await series.getByRole("button", { name: /Play Sports Flash, Wednesday, July 1, segment 2/ }).click();
+  const audio = series.locator("audio");
+  await expect(audio).toHaveAttribute("src", "/audio/sports-flash/2026-07-01-2.mp3");
+  await expect(series.getByText("Wednesday, July 1, segment 2")).toBeVisible();
+  await series.getByRole("button", { name: "Next" }).click();
+  await expect(audio).toHaveAttribute("src", "/audio/sports-flash/2026-07-02-1.mp3");
+  await expect(series.locator('[aria-current="true"]')).toHaveCount(1);
 });

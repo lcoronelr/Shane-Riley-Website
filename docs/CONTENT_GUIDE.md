@@ -138,6 +138,21 @@ Put the file (MP3, M4A or MP4) in `public/audio/`, then add it to a story as an 
 
 Audio plays with the browser's own controls and downloads nothing until the listener presses play.
 
+## Sports Flash series
+
+The Podcasts & audio section opens with **Sports Flash**: Shane's one-minute sports segments for News Talk 790-WNIS (summer 2026). They play in one series player with a day-by-day list, previous/next buttons and optional continuous play, instead of 41 separate cards.
+
+To add a segment:
+
+1. Save the MP3 in `public/audio/sports-flash/` named `YYYY-MM-DD-N.mp3`, where N is the segment number for that day, e.g. `2026-08-03-1.mp3`.
+2. Add a line to `src/content/sports-flash.ts`, keeping dates in order:
+
+   ```ts
+   { date: "2026-08-03", segment: 1, src: "/audio/sports-flash/2026-08-03-1.mp3", duration: "1:05" },
+   ```
+
+Use MP3 rather than WAV (a one-minute WAV is about 10 MB; the MP3 about 1.5 MB). The two original July 2 WAV recordings are kept in `archive/sports-flash-originals/`; the site plays MP3 copies.
+
 ## Multimedia page
 
 Edit `src/content/multimedia.ts`. Items appear in listed order, grouped by `kind`:
@@ -146,7 +161,7 @@ Edit `src/content/multimedia.ts`. Items appear in listed order, grouped by `kind
 | --- | --- |
 | Video packages | `Video`, `Interview`, `Documentary` |
 | Game commentary | `Commentary` |
-| Podcasts & audio | `Podcast`, `Audio` |
+| Podcasts & audio | The Sports Flash series, then `Podcast` items ("Podcasts"), then `Audio` items ("Audio productions") |
 
 - The first `Video` item is featured at the top of the page and in the home-page teaser. The item listed after it appears first under "Video packages".
 - Keep descriptions short and free of details the section already states (for example, don't repeat "Rockbridge Report package").

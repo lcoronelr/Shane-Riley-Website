@@ -2,10 +2,12 @@ import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 
 import { AudioPlayer } from "@/components/media/AudioPlayer";
+import { SportsFlashPlayer } from "@/components/media/SportsFlashPlayer";
 import { VideoPlayer } from "@/components/media/VideoPlayer";
 import { ButtonLink, SectionLabel } from "@/components/ui/primitives";
 import { mediaItems, youtubeChannel } from "@/content/multimedia";
 import { site } from "@/content/site";
+import { sportsFlash, sportsFlashSegments } from "@/content/sports-flash";
 import type { MediaItem, MediaKind } from "@/content/types";
 
 export const metadata: Metadata = {
@@ -32,7 +34,7 @@ const SECTIONS: { id: string; title: string; intro: string; kinds: MediaKind[] }
   {
     id: "audio",
     title: "Podcasts & audio",
-    intro: "Podcasts, interviews and audio productions.",
+    intro: "Radio segments from News Talk 790-WNIS, podcasts and audio productions.",
     kinds: ["Podcast", "Audio"],
   },
 ];
@@ -82,23 +84,46 @@ export default function MultimediaPage() {
                 </h2>
                 <p className="text-white/70 lg:col-span-6">{section.intro}</p>
               </div>
-              <ul className="mt-12 grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-                {items.map((item, i) => (
-                  <li
-                    key={item.slug}
-                    id={item.slug}
-                    data-reveal
-                    style={{ ["--reveal-delay" as string]: `${(i % 3) * 90}ms` }}
-                  >
-                    <MediaEntry item={item} />
-                  </li>
-                ))}
-              </ul>
+              {section.id === "audio" ? (
+                <>
+                  <div id="sports-flash" className="mt-12 scroll-mt-24">
+                    <SportsFlashPlayer {...sportsFlash} segments={sportsFlashSegments} />
+                  </div>
+                  <AudioGroup id="podcasts" title="Podcasts" items={items.filter((i) => i.kind === "Podcast")} />
+                  <AudioGroup id="audio-productions" title="Audio productions" items={items.filter((i) => i.kind === "Audio")} />
+                </>
+              ) : (
+                <MediaGrid items={items} />
+              )}
             </section>
           );
         })}
       </div>
     </div>
+  );
+}
+
+function MediaGrid({ items }: { items: MediaItem[] }) {
+  return (
+    <ul className="mt-12 grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+      {items.map((item, i) => (
+        <li key={item.slug} id={item.slug} data-reveal style={{ ["--reveal-delay" as string]: `${(i % 3) * 90}ms` }}>
+          <MediaEntry item={item} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function AudioGroup({ id, title, items }: { id: string; title: string; items: MediaItem[] }) {
+  if (items.length === 0) return null;
+  return (
+    <section id={id} aria-labelledby={`${id}-heading`} className="mt-20 scroll-mt-24">
+      <h3 id={`${id}-heading`} className="kicker border-b border-rule-dark pb-3 text-slate-light">
+        {title}
+      </h3>
+      <MediaGrid items={items} />
+    </section>
   );
 }
 
