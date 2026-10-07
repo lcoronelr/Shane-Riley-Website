@@ -2,9 +2,12 @@
  * Sports Flash: one-minute sports news segments Shane produced for News Talk
  * 790-WNIS during his summer 2026 radio internship at Sinclair Communications.
  *
- * Files live in public/audio/sports-flash/, named <date>-<segment>.mp3. To add
- * a segment, drop the MP3 there and add a line below (dates in YYYY-MM-DD).
+ * Edited in the CMS ("Sports Flash"), saved in data/sports-flash.json. Audio
+ * files live in public/audio/sports-flash/, named <date>-<segment>.mp3.
  */
+import { text } from "./cms";
+import data from "./data/sports-flash.json";
+
 export interface SportsFlashSegment {
   date: string;
   /** Segment number within the day (most days had two). */
@@ -14,52 +17,17 @@ export interface SportsFlashSegment {
 }
 
 export const sportsFlash = {
-  title: "Sports Flash",
-  station: "News Talk 790-WNIS",
-  description:
-    "Daily one-minute sports news segments produced for News Talk 790-WNIS during Shane's summer 2026 radio broadcasting internship at Sinclair Communications in Norfolk.",
+  title: text(data.title, "Sports Flash → Title"),
+  station: text(data.station, "Sports Flash → Station"),
+  description: text(data.description, "Sports Flash → Description"),
 };
 
-export const sportsFlashSegments: SportsFlashSegment[] = [
-  { date: "2026-06-18", segment: 1, src: "/audio/sports-flash/2026-06-18-1.mp3", duration: "1:04" },
-  { date: "2026-06-29", segment: 1, src: "/audio/sports-flash/2026-06-29-1.mp3", duration: "1:06" },
-  { date: "2026-06-29", segment: 2, src: "/audio/sports-flash/2026-06-29-2.mp3", duration: "1:04" },
-  { date: "2026-06-30", segment: 1, src: "/audio/sports-flash/2026-06-30-1.mp3", duration: "1:00" },
-  { date: "2026-06-30", segment: 2, src: "/audio/sports-flash/2026-06-30-2.mp3", duration: "1:00" },
-  { date: "2026-07-01", segment: 1, src: "/audio/sports-flash/2026-07-01-1.mp3", duration: "1:05" },
-  { date: "2026-07-01", segment: 2, src: "/audio/sports-flash/2026-07-01-2.mp3", duration: "1:05" },
-  { date: "2026-07-02", segment: 1, src: "/audio/sports-flash/2026-07-02-1.mp3", duration: "1:00" },
-  { date: "2026-07-02", segment: 2, src: "/audio/sports-flash/2026-07-02-2.mp3", duration: "1:00" },
-  { date: "2026-07-06", segment: 1, src: "/audio/sports-flash/2026-07-06-1.mp3", duration: "1:04" },
-  { date: "2026-07-06", segment: 2, src: "/audio/sports-flash/2026-07-06-2.mp3", duration: "1:04" },
-  { date: "2026-07-07", segment: 1, src: "/audio/sports-flash/2026-07-07-1.mp3", duration: "1:04" },
-  { date: "2026-07-07", segment: 2, src: "/audio/sports-flash/2026-07-07-2.mp3", duration: "1:04" },
-  { date: "2026-07-08", segment: 1, src: "/audio/sports-flash/2026-07-08-1.mp3", duration: "1:04" },
-  { date: "2026-07-08", segment: 2, src: "/audio/sports-flash/2026-07-08-2.mp3", duration: "1:04" },
-  { date: "2026-07-09", segment: 1, src: "/audio/sports-flash/2026-07-09-1.mp3", duration: "1:04" },
-  { date: "2026-07-09", segment: 2, src: "/audio/sports-flash/2026-07-09-2.mp3", duration: "1:06" },
-  { date: "2026-07-10", segment: 1, src: "/audio/sports-flash/2026-07-10-1.mp3", duration: "1:04" },
-  { date: "2026-07-10", segment: 2, src: "/audio/sports-flash/2026-07-10-2.mp3", duration: "1:04" },
-  { date: "2026-07-13", segment: 1, src: "/audio/sports-flash/2026-07-13-1.mp3", duration: "1:04" },
-  { date: "2026-07-13", segment: 2, src: "/audio/sports-flash/2026-07-13-2.mp3", duration: "1:04" },
-  { date: "2026-07-14", segment: 1, src: "/audio/sports-flash/2026-07-14-1.mp3", duration: "1:06" },
-  { date: "2026-07-14", segment: 2, src: "/audio/sports-flash/2026-07-14-2.mp3", duration: "1:06" },
-  { date: "2026-07-15", segment: 1, src: "/audio/sports-flash/2026-07-15-1.mp3", duration: "1:06" },
-  { date: "2026-07-15", segment: 2, src: "/audio/sports-flash/2026-07-15-2.mp3", duration: "1:05" },
-  { date: "2026-07-16", segment: 1, src: "/audio/sports-flash/2026-07-16-1.mp3", duration: "1:06" },
-  { date: "2026-07-16", segment: 2, src: "/audio/sports-flash/2026-07-16-2.mp3", duration: "1:06" },
-  { date: "2026-07-21", segment: 1, src: "/audio/sports-flash/2026-07-21-1.mp3", duration: "1:06" },
-  { date: "2026-07-21", segment: 2, src: "/audio/sports-flash/2026-07-21-2.mp3", duration: "1:06" },
-  { date: "2026-07-22", segment: 1, src: "/audio/sports-flash/2026-07-22-1.mp3", duration: "1:06" },
-  { date: "2026-07-22", segment: 2, src: "/audio/sports-flash/2026-07-22-2.mp3", duration: "1:06" },
-  { date: "2026-07-23", segment: 1, src: "/audio/sports-flash/2026-07-23-1.mp3", duration: "1:06" },
-  { date: "2026-07-23", segment: 2, src: "/audio/sports-flash/2026-07-23-2.mp3", duration: "1:06" },
-  { date: "2026-07-27", segment: 1, src: "/audio/sports-flash/2026-07-27-1.mp3", duration: "1:06" },
-  { date: "2026-07-27", segment: 2, src: "/audio/sports-flash/2026-07-27-2.mp3", duration: "1:06" },
-  { date: "2026-07-29", segment: 1, src: "/audio/sports-flash/2026-07-29-1.mp3", duration: "1:06" },
-  { date: "2026-07-29", segment: 2, src: "/audio/sports-flash/2026-07-29-2.mp3", duration: "1:06" },
-  { date: "2026-07-30", segment: 1, src: "/audio/sports-flash/2026-07-30-1.mp3", duration: "1:06" },
-  { date: "2026-07-30", segment: 2, src: "/audio/sports-flash/2026-07-30-2.mp3", duration: "1:06" },
-  { date: "2026-07-31", segment: 1, src: "/audio/sports-flash/2026-07-31-1.mp3", duration: "1:06" },
-  { date: "2026-07-31", segment: 2, src: "/audio/sports-flash/2026-07-31-2.mp3", duration: "1:06" },
-];
+/** Every segment, oldest first (sorted, so new ones can be added anywhere in the CMS list). */
+export const sportsFlashSegments: SportsFlashSegment[] = data.segments
+  .map((s, i) => ({
+    date: text(s.date, `Sports Flash → Segment ${i + 1} → Date`),
+    segment: Number(s.segment) || 1,
+    src: text(s.audio, `Sports Flash → Segment ${i + 1} → Audio file`),
+    duration: text(s.duration, `Sports Flash → Segment ${i + 1} → Length`),
+  }))
+  .sort((a, b) => a.date.localeCompare(b.date) || a.segment - b.segment);

@@ -1,6 +1,8 @@
 # Content guide
 
-Everything a visitor reads lives in `src/content/`. Edit those files, then run `npm run dev` to preview, or `npm run typecheck` to validate. A mistake such as a missing alt text or an unknown topic stops the build with a clear error, so broken content can't ship.
+Everything a visitor reads lives in `src/content/`. Most of it (profile, home and contact wording, About, résumé, multimedia, Sports Flash, published articles) is in JSON files that non-developers edit through the CMS. See "Content edited in the CMS" below and `docs/EDITING.md`. Stories stay in `stories.ts`.
+
+After editing, run `npm run dev` to preview or `npm run typecheck` to validate. A mistake such as a missing alt text or an unknown topic stops the build with a clear error, so broken content can't ship.
 
 This site replaces Shane's previous portfolio. Its material (stories, captions, audio, portrait) was carried over, but nothing on the site links back to the old one.
 
@@ -13,16 +15,16 @@ This site replaces Shane's previous portfolio. Its material (stories, captions, 
 | 11 stories: text, photos and photo captions | The previous portfolio's Articles section |
 | Three podcast recordings (`public/audio/`) | The previous portfolio's Audio page, now hosted on this site |
 | Video titles and descriptions | Shane's YouTube channel (@ShaneRileyPortfolio) and his Rockbridge Report stories |
-| "More published work" on the Stories page | A selection from Shane's author pages at The Ring-tum Phi and the Rockbridge Report (`src/content/published.ts`) |
+| "More published work" on the Stories page | A selection from Shane's author pages at The Ring-tum Phi and the Rockbridge Report (`src/content/data/published.json`) |
 | Home-page hero photo | A frame from Shane's Mary Schleusner all-star package (W&L vs. Bethel, NCAA Division III Tournament), `src/assets/photos/hero-schleusner-bethel.jpg` |
 | Video posters | Each video's own YouTube thumbnail, saved locally |
 
 ### Things worth checking
 
 - **Photo rights and credits.** Credits from the original posts are shown under every photo (e.g. "Courtesy of Mikey Williams/Top Rank"). Two caption typos were fixed ("Coutesy", "Polata-Nau").
-- **The résumé PDF** still lists the old portfolio address at the top. Upload a new PDF to `public/resume/shane-riley-resume.pdf` once that line is updated.
+- **The résumé PDF** still lists the old portfolio address at the top. Upload a new PDF in the CMS (Résumé → Résumé PDF) once that line is updated.
 - **Headlines.** Three titles were lightly tidied: "Matt Miller Feature" became "Matt Miller", "Tatafu Polota-Nau Feature" became "Tatafu Polota-Nau", and "Ed Kashi W&L Visit" became "Ed Kashi's Visit to W&L". Change `title` in `stories.ts` to revert.
-- **Phone number.** It appears on the résumé page and in the PDF. Remove `phone` from `resume.ts` (and use a PDF without it) to keep it off the public site.
+- **Phone number.** It appears on the résumé page and in the PDF. Clear the phone field in the CMS (and use a PDF without it) to keep it off the public site.
 - **Dates.** Stories have no `published` date, because the old portfolio only gave years. Dates are never shown on the site; adding exact ones enables article structured data for search engines.
 - **Archived photo essays.** The Heliotrope and Reid Hall photo essays were taken off the Multimedia page. Their photos are kept in `archive/photo-essays/`, which isn't published.
 
@@ -87,104 +89,124 @@ Add an object to the `stories` array in `src/content/stories.ts`. Stories appear
 - **Home page.** Four stories carry a `featured` number: 1 leads the spread and 2–4 sit beside it.
 - **Drafts.** Set `placeholder: true` on a story that isn't ready. It's labelled "Draft", marked `noindex`, and kept out of the sitemap.
 
-## Published elsewhere
+## Content edited in the CMS
 
-The Stories page lists a selection of Shane's articles at The Ring-tum Phi and the Rockbridge Report, from `src/content/published.ts`. Each outlet also gets an "All stories" link to Shane's author page. Only written Rockbridge Report stories are listed here; its video packages are on the Multimedia page. Add a new article at the top of the right outlet's `articles` list:
+These sections live in JSON files in `src/content/data/`, which the CMS edits through forms. The forms are defined in `.pages.yml` (see "The CMS" below). The TypeScript modules next to them read the JSON, check it, and export the same objects the pages use.
 
-```ts
-{ title: "…", url: "https://…", summary: "One sentence." }
-```
+| CMS section | File | Read by |
+| --- | --- | --- |
+| Profile & links | `data/site.json` | `site.ts` |
+| Home page | `data/home.json` | `photos.ts` (hero), `pages.ts` |
+| About page | `data/about.json` | `photos.ts` (portrait), `resume.ts` (intro, biography, interests) |
+| Résumé | `data/resume.json` | `resume.ts` |
+| Contact page | `data/contact.json` | `pages.ts` |
+| Multimedia | `data/multimedia.json` | `multimedia.ts` |
+| Sports Flash | `data/sports-flash.json` | `sports-flash.ts` |
+| Published elsewhere | `data/published.json` | `published.ts` |
 
-To add another outlet, add a new `{ name, authorUrl, articles }` entry.
+You can also edit the JSON files directly. Keep every key that's already there: the CMS form and the JSON must stay in step. If you add a key, add a matching field to `.pages.yml`.
 
-## Embed a video
+**Photos in JSON** are paths inside `src/assets`, such as `"photos/shane-riley-portrait.jpg"` or `"posters/aJX64OC45xk.jpg"`. `npm run images` writes `src/lib/assets.generated.ts`, which maps each path to its image, and `cms-media.ts` looks them up. An unknown path stops the build with a message naming the field.
 
-Videos show a local poster, and nothing loads from the video host until the visitor presses play.
+**Validation.** `cms.ts` and `cms-media.ts` check required fields when the site builds. A message reads like *"Content error in About page → Portrait → image: the image … wasn't found."* A failed build never replaces the live site.
 
-**YouTube video:** take the ID from the URL (`https://www.youtube.com/watch?v=aJX64OC45xk` gives `aJX64OC45xk`):
+### Published elsewhere
 
-```ts
-video: {
-  kind: "embed",
-  provider: "youtube",
-  id: "aJX64OC45xk",
-  title: "W&L's Mary Schleusner sets two Division III women's hoops records",
-  poster: { src: poster, alt: "…" },
-  duration: "1:51",               // optional, shown on the play button
-  transcript: "Full transcript…", // optional, shown in an expandable panel
-}
-```
+The Stories page lists a selection of Shane's articles at The Ring-tum Phi and the Rockbridge Report. Each outlet also gets an "All stories" link to Shane's author page. Only written Rockbridge Report stories are listed here; its video packages are on the Multimedia page. Newest first.
 
-**YouTube playlist:** use `provider: "youtube-playlist"` and the playlist ID (the `list=` value, starting with `PL`). The nine game-commentary entries work this way.
+### Multimedia page
 
-**Vimeo:** use `provider: "vimeo"` and the numeric ID.
+Items appear in listed order, grouped by **Section**:
 
-**Self-hosted video files:** put `clip.mp4` (and optionally `clip.en.vtt` captions) in `public/video/`, then use `{ kind: "file", src: "/video/clip.mp4", captionsSrc: "/video/clip.en.vtt", title: "…", poster: … }`. Use this to replace a YouTube video that has a problem, such as missing audio. The Mary Schleusner all-star package works this way.
-
-Compress large camera exports before adding them: GitHub rejects files over 100 MB, and visitors shouldn't download 250 MB. A 1080p H.264 MP4 at about 4 Mbps (`ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 24 -maxrate 4500k -bufsize 9000k -c:a aac -b:a 128k -movflags +faststart out.mp4`) is a good target. Keep the full-quality original in `archive/video-originals/`, which stays on your computer and is never uploaded.
-
-**Posters.** To use a video's own thumbnail, download `https://i.ytimg.com/vi/<id>/maxresdefault.jpg` (or `hqdefault.jpg`) into `src/assets/posters/`.
-
-## Audio
-
-Put the file (MP3, M4A or MP4) in `public/audio/`, then add it to a story as an `audio` block, or to the Multimedia page as an item with an `audio` field:
-
-```ts
-{
-  slug: "lexington-life-john-tucker",
-  kind: "Podcast",
-  title: "Lexington Life: John Tucker",
-  description: "…",
-  audio: { src: "/audio/lexington-life-john-tucker.mp4", title: "Lexington Life: John Tucker", duration: "4:37" },
-}
-```
-
-Audio plays with the browser's own controls and downloads nothing until the listener presses play.
-
-## Sports Flash series
-
-The Podcasts & audio section opens with **Sports Flash**: Shane's one-minute sports segments for News Talk 790-WNIS (summer 2026). They play in one series player with a day-by-day list, previous/next buttons and optional continuous play, instead of 41 separate cards.
-
-To add a segment:
-
-1. Save the MP3 in `public/audio/sports-flash/` named `YYYY-MM-DD-N.mp3`, where N is the segment number for that day, e.g. `2026-08-03-1.mp3`.
-2. Add a line to `src/content/sports-flash.ts`, keeping dates in order:
-
-   ```ts
-   { date: "2026-08-03", segment: 1, src: "/audio/sports-flash/2026-08-03-1.mp3", duration: "1:05" },
-   ```
-
-Use MP3 rather than WAV (a one-minute WAV is about 10 MB; the MP3 about 1.5 MB). The two original July 2 WAV recordings are kept in `archive/sports-flash-originals/`; the site plays MP3 copies.
-
-## Multimedia page
-
-Edit `src/content/multimedia.ts`. Items appear in listed order, grouped by `kind`:
-
-| Section | Kinds |
+| Page section | Sections |
 | --- | --- |
 | Video packages | `Video`, `Interview`, `Documentary` |
 | Game commentary | `Commentary` |
 | Podcasts & audio | The Sports Flash series, then `Podcast` items ("Podcasts"), then `Audio` items ("Audio productions") |
 
-- The first `Video` item is featured at the top of the page and in the home-page teaser. Beside it, the home page shows the first Commentary, Interview and Podcast items that have a `poster` (the FloSports podcast has one for this reason).
-- The first `Video` item is featured at the top of the Multimedia page. The item listed after it appears first under "Video packages".
+- **Plays** (`source`) picks one of the following:
+  - `youtube`: needs `youtubeId`.
+  - `youtube-playlist`: needs `playlistId`, and adds a "Full playlist on YouTube" link automatically.
+  - `video-file`: needs `videoFile`, under `/video/`.
+  - `audio-file`: needs `audioFile`, under `/audio/`.
+- Videos need a thumbnail (`poster`, in `src/assets/posters/`). To use a YouTube video's own thumbnail, download `https://i.ytimg.com/vi/<id>/maxresdefault.jpg` (or `hqdefault.jpg`).
+- The first `Video` item is featured at the top of the Multimedia page and in the home-page teaser. The item listed after it appears first under "Video packages".
+- Beside the featured video, the home page shows the first Commentary, Interview and Podcast items that have a thumbnail. The FloSports podcast has one for this reason.
 - Keep descriptions short and free of details the section already states (for example, don't repeat "Rockbridge Report package").
-- `link: { href, label }` adds an extra link under an item. The commentary entries use it for "Full playlist on YouTube".
 
-## Résumé
+**Large video files.** Compress camera exports before adding them: GitHub rejects files over 100 MB, and visitors shouldn't download 250 MB. A 1080p H.264 MP4 at about 4 Mbps is a good target:
 
-Edit `resume` in `src/content/resume.ts`:
+```sh
+ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 24 -maxrate 4500k -bufsize 9000k -c:a aac -b:a 128k -movflags +faststart out.mp4
+```
 
-- `summary`, `phone`, `education`
+Keep the full-quality original in `archive/video-originals/`, which stays on your computer and is never uploaded.
+
+### Sports Flash series
+
+The Podcasts & audio section opens with **Sports Flash**: Shane's one-minute sports segments for News Talk 790-WNIS (summer 2026). They play in one series player with a day-by-day list, previous/next buttons and optional continuous play, instead of 41 separate cards.
+
+Each segment has a date, its number that day, an MP3 in `public/audio/sports-flash/` (named `YYYY-MM-DD-N.mp3`) and a length. Segments are sorted by date automatically. Use MP3 rather than WAV: a one-minute WAV is about 10 MB, the MP3 about 1.5 MB. The two original July 2 WAV recordings are kept in `archive/sports-flash-originals/`; the site plays MP3 copies.
+
+### Résumé
+
+- `summary`, `phone` (leave empty to hide it), `education`
 - `experience` and `additionalExperience`: organizations with one or more `roles`, each with `title`, `period` and `bullets`
 - `skills`: skill names in Title Case (e.g. "Multimedia Storytelling")
-- `interests`: title and one sentence each; shown on the résumé and in the About page sidebar
+- `pdf`: the file behind the Download PDF button, under `/resume/`. The button only appears when the file exists.
+- Interests live in the About page section and appear on both pages.
 
-The About page timeline is built from `experience`. When the résumé changes, replace `public/resume/shane-riley-resume.pdf` too. The Download PDF button only appears when the file exists.
+The About page timeline is built from `experience`.
 
-## Personal details and profile links
+### Profile & links
 
-In `src/content/site.ts`: `tagline`, `shortBio`, `location`, `email`, and `social` (label, url, optional handle). Links with an empty `url` are hidden. Profiles appear in the footer, the mobile menu, About and Contact. LinkedIn and YouTube also appear on the résumé page.
+`tagline`, `shortBio`, `location`, `email`, and `social` (label, url, optional handle). Links with an empty `url` are hidden. Profiles appear in the footer, the mobile menu, About and Contact. LinkedIn and YouTube also appear on the résumé page.
+
+### Home and contact wording
+
+Headings come in two parts; the second part is shown in italics (e.g. "Let's talk" + *"sport."*). The contact page's profile-card notes are matched to profiles by name.
+
+## The CMS
+
+The site uses [Pages CMS](https://pagescms.org), a free, hosted editor that reads `.pages.yml` and commits each save to GitHub. Nothing extra runs on the site itself.
+
+- **Setup:** sign in at app.pagescms.org with GitHub, then install its GitHub app on this repository.
+- **Inviting editors:** invite people from the repository's settings in Pages CMS. They can sign in by email without a GitHub account.
+- **Publishing:** saves only reach the live site when the host rebuilds on every push (Vercel does this when the repository is connected).
+- **Editor guide:** `docs/EDITING.md` is the plain-language guide for editors.
+- **Upload folders:**
+
+| CMS media | Folder | Written into JSON as |
+| --- | --- | --- |
+| Photos | `src/assets/photos` | `photos/…` |
+| Video thumbnails | `src/assets/posters` | `posters/…` |
+| Audio | `public/audio` | `/audio/…` |
+| Video files | `public/video` | `/video/…` |
+| Résumé PDF | `public/resume` | `/resume/…` |
+
+Stories (`stories.ts`) stay in code: their mixed text, galleries and floated photos are easy to break in a form.
+
+## Embed a video in a story
+
+Videos show a local poster, and nothing loads from the video host until the visitor presses play. In a story's `body`, add a `video` block:
+
+```ts
+{ type: "video", video: {
+  kind: "embed",
+  provider: "youtube",                // or "youtube-playlist" / "vimeo"
+  id: "aJX64OC45xk",                  // the v= value (or list= for playlists)
+  title: "…",
+  poster: { src: poster, alt: "…" },
+  duration: "1:51",                   // optional, shown on the play button
+  transcript: "Full transcript…",     // optional, shown in an expandable panel
+} }
+```
+
+**Self-hosted video files:** put `clip.mp4` (and optionally `clip.en.vtt` captions) in `public/video/`, then use `{ kind: "file", src: "/video/clip.mp4", captionsSrc: "/video/clip.en.vtt", title: "…", poster: … }`.
+
+## Audio in a story
+
+Put the file (MP3, M4A or MP4) in `public/audio/`, then add `{ type: "audio", audio: { src: "/audio/clip.mp3", title: "…", duration: "5:24", description: "…" } }`. Audio plays with the browser's own controls and downloads nothing until the listener presses play.
 
 ## Social sharing image
 

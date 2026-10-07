@@ -1,0 +1,536 @@
+# Pages CMS (https://pagescms.org): simple forms for editing the website.
+# Each entry below edits one file in src/content/data/. Saving commits the
+# change to GitHub, and the site rebuilds itself. See docs/EDITING.md.
+
+media:
+  - name: photos
+    label: Photos
+    input: src/assets/photos
+    output: photos
+    rename: safe
+    extensions: [jpg, jpeg, png, webp]
+  - name: thumbnails
+    label: Video thumbnails
+    input: src/assets/posters
+    output: posters
+    rename: safe
+    extensions: [jpg, jpeg, png, webp]
+  - name: audio
+    label: Audio
+    input: public/audio
+    output: /audio
+    rename: safe
+    extensions: [mp3, m4a, mp4]
+  - name: video
+    label: Video files
+    input: public/video
+    output: /video
+    rename: safe
+    extensions: [mp4]
+  - name: documents
+    label: Résumé PDF
+    input: public/resume
+    output: /resume
+    rename: safe
+    extensions: [pdf]
+
+content:
+  # ------------------------------------------------------------ Profile & links
+  - name: site
+    label: Profile & links
+    description: Name, email, short bio and profile links used all over the site.
+    type: file
+    path: src/content/data/site.json
+    format: json
+    fields:
+      - name: name
+        label: Name
+        type: string
+        required: true
+      - name: tagline
+        label: Tagline
+        description: One sentence shown on the home page, in the footer and in link previews.
+        type: text
+        required: true
+      - name: shortBio
+        label: Short bio
+        description: Two or three sentences shown in the About section of the home page.
+        type: text
+        required: true
+      - name: location
+        label: Location
+        description: Shown at the top of the résumé.
+        type: string
+        required: true
+      - name: email
+        label: Email
+        type: string
+        required: true
+      - name: social
+        label: Profile links
+        description: Shown in the footer, menu, About and Contact pages. Leave a link empty to hide it.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.label}"
+        fields:
+          - name: label
+            label: Name
+            type: string
+            required: true
+          - name: url
+            label: Link
+            type: string
+          - name: handle
+            label: Handle (optional)
+            description: e.g. @ShaneRileyPortfolio
+            type: string
+
+  # ------------------------------------------------------------ Home page
+  - name: home
+    label: Home page
+    description: Main photo and headings on the home page. Stories featured on the home page are set by a developer.
+    type: file
+    path: src/content/data/home.json
+    format: json
+    fields:
+      - name: hero
+        label: Main photo
+        type: object
+        fields:
+          - name: image
+            label: Photo
+            description: A wide (landscape) photo, at least 1920 pixels across.
+            type: image
+            required: true
+            options:
+              media: photos
+          - name: alt
+            label: Photo description (for blind visitors)
+            description: One sentence describing what is in the photo.
+            type: string
+            required: true
+          - name: caption
+            label: Caption
+            description: Small line at the bottom of the photo, e.g. where it came from.
+            type: string
+          - name: focus
+            label: Focus point (optional)
+            description: Which part of the photo stays in view on small screens, as "left-right top-bottom", e.g. 50% 40%. Leave as is if unsure.
+            type: string
+      - name: heroHeading
+        label: Headline
+        type: string
+        required: true
+      - name: heroHeadingItalic
+        label: Headline, second line (italic)
+        type: string
+        required: true
+      - name: multimediaHeading
+        label: Multimedia heading
+        type: string
+        required: true
+      - name: multimediaHeadingItalic
+        label: Multimedia heading, italic ending
+        type: string
+      - name: multimediaIntro
+        label: Multimedia intro
+        type: text
+        required: true
+      - name: aboutHeading
+        label: About heading
+        type: string
+        required: true
+      - name: contactHeading
+        label: Contact heading
+        type: string
+        required: true
+      - name: contactHeadingItalic
+        label: Contact heading, italic ending
+        type: string
+      - name: contactText
+        label: Contact text
+        type: text
+        required: true
+
+  # ------------------------------------------------------------ About page
+  - name: about
+    label: About page
+    description: Portrait, biography and interests. Interests also appear on the résumé.
+    type: file
+    path: src/content/data/about.json
+    format: json
+    fields:
+      - name: intro
+        label: Intro
+        description: The large sentence at the top of the About page.
+        type: text
+        required: true
+      - name: biography
+        label: Biography
+        description: One box per paragraph.
+        type: text
+        list: true
+      - name: portrait
+        label: Portrait
+        description: Shown on the About page and the home page.
+        type: object
+        fields:
+          - name: image
+            label: Photo
+            description: A portrait-shaped photo, at least 1200 pixels tall.
+            type: image
+            required: true
+            options:
+              media: photos
+          - name: alt
+            label: Photo description (for blind visitors)
+            type: string
+            required: true
+          - name: focus
+            label: Focus point (optional)
+            description: Which part stays in view when cropped, e.g. 50% 40%. Leave as is if unsure.
+            type: string
+      - name: interests
+        label: Interests
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.title}"
+        fields:
+          - name: title
+            label: Title
+            type: string
+            required: true
+          - name: text
+            label: Description
+            type: text
+            required: true
+
+  # ------------------------------------------------------------ Résumé
+  - name: resume
+    label: Résumé
+    description: Everything on the résumé page. Upload a new PDF here when the résumé changes.
+    type: file
+    path: src/content/data/resume.json
+    format: json
+    fields:
+      - name: pdf
+        label: Résumé PDF (Download PDF button)
+        type: file
+        options:
+          media: documents
+      - name: phone
+        label: Phone
+        description: Leave empty to hide it.
+        type: string
+      - name: summary
+        label: Profile summary
+        type: text
+        required: true
+      - name: education
+        label: Education
+        type: object
+        fields:
+          - name: institution
+            label: School
+            type: string
+            required: true
+          - name: location
+            label: Location
+            type: string
+            required: true
+          - name: degrees
+            label: Degrees
+            type: string
+            list: true
+      - name: experience
+        label: Journalism & media experience
+        description: Newest first. Each organization can have one or more roles.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.organization}"
+        fields: &organization
+          - name: organization
+            label: Organization
+            type: string
+            required: true
+          - name: location
+            label: Location
+            type: string
+            required: true
+          - name: roles
+            label: Roles
+            type: object
+            list:
+              collapsible:
+                collapsed: false
+                summary: "{fields.title}"
+            fields:
+              - name: title
+                label: Job title
+                type: string
+                required: true
+              - name: period
+                label: Dates
+                description: e.g. September 2024 – Present
+                type: string
+                required: true
+              - name: bullets
+                label: Bullet points
+                type: text
+                list: true
+      - name: additionalExperience
+        label: Additional experience
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.organization}"
+        fields: *organization
+      - name: skills
+        label: Skills
+        description: Use Title Case for skill names, e.g. "Multimedia Storytelling".
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.group}"
+        fields:
+          - name: group
+            label: Group name
+            type: string
+            required: true
+          - name: items
+            label: Skills
+            type: string
+            list: true
+
+  # ------------------------------------------------------------ Contact page
+  - name: contact
+    label: Contact page
+    type: file
+    path: src/content/data/contact.json
+    format: json
+    fields:
+      - name: heading
+        label: Heading
+        type: string
+        required: true
+      - name: headingItalic
+        label: Heading, italic ending
+        type: string
+      - name: intro
+        label: Intro
+        type: text
+        required: true
+      - name: profileNotes
+        label: Profile card notes
+        description: The small line under each profile card. The name must match a profile in "Profile & links".
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.profile}"
+        fields:
+          - name: profile
+            label: Profile name
+            type: string
+          - name: note
+            label: Note
+            type: string
+      - name: reasons
+        label: Get in touch about
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.title}"
+        fields:
+          - name: title
+            label: Title
+            type: string
+            required: true
+          - name: text
+            label: Description
+            type: text
+            required: true
+
+  # ------------------------------------------------------------ Multimedia
+  - name: multimedia
+    label: Multimedia
+    description: Videos, game commentary, podcasts and audio. The first Video item is featured at the top of the Multimedia page and on the home page.
+    type: file
+    path: src/content/data/multimedia.json
+    format: json
+    fields:
+      - name: items
+        label: Items
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.section}: {fields.title}"
+        fields:
+          - name: title
+            label: Title
+            type: string
+            required: true
+          - name: slug
+            label: Short name
+            description: Lower case with dashes, unique, e.g. golf-course-renovations. Used in links to this item.
+            type: string
+            required: true
+            pattern:
+              regex: "^[a-z0-9]+(-[a-z0-9]+)*$"
+              message: Use lower-case letters, numbers and dashes only.
+          - name: section
+            label: Section
+            type: select
+            required: true
+            options:
+              values: [Video, Interview, Documentary, Commentary, Podcast, Audio]
+          - name: description
+            label: Description
+            type: text
+          - name: source
+            label: Plays
+            description: Then fill in the matching field below.
+            type: select
+            required: true
+            options:
+              values:
+                - { value: youtube, label: "A YouTube video → fill in YouTube video ID" }
+                - { value: youtube-playlist, label: "A YouTube playlist → fill in YouTube playlist ID" }
+                - { value: video-file, label: "An uploaded video file → choose Video file" }
+                - { value: audio-file, label: "An uploaded audio file → choose Audio file" }
+          - name: youtubeId
+            label: YouTube video ID
+            description: The part after v= in the link. For https://www.youtube.com/watch?v=aJX64OC45xk it is aJX64OC45xk.
+            type: string
+          - name: playlistId
+            label: YouTube playlist ID
+            description: The part after list= in the playlist link (starts with PL).
+            type: string
+          - name: videoFile
+            label: Video file
+            description: MP4, ideally under 50 MB (ask a developer to compress bigger files).
+            type: file
+            options:
+              media: video
+          - name: audioFile
+            label: Audio file
+            type: file
+            options:
+              media: audio
+          - name: duration
+            label: Length
+            description: e.g. 1:51
+            type: string
+          - name: poster
+            label: Thumbnail
+            description: Required for videos. For YouTube, download https://i.ytimg.com/vi/VIDEO_ID/maxresdefault.jpg and upload it.
+            type: image
+            options:
+              media: thumbnails
+          - name: posterAlt
+            label: Thumbnail description (for blind visitors)
+            type: string
+
+  # ------------------------------------------------------------ Sports Flash
+  - name: sports-flash
+    label: Sports Flash
+    description: The radio segment series on the Multimedia page. Segments are sorted by date automatically.
+    type: file
+    path: src/content/data/sports-flash.json
+    format: json
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: station
+        label: Station
+        type: string
+        required: true
+      - name: description
+        label: Description
+        type: text
+        required: true
+      - name: segments
+        label: Segments
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.date} #{fields.segment}"
+        fields:
+          - name: date
+            label: Date
+            type: date
+            required: true
+          - name: segment
+            label: Segment number that day
+            type: number
+            required: true
+          - name: audio
+            label: Audio file (MP3)
+            type: file
+            required: true
+            options:
+              media: audio
+          - name: duration
+            label: Length
+            description: e.g. 1:05
+            type: string
+            required: true
+
+  # ------------------------------------------------------------ Published elsewhere
+  - name: published
+    label: Published elsewhere
+    description: The article lists at the bottom of the Stories page. Newest first.
+    type: file
+    path: src/content/data/published.json
+    format: json
+    fields:
+      - name: outlets
+        label: Outlets
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{fields.name}"
+        fields:
+          - name: name
+            label: Outlet name
+            type: string
+            required: true
+          - name: authorUrl
+            label: "\"All stories\" link"
+            description: Shane's author page or search results at this outlet.
+            type: string
+            required: true
+          - name: articles
+            label: Articles
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{fields.title}"
+            fields:
+              - name: title
+                label: Headline
+                type: string
+                required: true
+              - name: url
+                label: Link
+                type: string
+                required: true
+              - name: summary
+                label: One-sentence summary
+                type: text
+                required: true

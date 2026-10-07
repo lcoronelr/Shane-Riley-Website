@@ -1,0 +1,33 @@
+{
+  "heading": "Let’s talk",
+  "headingItalic": "sport.",
+  "intro": "The fastest way to reach Shane is by email. Please include your deadline and the publication or project you’re working on.",
+  "profileNotes": [
+    {
+      "profile": "LinkedIn",
+      "note": "Professional profile"
+    },
+    {
+      "profile": "The Ring-tum Phi",
+      "note": "Student newspaper"
+    },
+    {
+      "profile": "Rockbridge Report",
+      "note": "Broadcast & digital"
+    }
+  ],
+  "reasons": [
+    {
+      "title": "Commissions",
+      "text": "Features, profiles and long-form reporting for editors and publications."
+    },
+    {
+      "title": "Broadcast & multimedia",
+      "text": "Play-by-play and sideline work, radio, video packages and podcasts."
+    },
+    {
+      "title": "Story tips",
+      "text": "Something the sports world should know about? Get in touch."
+    }
+  ]
+}

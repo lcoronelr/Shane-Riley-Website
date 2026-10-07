@@ -1,198 +1,62 @@
 /**
- * Résumé and biography content, from Shane Riley's résumé and portfolio.
- * Update this file whenever the PDF résumé changes.
+ * Résumé and biography content. Edited in the CMS ("Résumé" and "About page"),
+ * saved in data/resume.json and data/about.json. When the résumé changes,
+ * upload the new PDF in the CMS too.
  */
+import { text, textList } from "./cms";
+import aboutData from "./data/about.json";
+import data from "./data/resume.json";
 import type { ResumeOrganization, TimelineEntry } from "./types";
 
 /** Interests, shown on the résumé and in the About page sidebar. */
-export const interests = [
-  { title: "Investigative Journalism", text: "Studying multi-part investigative podcasts and long-form accountability reporting." },
-  { title: "Sports Storytelling", text: "Uncovering grassroots sports narratives and community-level athletic profiles." },
-  { title: "Community Reporting", text: "Building community trust and uncovering character-driven local narratives." },
-  { title: "Historical Methodology", text: "Utilizing archival research and documenting regional oral histories." },
-];
+export const interests = aboutData.interests.map((interest, i) => ({
+  title: text(interest.title, `About page → Interest ${i + 1} → Title`),
+  text: text(interest.text, `About page → Interest ${i + 1} → Description`),
+}));
 
 export const about = {
   /** Opening paragraph of the About page. */
-  intro:
-    "A student journalist at Washington and Lee University with a passion for sports and for sharing everyone's story in an ever-changing media landscape.",
+  intro: text(aboutData.intro, "About page → Intro"),
   /** Longer biography, one string per paragraph. */
-  biography: [
-    "I am from Chesapeake, Virginia, where my love for sports began with watching local teams like the Norfolk Tides and Admirals. The love and appreciation for sports that I developed as a child fuel my work every day, just as much as the importance of storytelling and truth-telling across all types of journalistic work.",
-    "At Washington and Lee, where I am studying journalism and European and Russian history, I report, write, produce and broadcast sports and local news across print, digital, television and radio. I produce the Rockbridge Report's weekly live newscast, call home games as a play-by-play, color and sideline reporter for the Washington and Lee Sports Network, and write for The Ring-tum Phi and The News-Gazette.",
-    "Here you can explore my work, from commentary for W&L athletics to published articles, video packages and podcasts.",
-  ],
+  biography: textList(aboutData.biography, "About page → Biography"),
 };
+
+function organizations(list: typeof data.experience, where: string): ResumeOrganization[] {
+  return list.map((org, i) => {
+    const at = `Résumé → ${where} ${i + 1}`;
+    return {
+      organization: text(org.organization, `${at} → Organization`),
+      location: text(org.location, `${at} → Location`),
+      roles: org.roles.map((role, j) => ({
+        title: text(role.title, `${at} → Role ${j + 1} → Job title`),
+        period: text(role.period, `${at} → Role ${j + 1} → Dates`),
+        bullets: textList(role.bullets, `${at} → Role ${j + 1} → Bullet points`),
+      })),
+    };
+  });
+}
 
 export const resume = {
   /** Shown on the résumé page only. */
-  phone: "757-606-7217",
-  summary:
-    "Journalism student with experience reporting, writing, producing and broadcasting sports and local news across print, digital, television and radio platforms. Experienced in live, deadline-driven production, multimedia storytelling, on-air reporting and newsroom collaboration.",
+  phone: data.phone,
+  summary: text(data.summary, "Résumé → Profile summary"),
   education: {
-    institution: "Washington and Lee University",
-    location: "Lexington, VA",
-    degrees: [
-      "Bachelor of Arts in Journalism, Class of 2027",
-      "Bachelor of Arts in European and Russian History, Class of 2027",
-    ],
+    institution: text(data.education.institution, "Résumé → Education → School"),
+    location: text(data.education.location, "Résumé → Education → Location"),
+    degrees: textList(data.education.degrees, "Résumé → Education → Degrees"),
   },
-  experience: [
-    {
-      organization: "Rockbridge Report",
-      location: "Lexington, VA",
-      roles: [
-        {
-          title: "Producer",
-          period: "September 2026 – Present",
-          bullets: [
-            "Produce a weekly live, deadline-driven 30-minute newscast, using iNews to organize and sequence broadcast content.",
-            "Write and select news, weather and sports programming for the broadcast.",
-            "Produce website content in WordPress using reporter stories and relevant national news.",
-            "Communicate with reporters through weekly pitch meetings to develop stories, plan coverage and meet deadlines.",
-          ],
-        },
-        {
-          title: "Sports Reporter",
-          period: "January 2026 – April 2026",
-          bullets: [
-            "Research, report and produce video packages and articles on local sports stories.",
-            "Collaborate daily with reporters, producers and editors to plan and execute newsroom coverage.",
-          ],
-        },
-      ],
-    },
-    {
-      organization: "Sinclair Communications",
-      location: "Norfolk, VA",
-      roles: [
-        {
-          title: "Radio Broadcasting Intern",
-          period: "June 2026 – August 2026",
-          bullets: [
-            "Worked across Sinclair Communications' five-station radio network with a focus on sports broadcasting and on-air production.",
-            "Produced daily one-minute sports news segments for News Talk 790-WNIS.",
-            "Voiced advertisements and appeared on air with Tony Macrini to discuss news, sports and talk-radio topics.",
-            "Appeared several times on the weekly Sports Insight 790 program.",
-          ],
-        },
-      ],
-    },
-    {
-      organization: "The News-Gazette",
-      location: "Lexington, VA",
-      roles: [
-        {
-          title: "Freelance Sports Reporter",
-          period: "January 2026 – Present",
-          bullets: [
-            "Report and write game recaps covering local athletics for a weekly, family-owned newspaper serving the Rockbridge area.",
-            "Collaborate with Sports Editor Jonathan Schwab on story planning and coverage.",
-          ],
-        },
-      ],
-    },
-    {
-      organization: "Washington and Lee Sports Network",
-      location: "Lexington, VA",
-      roles: [
-        {
-          title: "Play-by-Play, Color & Sideline Reporter",
-          period: "September 2024 – Present",
-          bullets: [
-            "Analyze and comment on Washington and Lee home athletic events for live broadcast audiences.",
-            "Covered NCAA Division III soccer and basketball championship tournaments.",
-          ],
-        },
-      ],
-    },
-    {
-      organization: "The Ring-tum Phi",
-      location: "Lexington, VA",
-      roles: [
-        {
-          title: "Sports Reporter",
-          period: "October 2023 – Present",
-          bullets: ["Report and write articles covering Washington and Lee athletics for print and digital platforms."],
-        },
-      ],
-    },
-    {
-      organization: "91.5 WLUR-FM",
-      location: "Lexington, VA",
-      roles: [
-        {
-          title: "Radio Host",
-          period: "September 2023 – Present",
-          bullets: [
-            "Host live radio programming, manage on-air segments and cultivate an engaging on-air presence and vocal delivery.",
-          ],
-        },
-      ],
-    },
-  ] satisfies ResumeOrganization[],
-  additionalExperience: [
-    {
-      organization: "Washington and Lee Athletics Communications",
-      location: "Lexington, VA",
-      roles: [
-        {
-          title: "Student Assistant / Multimedia Content",
-          period: "September 2023 – Present",
-          bullets: ["Support athletics communications and multimedia coverage through content production and event coverage."],
-        },
-      ],
-    },
-    {
-      organization: "Harte Center Writing Tutoring",
-      location: "Lexington, VA",
-      roles: [
-        {
-          title: "Writing Consultant",
-          period: "September 2025 – Present",
-          bullets: ["Guide students in developing effective writing and presentation skills across academic disciplines."],
-        },
-      ],
-    },
-    {
-      organization: "Washington Journalism and Media Conference",
-      location: "Washington, D.C.",
-      roles: [
-        {
-          title: "Correspondent",
-          period: "July 2022",
-          bullets: ["Gained experience in professional journalism practices and industry networking."],
-        },
-      ],
-    },
-  ] satisfies ResumeOrganization[],
+  experience: organizations(data.experience, "Journalism & media experience"),
+  additionalExperience: organizations(data.additionalExperience, "Additional experience"),
   /** Skill names use Title Case throughout. */
-  skills: [
-    {
-      group: "Journalism",
-      items: [
-        "AP Style",
-        "News Writing",
-        "Sports Reporting",
-        "Live Reporting",
-        "Broadcast Production",
-        "Radio Production",
-        "Multimedia Storytelling",
-        "Primary Source Vetting",
-        "Oral History Interviewing",
-        "Archival Research",
-      ],
-    },
-    {
-      group: "Technology",
-      items: ["iNews", "WordPress", "Adobe Premiere Pro", "Adobe Audition", "Adobe Photoshop", "Microsoft Office"],
-    },
-  ],
+  skills: data.skills.map((group, i) => ({
+    group: text(group.group, `Résumé → Skill group ${i + 1} → Name`),
+    items: textList(group.items, `Résumé → Skill group ${i + 1} → Skills`),
+  })),
   /**
    * Path of a downloadable PDF under /public. The Download PDF button only
    * appears when this file actually exists at build time.
    */
-  pdfPath: "/resume/shane-riley-resume.pdf",
+  pdfPath: data.pdf,
 };
 
 /** The About page timeline: every journalism and media role, in résumé order. */

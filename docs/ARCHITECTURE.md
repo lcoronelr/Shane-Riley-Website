@@ -66,7 +66,7 @@ tests/                    Playwright specs
 
 ## Content flow
 
-1. Content is written as TypeScript objects in `src/content/*.ts`, checked against the types in `types.ts`. A missing alt text, a misspelt sport or an invalid block type fails `npm run typecheck` and the build.
+1. Content is written as TypeScript objects in `src/content/*.ts`, or as JSON in `src/content/data/` (edited through the CMS, see CONTENT_GUIDE.md) that those modules read and check, against the types in `types.ts`. A missing alt text, a misspelt sport or an invalid block type fails `npm run typecheck` and the build.
 2. Images are **statically imported**, so Next.js knows their dimensions (no layout shift) and generates blur placeholders. The files themselves are served from `public/img/`, pre-generated at build time, through a custom loader. PERFORMANCE.md explains why runtime optimisation is not used.
 3. Pages read content through `src/lib/content.ts` and render it with Server Components.
 4. Story bodies are arrays of typed blocks rendered by `StoryBody`. Text is always rendered as React text nodes and never as HTML, so content cannot inject markup or scripts.

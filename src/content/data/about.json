@@ -1,0 +1,31 @@
+{
+  "intro": "A student journalist at Washington and Lee University with a passion for sports and for sharing everyone's story in an ever-changing media landscape.",
+  "biography": [
+    "I am from Chesapeake, Virginia, where my love for sports began with watching local teams like the Norfolk Tides and Admirals. The love and appreciation for sports that I developed as a child fuel my work every day, just as much as the importance of storytelling and truth-telling across all types of journalistic work.",
+    "At Washington and Lee, where I am studying journalism and European and Russian history, I report, write, produce and broadcast sports and local news across print, digital, television and radio. I produce the Rockbridge Report's weekly live newscast, call home games as a play-by-play, color and sideline reporter for the Washington and Lee Sports Network, and write for The Ring-tum Phi and The News-Gazette.",
+    "Here you can explore my work, from commentary for W&L athletics to published articles, video packages and podcasts."
+  ],
+  "portrait": {
+    "image": "photos/shane-riley-portrait.jpg",
+    "alt": "Shane Riley wearing a broadcast headset with a boom microphone.",
+    "focus": "50% 40%"
+  },
+  "interests": [
+    {
+      "title": "Investigative Journalism",
+      "text": "Studying multi-part investigative podcasts and long-form accountability reporting."
+    },
+    {
+      "title": "Sports Storytelling",
+      "text": "Uncovering grassroots sports narratives and community-level athletic profiles."
+    },
+    {
+      "title": "Community Reporting",
+      "text": "Building community trust and uncovering character-driven local narratives."
+    },
+    {
+      "title": "Historical Methodology",
+      "text": "Utilizing archival research and documenting regional oral histories."
+    }
+  ]
+}

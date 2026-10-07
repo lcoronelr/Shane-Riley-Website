@@ -1,23 +1,14 @@
 /**
- * Shared photography: the portrait and the home-page hero. Story photos are
- * imported in stories.ts; video posters in multimedia.ts.
+ * Shared photography: the portrait and the home-page hero. Edited in the CMS
+ * ("About page" and "Home page"). Story photos are imported in stories.ts.
  * See docs/CONTENT_GUIDE.md for adding photos.
  */
+import { photo } from "./cms-media";
+import aboutData from "./data/about.json";
+import homeData from "./data/home.json";
 import type { Photo } from "./types";
 
-import heroFrame from "@/assets/photos/hero-schleusner-bethel.jpg";
-import portrait from "@/assets/photos/shane-riley-portrait.jpg";
+export const portraitPhoto: Photo = photo(aboutData.portrait, "About page → Portrait");
 
-export const portraitPhoto: Photo = {
-  src: portrait,
-  alt: "Shane Riley wearing a broadcast headset with a boom microphone.",
-  focus: "50% 40%",
-};
-
-/** A frame from Shane's Rockbridge Report coverage of W&L women's basketball. */
-export const heroPhoto: Photo = {
-  src: heroFrame,
-  alt: "Washington and Lee's Mary Schleusner stands on court against Bethel in front of a packed crowd at Holekamp Gym.",
-  caption: "Rockbridge Report: Washington and Lee women's basketball vs. Bethel, NCAA Division III Tournament.",
-  focus: "50% 40%",
-};
+/** The full-screen photo at the top of the home page. */
+export const heroPhoto: Photo = photo(homeData.hero, "Home page → Main photo");

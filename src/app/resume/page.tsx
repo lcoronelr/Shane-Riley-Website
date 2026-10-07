@@ -63,12 +63,16 @@ export default function ResumePage() {
           <ul className={`mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 ${type.body}`}>
             <li className="text-slate-ink">{site.location}</li>
             <Dot />
-            <li>
-              <a href={`tel:${resume.phone.replace(/[^\d+]/g, "")}`} className="link-inline tabular">
-                {resume.phone}
-              </a>
-            </li>
-            <Dot />
+            {resume.phone && (
+              <>
+                <li>
+                  <a href={`tel:${resume.phone.replace(/[^\d+]/g, "")}`} className="link-inline tabular">
+                    {resume.phone}
+                  </a>
+                </li>
+                <Dot />
+              </>
+            )}
             <li>
               <a href={`mailto:${site.email}`} className="link-inline">
                 {site.email}

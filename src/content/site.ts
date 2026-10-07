@@ -1,29 +1,29 @@
+import { optionalText, text } from "./cms";
+import data from "./data/site.json";
 import type { SocialLink } from "./types";
 
 /**
- * Site-wide identity and contact details. Everything the visitor reads about
- * Shane — name, tagline, biography, email, profile links — lives here.
+ * Site-wide identity and contact details: name, tagline, biography, email and
+ * profile links. Edited in the CMS ("Profile & links"), saved in data/site.json.
  */
 export const site = {
-  name: "Shane Riley",
+  name: text(data.name, "Profile & links → Name"),
   /** One-sentence positioning statement: hero, footer and link previews. */
-  tagline:
-    "Reporting, writing, producing and broadcasting sports and local news across print, digital, television and radio.",
+  tagline: text(data.tagline, "Profile & links → Tagline"),
   /** Two or three sentences used on the home page. */
-  shortBio:
-    "Shane Riley is a journalism student at Washington and Lee University, pursuing a career in journalism with a passion for sports and for sharing everyone's story in an ever-changing media landscape. He produces the Rockbridge Report newscast, calls W&L games on the Washington and Lee Sports Network, and reports for The Ring-tum Phi and The News-Gazette.",
+  shortBio: text(data.shortBio, "Profile & links → Short bio"),
   /** City or region shown on the résumé. */
-  location: "Chesapeake, Virginia",
-  email: "shanemriley12@gmail.com",
+  location: text(data.location, "Profile & links → Location"),
+  email: text(data.email, "Profile & links → Email"),
   /** Professional profiles. Links with an empty url are hidden. */
-  social: [
-    { label: "LinkedIn", url: "https://www.linkedin.com/in/shane-riley-4ab82b338/" },
-    { label: "YouTube", url: "https://www.youtube.com/@ShaneRileyPortfolio", handle: "@ShaneRileyPortfolio" },
-    { label: "The Ring-tum Phi", url: "https://ringtumphi.net/staff_name/shane-riley/" },
-    { label: "Rockbridge Report", url: "https://rockbridgereport.academic.wlu.edu/?s=shane+riley" },
-  ] satisfies SocialLink[],
+  social: data.social.map((s, i): SocialLink => {
+    const link: SocialLink = { label: text(s.label, `Profile & links → Profile ${i + 1} → Name`), url: s.url ?? "" };
+    const handle = optionalText(s.handle);
+    if (handle) link.handle = handle;
+    return link;
+  }),
   locale: "en_US",
-} as const;
+};
 
 /** Social links that have been filled in. */
 export const activeSocialLinks: SocialLink[] = site.social.filter(

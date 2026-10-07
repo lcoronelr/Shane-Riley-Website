@@ -6,6 +6,7 @@ import { VideoPlayer } from "@/components/media/VideoPlayer";
 import { LeadStoryCard, StoryMeta, SupportingStoryCard } from "@/components/stories/StoryCard";
 import { ButtonLink, SectionLabel } from "@/components/ui/primitives";
 import { mediaItems } from "@/content/multimedia";
+import { home } from "@/content/pages";
 import { heroPhoto, portraitPhoto } from "@/content/photos";
 import { site } from "@/content/site";
 import type { MediaItem, Photo } from "@/content/types";
@@ -61,10 +62,10 @@ export default function HomePage() {
                 className="mt-6 font-serif text-step-5 font-light tracking-[-0.03em]"
               >
                 <span className="hero-rise block" style={{ ["--rise-delay" as string]: "160ms" }}>
-                  Stories from
+                  {home.heroHeading}
                 </span>
                 <span className="hero-rise block italic" style={{ ["--rise-delay" as string]: "260ms" }}>
-                  the edge of the game.
+                  {home.heroHeadingItalic}
                 </span>
               </h1>
             </div>
@@ -158,11 +159,12 @@ export default function HomePage() {
                 Multimedia
               </SectionLabel>
               <h2 id="multimedia-heading" className="mt-5 font-serif text-step-4 font-light tracking-[-0.025em]">
-                Watch, listen, <span className="italic">look closer.</span>
+                {home.multimediaHeadingItalic ? `${home.multimediaHeading} ` : home.multimediaHeading}
+                {home.multimediaHeadingItalic && <span className="italic">{home.multimediaHeadingItalic}</span>}
               </h2>
             </div>
             <p className="max-w-md text-white/75 lg:col-span-5">
-              Video packages, game commentary, interviews and podcasts.
+              {home.multimediaIntro}
             </p>
           </div>
 
@@ -222,7 +224,7 @@ export default function HomePage() {
           <div className="md:col-span-7 lg:col-span-7 lg:col-start-6" data-reveal style={{ ["--reveal-delay" as string]: "120ms" }}>
             <SectionLabel>About</SectionLabel>
             <h2 id="about-heading" className="mt-5 font-serif text-step-3 tracking-[-0.02em]">
-              Reporting from the places where sport becomes a story.
+              {home.aboutHeading}
             </h2>
             <p className="mt-6 max-w-[58ch] text-step-1 leading-relaxed text-charcoal/80">{site.shortBio}</p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -244,12 +246,13 @@ export default function HomePage() {
             <div className="lg:col-span-8">
               <SectionLabel>Contact</SectionLabel>
               <h2 id="contact-heading" className="mt-5 font-serif text-step-4 font-light tracking-[-0.025em]">
-                Have a story that deserves <span className="italic">telling?</span>
+                {home.contactHeadingItalic ? `${home.contactHeading} ` : home.contactHeading}
+                {home.contactHeadingItalic && <span className="italic">{home.contactHeadingItalic}</span>}
               </h2>
             </div>
             <div className="lg:col-span-4">
               <p className="text-slate-ink">
-                Commissions, collaborations and tips are welcome.
+                {home.contactText}
               </p>
               <a
                 href={`mailto:${site.email}`}

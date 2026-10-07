@@ -2,27 +2,15 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
 import { buttonBase, buttonTones } from "@/components/ui/primitives";
+import { contact } from "@/content/pages";
 import { activeSocialLinks, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   description: `Contact ${site.name} about commissions, collaborations and story tips.`,
   alternates: { canonical: "/contact" },
-  openGraph: { url: "/contact", title: `Contact â€” ${site.name}` },
+  openGraph: { url: "/contact", title: `Contact — ${site.name}` },
 };
-
-/** A short line under each profile; falls back to its handle. */
-const profileNotes: Record<string, string> = {
-  LinkedIn: "Professional profile",
-  "The Ring-tum Phi": "Student newspaper",
-  "Rockbridge Report": "Broadcast & digital",
-};
-
-const reasons = [
-  { title: "Commissions", text: "Features, profiles and long-form reporting for editors and publications." },
-  { title: "Broadcast & multimedia", text: "Play-by-play and sideline work, radio, video packages and podcasts." },
-  { title: "Story tips", text: "Something the sports world should know about? Get in touch." },
-];
 
 export default function ContactPage() {
   const firstName = site.name.split(" ")[0];
@@ -32,11 +20,11 @@ export default function ContactPage() {
       <header className="mx-auto max-w-2xl text-center">
         <p className="kicker text-slate-ink">Contact</p>
         <h1 className="hero-rise mt-4 font-serif text-step-5 font-light tracking-[-0.03em]">
-          Let&rsquo;s talk <span className="italic">sport.</span>
+          {contact.headingItalic ? `${contact.heading} ` : contact.heading}
+          {contact.headingItalic && <span className="italic">{contact.headingItalic}</span>}
         </h1>
         <p className="mx-auto mt-6 max-w-[48ch] text-balance text-step-1 leading-relaxed text-charcoal/75">
-          The fastest way to reach {firstName} is by email. Please include your deadline and the publication or
-          project you&rsquo;re working on.
+          {contact.intro}
         </p>
         <div className="mt-9 flex flex-col items-center gap-4">
           <a href={`mailto:${site.email}`} className={`${buttonBase} ${buttonTones.primary}`}>
@@ -65,7 +53,7 @@ export default function ContactPage() {
                 <span className="min-w-0">
                   <span className="block text-step-0 font-medium text-charcoal">{s.label}</span>
                   <span className="mt-1 block truncate text-step--1 text-slate-ink">
-                    {profileNotes[s.label] ?? s.handle}
+                    {contact.profileNotes[s.label] ?? s.handle}
                   </span>
                 </span>
                 <ArrowUpRight
@@ -85,7 +73,7 @@ export default function ContactPage() {
           Get in touch about
         </h2>
         <ul className="mt-8 grid gap-10 text-center md:grid-cols-3 md:gap-8">
-          {reasons.map((reason, i) => (
+          {contact.reasons.map((reason, i) => (
             <li key={reason.title} data-reveal style={{ ["--reveal-delay" as string]: `${i * 90}ms` }}>
               <h3 className="font-serif text-step-1 font-medium">{reason.title}</h3>
               <p className="mx-auto mt-2 max-w-[30ch] leading-relaxed text-slate-ink">{reason.text}</p>
