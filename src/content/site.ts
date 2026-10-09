@@ -19,7 +19,9 @@ export const site = {
   social: data.social.map((s, i): SocialLink => {
     const link: SocialLink = { label: text(s.label, `Profile & links → Profile ${i + 1} → Name`), url: s.url ?? "" };
     const handle = optionalText(s.handle);
+    const note = optionalText(s.note);
     if (handle) link.handle = handle;
+    if (note) link.note = note;
     return link;
   }),
   locale: "en_US",

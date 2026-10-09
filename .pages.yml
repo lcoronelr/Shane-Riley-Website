@@ -86,6 +86,10 @@ content:
             label: Handle (optional)
             description: e.g. @ShaneRileyPortfolio
             type: string
+          - name: note
+            label: Contact page note (optional)
+            description: Short line under this profile's card on the Contact page, e.g. "Professional profile". If empty, the handle is shown.
+            type: string
 
   # ------------------------------------------------------------ Home page
   - name: home
@@ -328,21 +332,6 @@ content:
         label: Intro
         type: text
         required: true
-      - name: profileNotes
-        label: Profile card notes
-        description: The small line under each profile card. The name must match a profile in "Profile & links".
-        type: object
-        list:
-          collapsible:
-            collapsed: true
-            summary: "{fields.profile}"
-        fields:
-          - name: profile
-            label: Profile name
-            type: string
-          - name: note
-            label: Note
-            type: string
       - name: reasons
         label: Get in touch about
         type: object

@@ -164,6 +164,8 @@ export interface SocialLink {
   label: string;
   url: string;
   handle?: string;
+  /** Short line under the profile card on the Contact page; defaults to the handle. */
+  note?: string;
 }
 
 export interface TimelineEntry {

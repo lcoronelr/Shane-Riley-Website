@@ -8,22 +8,26 @@
     {
       "label": "LinkedIn",
       "url": "https://www.linkedin.com/in/shane-riley-4ab82b338/",
-      "handle": ""
+      "handle": "",
+      "note": "Professional profile"
     },
     {
       "label": "YouTube",
       "url": "https://www.youtube.com/@ShaneRileyPortfolio",
-      "handle": "@ShaneRileyPortfolio"
+      "handle": "@ShaneRileyPortfolio",
+      "note": ""
     },
     {
       "label": "The Ring-tum Phi",
       "url": "https://ringtumphi.net/staff_name/shane-riley/",
-      "handle": ""
+      "handle": "",
+      "note": "Student newspaper"
     },
     {
       "label": "Rockbridge Report",
       "url": "https://rockbridgereport.academic.wlu.edu/?s=shane+riley",
-      "handle": ""
+      "handle": "",
+      "note": "Broadcast & digital"
     }
   ]
 }

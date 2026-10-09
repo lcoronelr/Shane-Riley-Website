@@ -12,11 +12,11 @@ You can change the website's text, photos, dates and files yourself, using simpl
 
 | In the menu | What it changes |
 | --- | --- |
-| **Profile & links** | Name, email, tagline, short bio, location, and profile links (LinkedIn, YouTube…) |
+| **Profile & links** | Name, email, tagline, short bio, location, and profile links (LinkedIn, YouTube…), including the short note under each profile card on the Contact page |
 | **Home page** | The big photo at the top, its caption, and the headings |
 | **About page** | Intro sentence, biography paragraphs, portrait photo, interests (interests also appear on the résumé) |
 | **Résumé** | Everything on the résumé page: jobs, dates, bullet points, skills, phone, and the **PDF** behind the Download button |
-| **Contact page** | Heading, intro, the notes under the profile cards, and the "Get in touch about" topics |
+| **Contact page** | Heading, intro, and the "Get in touch about" topics |
 | **Multimedia** | Videos, game commentary, podcasts and audio |
 | **Sports Flash** | The radio segments series |
 | **Published elsewhere** | The article lists at the bottom of the Stories page |

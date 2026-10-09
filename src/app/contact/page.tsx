@@ -53,7 +53,7 @@ export default function ContactPage() {
                 <span className="min-w-0">
                   <span className="block text-step-0 font-medium text-charcoal">{s.label}</span>
                   <span className="mt-1 block truncate text-step--1 text-slate-ink">
-                    {contact.profileNotes[s.label] ?? s.handle}
+                    {s.note ?? s.handle}
                   </span>
                 </span>
                 <ArrowUpRight

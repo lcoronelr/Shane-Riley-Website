@@ -23,12 +23,6 @@ export const contact = {
   heading: text(contactData.heading, "Contact page → Heading"),
   headingItalic: optionalText(contactData.headingItalic),
   intro: text(contactData.intro, "Contact page → Intro"),
-  /** A short line under each profile card, by profile name; falls back to its handle. */
-  profileNotes: Object.fromEntries(
-    contactData.profileNotes
-      .filter((n) => optionalText(n.profile) && optionalText(n.note))
-      .map((n) => [n.profile, n.note]),
-  ) as Record<string, string>,
   reasons: contactData.reasons.map((reason, i) => ({
     title: text(reason.title, `Contact page → Topic ${i + 1} → Title`),
     text: text(reason.text, `Contact page → Topic ${i + 1} → Description`),

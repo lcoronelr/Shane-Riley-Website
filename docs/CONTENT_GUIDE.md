@@ -160,11 +160,11 @@ The About page timeline is built from `experience`.
 
 ### Profile & links
 
-`tagline`, `shortBio`, `location`, `email`, and `social` (label, url, optional handle). Links with an empty `url` are hidden. Profiles appear in the footer, the mobile menu, About and Contact. LinkedIn and YouTube also appear on the résumé page.
+`tagline`, `shortBio`, `location`, `email`, and `social` (label, url, optional handle, optional Contact-page note). Links with an empty `url` are hidden. Profiles appear in the footer, the mobile menu, About and Contact. LinkedIn and YouTube also appear on the résumé page.
 
 ### Home and contact wording
 
-Headings come in two parts; the second part is shown in italics (e.g. "Let's talk" + *"sport."*). The contact page's profile-card notes are matched to profiles by name.
+Headings come in two parts; the second part is shown in italics (e.g. "Let's talk" + *"sport."*).
 
 ## The CMS
 
