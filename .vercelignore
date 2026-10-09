@@ -1,0 +1,11 @@
+# Files never uploaded by `vercel deploy` from this computer (Git deploys only
+# see committed files anyway). Originals and generated output stay local.
+/archive
+/node_modules
+/.next
+/public/img
+/src/lib/image-manifest.json
+/src/lib/assets.generated.ts
+/test-results
+/playwright-report
+.env*

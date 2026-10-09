@@ -52,3 +52,6 @@ next-env.d.ts
 
 # Full-quality video originals (too large for GitHub; the site plays compressed copies in public/video)
 /archive/video-originals/
+
+.vercel
+.env*
