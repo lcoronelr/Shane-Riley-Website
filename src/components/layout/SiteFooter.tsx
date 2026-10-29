@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SocialIcon, iconLinkClass } from "@/components/ui/SocialIcon";
 import { activeSocialLinks, navigation, site } from "@/content/site";
 
 export function SiteFooter() {
@@ -34,17 +35,18 @@ export function SiteFooter() {
         <div className="md:col-span-3">
           <h2 className="kicker text-slate-ink">Elsewhere</h2>
           {activeSocialLinks.length > 0 ? (
-            <ul className="mt-4 space-y-1">
+            <ul className="mt-4 flex flex-wrap gap-3">
               {activeSocialLinks.map((s) => (
                 <li key={s.label}>
                   <a
                     href={s.url}
                     target="_blank"
                     rel="me noopener noreferrer"
-                    className="link-draw inline-flex min-h-11 items-center"
+                    title={s.label}
+                    className={iconLinkClass}
                   >
-                    {s.label}
-                    <span className="sr-only"> (opens in a new tab)</span>
+                    <SocialIcon link={s} className="size-5" />
+                    <span className="sr-only">{s.label} (opens in a new tab)</span>
                   </a>
                 </li>
               ))}

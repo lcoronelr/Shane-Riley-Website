@@ -8,7 +8,7 @@ import aboutData from "./data/about.json";
 import data from "./data/resume.json";
 import type { ResumeOrganization, TimelineEntry } from "./types";
 
-/** Interests, shown on the résumé and in the About page sidebar. */
+/** Interests, shown in the About page sidebar. */
 export const interests = aboutData.interests.map((interest, i) => ({
   title: text(interest.title, `About page → Interest ${i + 1} → Title`),
   text: text(interest.text, `About page → Interest ${i + 1} → Description`),

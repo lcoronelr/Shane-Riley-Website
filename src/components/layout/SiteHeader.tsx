@@ -220,7 +220,7 @@ function MobileMenu({
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
     >
       <nav aria-label="Primary" className="shell flex min-h-full flex-col justify-between pt-6 pb-10">
-        <ul className="border-t border-rule">
+        <ul>
           {navigation.map((item, i) => {
             const active = isActive(pathname, item.href);
             return (

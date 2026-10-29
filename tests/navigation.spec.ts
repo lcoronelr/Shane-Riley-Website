@@ -130,7 +130,7 @@ test("header switches to dark text when navigating from a dark page at the top",
 test("contact page has no copy-address button and links every profile", async ({ page }) => {
   await page.goto("/contact");
   await expect(page.getByRole("button", { name: /Copy/ })).toHaveCount(0);
-  await expect(page.locator("main").getByRole("link", { name: "shanemriley12@gmail.com" })).toHaveAttribute("href", "mailto:shanemriley12@gmail.com");
+  await expect(page.locator("main").getByRole("link", { name: "Email Shane" })).toHaveAttribute("href", "mailto:shanemriley12@gmail.com");
   await expect(page.getByRole("region", { name: "Elsewhere" }).getByRole("link")).toHaveCount(4);
 });
 

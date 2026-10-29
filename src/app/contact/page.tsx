@@ -2,6 +2,7 @@ import { ArrowUpRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 
 import { buttonBase, buttonTones } from "@/components/ui/primitives";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 import { contact } from "@/content/pages";
 import { activeSocialLinks, site } from "@/content/site";
 
@@ -20,7 +21,7 @@ export default function ContactPage() {
       <header className="mx-auto max-w-2xl text-center">
         <p className="kicker text-slate-ink">Contact</p>
         <h1 className="hero-rise mt-4 font-serif text-step-5 font-light tracking-[-0.03em]">
-          {contact.headingItalic ? `${contact.heading} ` : contact.heading}
+          {contact.headingItalic ? `${contact.heading.trim()} ` : contact.heading}
           {contact.headingItalic && <span className="italic">{contact.headingItalic}</span>}
         </h1>
         <p className="mx-auto mt-6 max-w-[48ch] text-balance text-step-1 leading-relaxed text-charcoal/75">
@@ -30,9 +31,6 @@ export default function ContactPage() {
           <a href={`mailto:${site.email}`} className={`${buttonBase} ${buttonTones.primary}`}>
             <Mail aria-hidden="true" className="size-4" strokeWidth={1.75} />
             Email {firstName}
-          </a>
-          <a href={`mailto:${site.email}`} className="link-inline text-step-0 text-slate-ink">
-            {site.email}
           </a>
         </div>
       </header>
@@ -48,8 +46,11 @@ export default function ContactPage() {
                 href={s.url}
                 target="_blank"
                 rel="me noopener noreferrer"
-                className="group flex h-full items-start justify-between gap-4 rounded-2xl border border-rule bg-surface p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-rule-strong hover:shadow-[0_8px_24px_-12px_rgb(0_0_0/0.18)]"
+                className="group relative flex h-full flex-col gap-5 rounded-2xl border border-rule bg-surface p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-rule-strong hover:shadow-[0_8px_24px_-12px_rgb(0_0_0/0.18)]"
               >
+                <span className="flex size-12 items-center justify-center rounded-xl border border-rule bg-ivory text-charcoal">
+                  <SocialIcon link={s} className="size-6" />
+                </span>
                 <span className="min-w-0">
                   <span className="block text-step-0 font-medium text-charcoal">{s.label}</span>
                   <span className="mt-1 block truncate text-step--1 text-slate-ink">
@@ -58,7 +59,7 @@ export default function ContactPage() {
                 </span>
                 <ArrowUpRight
                   aria-hidden="true"
-                  className="mt-0.5 size-4 shrink-0 text-slate transition-[transform,color] duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cobalt"
+                  className="absolute top-5 right-5 size-4 text-slate transition-[transform,color] duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cobalt"
                   strokeWidth={1.75}
                 />
                 <span className="sr-only">(opens in a new tab)</span>

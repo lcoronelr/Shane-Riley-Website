@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+import contact from "../src/content/data/contact.json";
+
 const ROUTES = [
   { path: "/", h1: /Stories from/ },
   { path: "/stories", h1: "Stories" },
@@ -17,7 +19,8 @@ const ROUTES = [
   { path: "/multimedia", h1: "Multimedia" },
   { path: "/about", h1: "Shane Riley" },
   { path: "/resume", h1: "Shane Riley" },
-  { path: "/contact", h1: /Let.s talk/ },
+  // Edited in the CMS, so read it from the data rather than hard-coding it.
+  { path: "/contact", h1: [contact.heading.trim(), contact.headingItalic.trim()].filter(Boolean).join(" ") },
 ];
 
 for (const route of ROUTES) {

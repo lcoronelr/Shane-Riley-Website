@@ -68,7 +68,7 @@ content:
         required: true
       - name: social
         label: Profile links
-        description: Shown in the footer, menu, About and Contact pages. Leave a link empty to hide it.
+        description: Shown in the footer, menu, About and Contact pages. Leave a link empty to hide it. The logo is chosen automatically from the name or link (LinkedIn, YouTube, Ring-tum Phi, Rockbridge Report); any other profile gets a plain link icon.
         type: object
         list:
           collapsible:
@@ -161,7 +161,7 @@ content:
   # ------------------------------------------------------------ About page
   - name: about
     label: About page
-    description: Portrait, biography and interests. Interests also appear on the résumé.
+    description: Portrait, biography and interests.
     type: file
     path: src/content/data/about.json
     format: json
@@ -198,6 +198,7 @@ content:
             type: string
       - name: interests
         label: Interests
+        description: Shown in the About page sidebar. The icon is chosen from words in the title (investigative, sports, community, history); other titles get a sparkle icon.
         type: object
         list:
           collapsible:

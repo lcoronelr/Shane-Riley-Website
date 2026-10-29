@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Picture } from "@/components/media/Picture";
 import { ButtonLink, SectionLabel } from "@/components/ui/primitives";
+import { EmailIcon, InterestIcon, SocialIcon } from "@/components/ui/SocialIcon";
 import { portraitPhoto } from "@/content/photos";
 import { about, interests, timeline } from "@/content/resume";
 import { activeSocialLinks, site } from "@/content/site";
@@ -57,9 +58,12 @@ export default function AboutPage() {
               </h2>
               <ul className="mt-5 divide-y divide-rule border-y border-rule">
                 {interests.map((interest) => (
-                  <li key={interest.title} className="py-4">
-                    <p className="text-step-0 font-medium">{interest.title}</p>
-                    <p className="mt-1 text-step--1 leading-relaxed text-slate-ink">{interest.text}</p>
+                  <li key={interest.title} className="flex gap-4 py-4">
+                    <InterestIcon title={interest.title} className="mt-0.5 size-5 shrink-0 text-cobalt" />
+                    <div>
+                      <p className="text-step-0 font-medium">{interest.title}</p>
+                      <p className="mt-1 text-step--1 leading-relaxed text-slate-ink">{interest.text}</p>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -71,8 +75,9 @@ export default function AboutPage() {
               </h2>
               <ul className="mt-5 space-y-1">
                 <li>
-                  <a href={`mailto:${site.email}`} className="link-draw inline-flex min-h-11 items-center">
-                    {site.email}
+                  <a href={`mailto:${site.email}`} className="group inline-flex min-h-11 items-center gap-3">
+                    <EmailIcon className="size-5 shrink-0 text-charcoal" />
+                    <span className="link-draw">{site.email}</span>
                   </a>
                 </li>
                 {activeSocialLinks.map((s) => (
@@ -81,10 +86,11 @@ export default function AboutPage() {
                       href={s.url}
                       target="_blank"
                       rel="me noopener noreferrer"
-                      className="link-draw inline-flex min-h-11 items-center"
+                      className="group inline-flex min-h-11 items-center gap-3"
                     >
-                      {s.label}
-                      {s.handle && <span className="ml-2 text-slate-ink">{s.handle}</span>}
+                      <SocialIcon link={s} className="size-5 shrink-0" />
+                      <span className="link-draw">{s.label}</span>
+                      {s.handle && <span className="text-slate-ink">{s.handle}</span>}
                       <span className="sr-only"> (opens in a new tab)</span>
                     </a>
                   </li>

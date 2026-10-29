@@ -34,7 +34,7 @@ test("print layout hides site chrome and controls", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 2, name: "Journalism & media experience" })).toBeVisible();
 });
 
-test("résumé content: dates, skills in Title Case and interests", async ({ page }) => {
+test("résumé content: dates and skills in Title Case", async ({ page }) => {
   await page.goto("/resume");
   const main = page.locator("main");
   await expect(main).not.toContainText(/Current/);
@@ -44,7 +44,6 @@ test("résumé content: dates, skills in Title Case and interests", async ({ pag
     "AP Style, News Writing, Sports Reporting, Live Reporting, Broadcast Production, Radio Production, Multimedia Storytelling, Primary Source Vetting, Oral History Interviewing, Archival Research",
   );
   await expect(main).not.toContainText(/Hiking/);
-  for (const title of ["Investigative Journalism:", "Sports Storytelling:", "Community Reporting:", "Historical Methodology:"]) {
-    await expect(main.getByText(title, { exact: true })).toBeVisible();
-  }
+  // Interests live on the About page only.
+  await expect(main).not.toContainText("Investigative Journalism");
 });
