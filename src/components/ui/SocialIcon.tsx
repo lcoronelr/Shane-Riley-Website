@@ -36,15 +36,17 @@ function logo(src: StaticImageData) {
   };
 }
 
-// The paper's mark is a serif phi; drawn as a glyph so it stays crisp and takes the text color.
+// The paper's mark is a serif phi. Drawn as an SVG centered on its viewBox rather than a
+// font glyph, whose baseline and metrics shift it off-center (and vary by font and device).
 function RingTumPhiIcon({ className }: IconProps) {
   return (
-    <span
-      aria-hidden="true"
-      className={`inline-flex items-center justify-center font-serif text-[1.35rem] leading-none ${className ?? ""}`}
-    >
-      Φ
-    </span>
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path
+        fillRule="evenodd"
+        d="M12 6.25a7.75 5.75 0 1 0 0 11.5 7.75 5.75 0 1 0 0-11.5Zm0 1.15a5.75 4.6 0 1 0 0 9.2 5.75 4.6 0 1 0 0-9.2Z"
+      />
+      <path d="M11 3.6h2v16.8h-2zM9 2.5h6v1.1H9zM9 20.4h6v1.1H9z" />
+    </svg>
   );
 }
 const RockbridgeReportIcon = logo(rockbridgeReportLogo);
